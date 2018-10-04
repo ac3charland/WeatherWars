@@ -31,7 +31,7 @@ $.ajax({
 var cityName = "new-york"
 
 var queryURL = "https://api.teleport.org/api/urban_areas/slug:" + cityName + "/scores";
-=======
+
 
 $.ajax({
   url: queryURL,
