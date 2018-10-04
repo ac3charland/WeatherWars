@@ -1,0 +1,54 @@
+body {
+    background-color: gray;
+}
+
+#play {
+    color: white;
+    background-color:rgb(92, 0, 128);
+    width: 90%;
+    height: 550px;
+    margin-top: 30px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
+#player1Window {
+    background-color:orange;
+    width: 80%;
+    height: 150px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#player2Window {
+    background-color:blue;
+    width: 80%;
+    height: 150px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#attackButtons {
+    background-color:red;
+    margin-left: 130px;
+    height: 80px;
+}
+
+.btn {
+    margin-top: 20px;
+    
+}
+
+#chatBox {
+    background-color:rgb(110, 236, 105);
+    margin-left: 40px;
+    height: 80px;
+}
+
+#log {
+    background-color: rgb(255, 83, 141);
+    width: 80%;
+    height: 100px;
+    margin:auto;
+}
