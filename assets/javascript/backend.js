@@ -121,6 +121,21 @@ var locations = [
   }
   ];
 
+ //Adding test buttons
+  function renderButtons() {
+    $("#buttons-go-here").empty()
+    for (var i = 0; i < locations.length; i++) {     
+        var a = $("<button>");
+        a.addClass("show");
+        a.attr("data-show", locations[i].geoid);
+        a.text(locations[i].cityName);
+        $("#buttons-go-here").append(a);
+    }}  
+
+  //calling test buttons 
+
+  renderButtons()
+
 
 
 
@@ -180,7 +195,11 @@ $.ajax({
 
 //Teleport API (city info)----------------------------------------------\
 
-var geoId = locations[0].geoid
+$(document).on("click", "button", function() {
+
+  console.log($(this).data("show"))
+
+var geoId = ($(this).data("show"))
 
 var  cityInfoUrl = "https://api.teleport.org/api/cities/geonameid:" + geoId + "/"
 
@@ -196,9 +215,10 @@ $.ajax({
 
     console.log(response2);
 
-    $("#cityName").text()
+    $("#cityName").text(geoId)
 
   })
+})
 
 
 
