@@ -15,44 +15,8 @@
    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 </head>
 <body class="card-panel #90a4ae blue-grey lighten-2">
-<<<<<<< HEAD
-    <!-- Materialize -->
-    <div id="play">
-            <!-- Row 1: battling window-->
-        <div class="row" id="battleWindow" id="">battleWindow
-            <div class="col s12">
-                <div id="player1Window">player 1</div>
-                <div id="player2Window">player 2</div>
-            </div>
-        </div>
-            <!-- Row 2, 2 Columns: buttons and chatbox-->
-        <div class="row">
-                <div class="col s3" id="attackButtons">
-                        <a class="btn-floating btn-medium waves-effect waves-light red"><i class="material-icons">cloud</i></a>
-                        <a class="btn-floating btn-medium waves-effect waves-light red"><i class="material-icons">brightness_5</i></a>
-                        <a class="btn-floating btn-medium waves-effect waves-light red"><i class="material-icons">toys</i></a>
-                        <a class="btn-floating btn-medium waves-effect waves-light red"><i class="material-icons">keyboard_tab</i></a>
-                </div>
-                <div class="col s6" id="chatBox"> chatBox
-                        <form>
-                            <textarea class="scrollabletextbox" name="note">Text here</textarea>
-                        </form>
-                </div>
-        </div>
-              <!-- Row 3: log-->
-        <div class="row">
-              <div class="col s12">
-                  <div id="log">log - attack details/damages show up here</div>
-                  
-              </div>
-          </div>
-    </div>
-
-
-<div class="container center-align">
-=======
    
->>>>>>> e57f55597902e57c11f82e4e6c3b99c0cf6c112b
+<div class="container center-align">
 
 <!--Intro Page-->
   <h3>Weather Wars</h3>
@@ -81,23 +45,32 @@
 </table>
 </div>
 
-<!--Play-->
+<!-- Div 3 Play-->
  <!-- Materialize -->
- <div id="play">
+<div id="play">
     <!-- Row 1: battling window-->
-<div class="row" id="battleWindow">battleWindow
-    <div class="col s12">
-        <div id="player1Window">player 1</div>
-        <div id="player2Window">player 2</div>
+    <div class="row" class="battleWindow">battleWindow
+        <div class="col s12">
+            <div class="player1Window">
+                <img src="assets/images/berlin.jpg" class="cityImage">
+                <p>Player 1</p>
+            </div>
+            <div class="player2Window">
+                <img src="assets/images/london.jpg" class="cityImage">
+                <p>player 2</p>
+            </div>
+
+        </div>
     </div>
-</div>
     <!-- Row 2, 2 Columns: buttons and chatbox-->
 <div class="row">
         <div class="col s3" id="attackButtons">
-                <a class="btn-floating btn-medium waves-effect waves-light red"><i class="material-icons">add</i></a>
-                <a class="btn-floating btn-medium waves-effect waves-light red"><i class="material-icons">add</i></a>
-                <a class="btn-floating btn-medium waves-effect waves-light red"><i class="material-icons">add</i></a>
-                <a class="btn-floating btn-medium waves-effect waves-light red"><i class="material-icons">add</i></a>
+            <a class="btn-floating btn-large waves-effect waves-light green">Attack<i class="material-icons"></i></a>
+            <a class="btn-floating btn-large waves-effect waves-light red"><i class="material-icons">wb_sunny</i></a>
+            <a class="btn-floating btn-large waves-effect waves-light blue"><i class="material-icons">toys</i></a>
+            <a class="btn-floating btn-large waves-effect waves-light yellow"><i class="material-icons">flash_on</i></a>
+            <a class="btn-floating btn-large waves-effect waves-light #b71c1c red darken-4">End<i class="material-icons"></i></a>
+            <a class="btn-floating btn-large waves-effect waves-light #bdbdbd grey lighten-1">Info<i class="material-icons"></i></a><i></a>
         </div>
         <div class="col s6" id="chatBox"> chatBox
                 <form>

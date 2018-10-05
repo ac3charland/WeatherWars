@@ -4,7 +4,7 @@ body {
 
 #play {
     color: white;
-    background-color:rgb(92, 0, 128);
+    background-color:rgba(0,0,0,0.12);
     width: 90%;
     height: 550px;
     margin-top: 30px;
@@ -12,38 +12,48 @@ body {
     margin-right: auto;
 }
 
+#battleWindow {
+    position: relative;
+}
 
 #player1Window {
 	width: 80%;
 	height: 0;
-	border-top: 200px solid orange;
-    border-right: 900px solid transparent;
-
-    margin-left: auto;
-    margin-right: auto;
-
-    position: absolute;
-    top: 10px;
-}
-	
-
-#player2Window {
-    width: 80%;
-	height: 0;
-    border-bottom: 200px solid red;
-	border-left: 900px solid transparent;
+	border-top: 250px url(/assets/images/barcelona.jpg);
+    border-right: 750px;
     
     margin-left: auto;
     margin-right: auto;
 
     position: absolute;
-    top: 10px;
+    top: 40px;
+    left: 20;  
 }
 
-#attackButtons {
-    background-color:red;
+#player2Window {
+    width: 80%;
+	height: 0;
+    border-bottom: 250px;
+	border-left: 750px;
+    
+    margin-left: auto;
+    margin-right: auto;
+
+    position: absolute;
+    top: 40px;
+    right: 20;  
+}
+
+img {
+    width: 750px;
+    height: 250px;
+}
+
+#attackButtons{
+    background-color:#728aa9fa;
     margin-left: 80px;
-    height: 80px;
+    margin-top: 280px;
+    
 }
 
 .btn {
@@ -52,14 +62,86 @@ body {
 }
 
 #chatBox {
-    background-color:rgb(110, 236, 105);
+    background-color:rgba(0, 0, 0, 0.7);
+    margin-top: 280px;
     margin-left: 30px;
-    height: 80px;
+    height: 100px;
+    color: yellow;
+}
+
+input, select, textarea{
+    color: #207a1c;
+}
+
+p {
+    color: white;
 }
 
 #log {
-    background-color: rgb(255, 83, 141);
+    background-color: rgb(145, 148, 106);
     width: 80%;
-    height: 100px;
+    height: 90px;
     margin:auto;
 }
+
+/* NEW ATTEMP TO SPLIT SCREEN HERE ================================= */
+
+.battleWindow {
+    width: 80%;
+    height: 400px;
+    
+    position: relative;
+    top: 40px;
+    left: 20;
+
+    background: lightgrey;
+    overflow: hidden;
+  }
+  
+  .player1Window,
+  .player2Window {
+    position: absolute;
+    height: 100%;
+    width: 60%;
+    min-width: 500px;
+    -ms-transform: skewX(-25deg);
+    -webkit-transform: skewX(-25deg);
+    transform: skewX(-25deg);
+    background: white;
+    overflow: hidden;
+    top:0;
+    margin-right: 50px;
+    border: 5px solid white;
+    border-top: 0;
+    border-bottom: 0;
+    box-shadow: 0 0 10px 0 rgba(0,0,0,0.9);
+  }
+  
+  .player1Window {
+    right: 48%;
+    position: absolute;
+    top: 400px;
+    height: 250px;
+    width: 10%;
+  }
+  
+  .player2Window {
+    left: 50%; 
+    position: absolute;
+    top: 400px;
+    height: 250px;
+    width: 10%;
+  }
+  
+  .player1Window:after{
+    right: -93px;
+    background: url("assets/images/bangkok.jpg") no-repeat center center;
+    background-size: cover;
+  }
+
+  .player2Windowt:after{
+    right: -93px;
+    background: url("assets/images/mexico_city.jpg") no-repeat center center;
+    background-size: cover;
+  }
+ 
