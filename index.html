@@ -5,48 +5,17 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Weather War</title>
-    <link rel="stylesheet" href="style.css">
+  
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
    <!--Import materialize.css-->
+  
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+   <link rel="stylesheet" href="assets/style/style.css">
    <!--Let browser know website is optimized for mobile-->
    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 </head>
 <body class="card-panel #90a4ae blue-grey lighten-2">
-    <!-- Materialize -->
-    <div id="play">
-            <!-- Row 1: battling window-->
-        <div class="row" id="battleWindow">battleWindow
-            <div class="col s12">
-                <div id="player1Window">player 1</div>
-                <div id="player2Window">player 2</div>
-            </div>
-        </div>
-            <!-- Row 2, 2 Columns: buttons and chatbox-->
-        <div class="row">
-                <div class="col s3" id="attackButtons">
-                        <a class="btn-floating btn-medium waves-effect waves-light red"><i class="material-icons">add</i></a>
-                        <a class="btn-floating btn-medium waves-effect waves-light red"><i class="material-icons">add</i></a>
-                        <a class="btn-floating btn-medium waves-effect waves-light red"><i class="material-icons">add</i></a>
-                        <a class="btn-floating btn-medium waves-effect waves-light red"><i class="material-icons">add</i></a>
-                </div>
-                <div class="col s6" id="chatBox"> chatBox
-                        <form>
-                            <textarea class="scrollabletextbox" name="note">Text here</textarea>
-                        </form>
-                </div>
-        </div>
-              <!-- Row 3: log-->
-        <div class="row">
-              <div class="col s12">
-                  <div id="log">log - attack details/damages show up here</div>
-                  
-              </div>
-          </div>
-    </div>
-
-
-<div class="container center-align">
+   
 
 <!--Intro Page-->
   <h3>Weather Wars</h3>
@@ -76,9 +45,40 @@
 </div>
 
 <!--Play-->
-
-<div class="play">
+ <!-- Materialize -->
+ <div id="play">
+    <!-- Row 1: battling window-->
+<div class="row" id="battleWindow">battleWindow
+    <div class="col s12">
+        <div id="player1Window">player 1</div>
+        <div id="player2Window">player 2</div>
+    </div>
 </div>
+    <!-- Row 2, 2 Columns: buttons and chatbox-->
+<div class="row">
+        <div class="col s3" id="attackButtons">
+                <a class="btn-floating btn-medium waves-effect waves-light red"><i class="material-icons">add</i></a>
+                <a class="btn-floating btn-medium waves-effect waves-light red"><i class="material-icons">add</i></a>
+                <a class="btn-floating btn-medium waves-effect waves-light red"><i class="material-icons">add</i></a>
+                <a class="btn-floating btn-medium waves-effect waves-light red"><i class="material-icons">add</i></a>
+        </div>
+        <div class="col s6" id="chatBox"> chatBox
+                <form>
+                    <textarea class="scrollabletextbox" name="note">Text here</textarea>
+                </form>
+        </div>
+</div>
+      <!-- Row 3: log-->
+<div class="row">
+      <div class="col s12">
+          <div id="log">log - attack details/damages show up here</div>
+          
+      </div>
+  </div>
+</div>
+
+
+<div class="container center-align">
 
 <!--Restart/Continue-->
 <div class="restart-continue">
