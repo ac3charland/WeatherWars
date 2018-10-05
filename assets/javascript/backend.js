@@ -179,6 +179,7 @@ var locations = [
         var a = $("<button>");
         a.addClass("show");
         a.addClass("cityButton")
+        a.addClass("btn btn-warning btn-lg btn-3d btn-round")
         a.attr("data-show", locations[i].geoid);
         a.attr("data-name", locations[i].namecode);
         a.attr("data-long", locations[i].long);
@@ -318,7 +319,9 @@ var tableThreeNewRow =$("<tr>").append(
 //var elem = document.getElementById("img");
 //elem.setAttribute("src", "../images/paris.jpg")
 $(".img-body").empty()
-$(".img-body").append("<img src='" + imgId + "'     style='width: 500px'>")
+$(".nameBox").empty()
+$(".img-body").append("<img src='" + imgId + "'     style='width: 700px'>")
+$(".nameBox").html(CityInfoResponse.name)
 
 $(".img-text").html(cityScoresResponse.summary)
 
@@ -334,6 +337,7 @@ $(document).on('click', '.resetBtn', function() {
   $("tbody").empty ();
   $(".img-body").empty()
   $(".img-text").empty()
+  $(".nameBox").empty()
   
 })
 })
