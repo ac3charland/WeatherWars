@@ -217,7 +217,7 @@ firebase.initializeApp(config);
 //THE BIG ON CLICK FUNTION. 3 AJAX CALLS. WE DOIN IT BIG---------------------------------------------------------------
 $(document).on("click", "button", function() {
 
-//vars go here
+//vars for the ajax calls go here
 var cityName =($(this).data("name"))
 
 var geoId = ($(this).data("show"))
@@ -234,17 +234,16 @@ var  cityInfoUrl = "https://api.teleport.org/api/cities/geonameid:" + geoId + "/
 
 var queryURL = "https://api.teleport.org/api/urban_areas/slug:" + cityName + "/scores";
 
-//teleport ajax call
+//city info ajax call
 $.ajax({
     url: cityInfoUrl,
     method: "GET"
   })
-
   .then(function(response2) {
-    
-
     console.log(response2);
-//appending new rows to table
+
+
+//creating new rows for the city info
     var newRow = $("<tr>").append(
       $("<td>").text(response2.full_name),
       $("<td>").text(response2.population),
@@ -253,22 +252,22 @@ $.ajax({
       $("<td>").text(response2.geoname_id)
    
     );
+//appending new rows to table
     $("#cityInfoTable > tbody").append(newRow);
 
   
-  //scores api call
+//city scores api call
 $.ajax({
   url: queryURL,
   method: "GET"})
 
   .then(function(response) {
-    
     console.log(response);
 
  
-//appending new rows to 2nd table
+//creating new rows for the 2nd table
     var tableTwoNewRow =$("<tr>").append(
-      $("<td>").text(response2.full_name),
+      $("<td>").text(response2.name),
       $("<td>").text(Math.round(response.categories[1].score_out_of_10)),
       $("<td>").text(Math.round(response.categories[5].score_out_of_10)),
       $("<td>").text(Math.round(response.categories[7].score_out_of_10)),
@@ -278,7 +277,7 @@ $.ajax({
       $("<td>").text(Math.round(response.categories[13].score_out_of_10)),
       $("<td>").text(Math.round(response.categories[15].score_out_of_10)) ,
     )
-
+//appending new rows to 2nd table
     $("#cityStatsTable > tbody").append(tableTwoNewRow);
 
 //dark ski ajax call
@@ -291,7 +290,7 @@ $.ajax({
 
 //appending rows to thrird table
 var tableThreeNewRow =$("<tr>").append(
-  $("<td>").text(response2.full_name),
+  $("<td>").text(response2.name),
   $("<td>").text(result.currently.temperature),
   $("<td>").text(result.currently.summary),
   $("<td>").text(result.currently.windSpeed),
