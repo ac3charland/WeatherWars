@@ -332,6 +332,8 @@ $(".img-text").html(cityScoresResponse.summary)
 //Reset button 
 $(document).on('click', '.resetBtn', function() {
   $("tbody").empty ();
+  $(".img-body").empty()
+  $(".img-text").empty()
   
 })
 })
