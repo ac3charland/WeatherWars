@@ -41,18 +41,10 @@ hatk=atk-7.5,hp=hp-5;
 
 
 
-
-var Game= {
-    
-    
-    
-};
-
-var Player1={
-        cloudCover:8, //The cloudCover from the api
-        p1atk: 10,
-        p1hp:100
-
+ function Player(cloudCover, atk, hp){
+        this.cloudCover = cloudCover;
+        this.atk=atk;
+        this.hp=hp;
         // dfs:0,
         // if (cloudCover >= 7) {
         //     dfs = dfs + 15;
@@ -71,50 +63,40 @@ var Player1={
         // var p1hp = dfs+100
         // console.log ("player1 Health", + p1hp)
     }
-var Player2={
-        p2cloudCover:4, //The cloudCover from the api
-        p2atk: 10,
-        p2hp:100
-        // var dfs = 0
-        // if (p2cloudCover >= 7) {
-        //     dfs = dfs + 15;
-        // } else if (p2cloudCover >= 4) {
-        //     dfs = dfs + 10;
-        // } else if (p2cloudCover >= 1)
-        // {
-        //     dfs = dfs + 5;
-        // }
-        // if( temp < 30) {
-        //     catk=atk-5;
-        // } else if (temp > 75)
-        // hatk=atk-7.5,hp=hp-5;
-        // var p2hp = dfs+100
-        
-        // console.log ("player2 Health", + p2hp);
-
-    }
-    var Player1turn = true
-    var Player2turn = false
-    var Player1frozen = false
-    var Player2frozec = false
+var Game= {
     
-    function attack() {
-        if (Player1turn){
-            Player2.p2hp-=Player1.p1atk;
+    Player1turn: true,
+    Player2turn: false,
+    Player1frozen: false,
+    Player2frozen: false,
+    
+   
+   
+  Player1: new Player(8, 10, 100),
+
+  Player2: new Player(4, 10, 100), 
+attack: function() {
+        if (this.Player1turn){
+            this.Player2.hp-=this.Player1.atk;
             console.log("Player1's Turn");
-            console.log ("player2 Health", + Player2.p2hp);
-            Player1turn=false;
-            Player2turn=true
-        } else if (Player2turn){
-            Player1.p1hp-=Player2.p2atk;
+            console.log ("player2 Health", + this.Player2.hp);
+            this.Player1turn=false;
+            this.Player2turn=true
+        } else if (this.Player2turn){
+            this.Player1.hp-=this.Player2.atk;
             console.log ("Player2's Turn");
-            console.log ("player1 Health", + Player1.p1hp);
-            Player2turn=false;
-            Player1turn=true;
-        }
-        
-    }     
+            console.log ("player1 Health", + this.Player1.hp);
+            this.Player2turn=false;
+            this.Player1turn=true;
+        }     
+    }
+};
+
+
+   
+    
+         
 
 $(document).on("click","#button", function(){
-    attack();
+    Game.attack();
 })
