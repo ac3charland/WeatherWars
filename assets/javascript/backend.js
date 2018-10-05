@@ -365,7 +365,7 @@ $(document).on('click', '.resetBtn', function() {
 // }else if (cloudCover >= 4) {
 //  cloudHP = cloudHP = 10;
 // }else if (cloudCover >=1) {
-// cloudHP = cloudHP = 5;
+// cloudHP = cloudHP + 5;
 // }else {
 // cloudHP = cloudHP;
 // }

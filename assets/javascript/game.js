@@ -329,3 +329,48 @@ var Game = {
 $(document).on("click", "#button", function () {
     Game.attack();
 })
+
+// if statements for deciding what attack to do if player is not disabled
+//!!!!!!!!!!!!!!!!!!!!!!!!!-------Need to grab stormDisabled from backend and toggle the storm attack button either on or off
+
+//Player 1
+
+//if (id === "attack") {
+//  p2.hp -= p1.atk;
+//  p1.stormDisabled = false;
+//}else if (id === "cold") {
+//  p2.hp -= (p1.atk * 1.50);
+//  p1.isDiabled = true
+//  p1.stormDisabled = false;
+//}else if (id === "hot") {
+//  p2.hp -= (p1.atk * 1.75);
+//  p1.hp = p1.hp * .75;
+//  p1.stormDisabled = false;
+//}else if (id === "storm") {
+//  p2.hp -= (p1.atk * .5);
+//  p2.isDisbaled = true;
+//  p1.stormDisabled = true;
+//}
+//player1turn = false;
+//player2turn = true;
+
+//Player 2
+
+//if (id === "attack") {
+//  p1.hp -= p2.atk;
+//  p2.stormDisabled = false;
+//}else if (id === "cold") {
+//  p1.hp -= (p2.atk * 1.50);
+//  p2.isDiabled = true;
+//  p2.stormDisabled = false;
+//}else if (id === "hot") {
+//  p1.hp -= (p1.atk * 1.75);
+//  p2.hp = p2.hp * .75;
+//  p2.stormDisabled = false;
+//}else if (id === "storm") {
+//  p1.hp -= (p2.atk * .5);
+//  p1.isDisbaled = true;
+//  p2.stormDisabled = true; 
+//}
+//player2turn = false;
+//player1turn = true;
