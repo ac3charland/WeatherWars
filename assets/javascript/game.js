@@ -164,25 +164,74 @@ console.log(player1Loc);
 console.log(player2Loc);
 console.log(locations);
 
-//defense is determined by cloud cover, 0-no bonus, 1-3, a 5% bonus,
-//4-6, a 10% bonus, 7-10, a 15% bonus,
+//Variables that gabbred values from the API
+//var cloudCover - grabs the data from cloud cover
+//var qol - grabs data from Environmental Quality
+//var safety - grabs data from safety
+//var commute - grabs data from commute
 
-// var cloudCover=0 //The cloudCover from the api
-// var atk = 10
+//function calculateHP(cloudCover, qol, safety, commute) {
+//Variables for HP modifiers
+//var baseHP = 100
+//var cloudHP = 0
+//var qolHP = 0
+//var safetyHP = 0
+//var commuteHP = 0
+//var totalHP = 0
 
-// var dfs = 0
-// if (cloudCover >= 7) {
-//     dfs = dfs + 15;
-// } else if (cloudCover >= 4) {
-//     dfs = dfs + 10;
-// } else if (cloudCover >= 1)
-// {
-//     dfs = dfs + 5;
+//Calculate what bonus (if any) HP cloud cover will grant the player
+
+// if (cloudCover >=7) {
+//  cloudHP = cloudHP + 15;
+// }else if (cloudCover >= 4) {
+//  cloudHP = cloudHP = 10;
+// }else if (cloudCover >=1) {
+// cloudHP = cloudHP = 5;
+// }else {
+// cloudHP = cloudHP;
 // }
 
-// var hp = dfs+100
-// console.log(dfs)
-// console.log(hp)
+//Calculate what boon or bane (if any) is granted to the player based on Environmental Quality
+
+// if (qol >= 7) {
+// qolHP = qolHP + 5;
+// }else if (qol >=4) {
+//  qolHP = qolHP;
+// }else {
+//  qolHP = qolHP -5;
+// }
+
+//Calculate what boon or bane (if any) is granted to the player based on safety
+
+// if (safety >= 7) {
+//  safetyHP = safetyHP + 5;
+// }else if (safety >=4) {
+// safetyHP = safetyHP;
+// }else {
+// safetyHP = safetyHP - 5;
+// }
+
+//Calculate what boon or bane (if any) is granted to the player based on commute
+
+// if (commute >= 7) {
+//  commuteHP = commuteHP + 5;
+// }else if (safety >=4) {
+// commuteHP = commuteHP;
+// }else {
+// commuteHP = commuteHP - 5;
+// }
+
+//totalHP = baseHP + cloudHP + qolHP + safetyHP + commuteHP;
+
+//return totalHP;
+// }
+
+// console.log(basehp);
+// console.log(cloudHP);
+// console.log(qolHP);
+// console.log(safetyHP);
+// console.log(commuteHP);
+// console.log(totalHP);
 
 //atk is basic attack, hatck and catk and satk are the modified attacks
 var temp = 50
