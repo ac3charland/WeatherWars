@@ -259,26 +259,62 @@ console.log(locations);
 // console.log(dfs)
 // console.log(hp)
 
-//atk is basic attack, hatck and catk and satk are the modified attacks
 var temp = 50
-var atk = -10
+var atk = 10
 var catk = 0
 var hatk = 0
 
 //this is where temperature defines what kind of attacks ara available
 //this is to determine if it will be a cold attack
-if (temp < 30) {
-    catk = atk - 5;//Skips a turn, cannot code until turns are implemented
-    //to determine if it is a hot attack
-} else if (temp > 75)
-    hatk = atk - 7.5, hp = hp - 5;
+
+// this is the decide turn function --------------------
 
 
+// function decideTurn (){
+//     if (Player1.hp<=0){
+//     GameOver=true;
+//     winner="Player 2"
+//     }
+//     if (Player2.hp<=0){
+//     GameOver=true;
+//     winner="Player 2"
+//     }
+//     if (GameOver=false){
+//     if (Player1turn=true){
+//         if (Player.isFrozen=false){
+//             attack();
+//         } else if (Player.isFrozen){
+//             Player1turn=false;
+//             Player2turn=true;;
+//             Player.isFrozen=false;
+//     if (Player2turn=true){
+//         if (Player.isFrozen=false){
+//             attack();
+//         } else if (Player.isFrozen){
+//             Player2turn=false;
+//             Player1turn=true;
+//             Player.isFrozen=false;
+//                     }
+//                 }
+//             } 
+//         }
+//     }
+// }
+
+
+// if (temp < 30) {
+//     catk =;
+// } else if (temp > 75) {
+//     hatk = atk - 7.5, hp = hp - 5;
+
+// }
 
 function Player(cloudCover, atk, hp) {
     this.cloudCover = cloudCover;
     this.atk = atk;
     this.hp = hp;
+    this.isFrozen = false;
+    this.stormDisabled=false;
     // dfs:0,
     // if (cloudCover >= 7) {
     //     dfs = dfs + 15;
@@ -301,8 +337,40 @@ var Game = {
 
     Player1turn: true,
     Player2turn: false,
-    Player1frozen: false,
-    Player2frozen: false,
+    isFrozen: false,
+    GameOver=false,
+    Winner='',
+   
+    decideTurn:function(){
+    if (Player1.hp<=0){
+    GameOver=true;
+    winner="Player 2"
+    }
+    if (Player2.hp<=0){
+    GameOver=true;
+    winner="Player 2"
+    }
+    if (GameOver=false){
+    if (Player1turn=true){
+        if (Player.isFrozen=false){
+            attack();
+        } else if (Player.isFrozen){
+            Player1turn=false;
+            Player2turn=true;;
+            Player.isFrozen=false;
+    if (Player2turn=true){
+        if (Player.isFrozen=false){
+            attack();
+        } else if (Player.isFrozen){
+            Player2turn=false;
+            Player1turn=true;
+            Player.isFrozen=false;
+                    }
+                }
+            } 
+        }
+    }
+},
 
 
 
@@ -311,11 +379,12 @@ var Game = {
     Player2: new Player(4, 10, 100),
     attack: function () {
         if (this.Player1turn) {
+            
             this.Player2.hp -= this.Player1.atk;
             console.log("Player1's Turn");
             console.log("player2 Health", + this.Player2.hp);
             this.Player1turn = false;
-            this.Player2turn = true
+            this.Player2turn = true;
         } else if (this.Player2turn) {
             this.Player1.hp -= this.Player2.atk;
             console.log("Player2's Turn");
@@ -327,5 +396,5 @@ var Game = {
 };
 
 $(document).on("click", "#button", function () {
-    Game.attack();
+    Game.attack()
 })
