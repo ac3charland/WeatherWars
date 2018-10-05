@@ -10,7 +10,6 @@ var p2Loc2;
 var p2Loc3;
 var player2Loc = [p2Loc1, p2Loc2, p2Loc3];
 
-
 var urlStart = "assets/images/"
 
 //array of locations to choose from
@@ -164,6 +163,82 @@ console.log(player1Loc);
 console.log(player2Loc);
 console.log(locations);
 
+//Variables that gabbred values from the API
+//var cloudCover - grabs the data from cloud cover
+//var qol - grabs data from Environmental Quality
+//var safety - grabs data from safety
+//var commute - grabs data from commute
+
+//function calculateHP(cloudCover, qol, safety, commute) {
+//Variables for HP modifiers
+//var baseHP = 100
+//var cloudHP = 0
+//var qolHP = 0
+//var safetyHP = 0
+//var commuteHP = 0
+//var totalHP = 0
+
+//Calculate what bonus (if any) HP cloud cover will grant the player
+
+// if (cloudCover >=7) {
+//  cloudHP = cloudHP + 15;
+// }else if (cloudCover >= 4) {
+//  cloudHP = cloudHP = 10;
+// }else if (cloudCover >=1) {
+// cloudHP = cloudHP = 5;
+// }else {
+// cloudHP = cloudHP;
+// }
+
+//Calculate what boon or bane (if any) is granted to the player based on Environmental Quality
+
+// if (qol >= 7) {
+// qolHP = qolHP + 5;
+// }else if (qol >=4) {
+//  qolHP = qolHP;
+// }else {
+//  qolHP = qolHP -5;
+// }
+
+//Calculate what boon or bane (if any) is granted to the player based on safety
+
+// if (safety >= 7) {
+//  safetyHP = safetyHP + 5;
+// }else if (safety >=4) {
+// safetyHP = safetyHP;
+// }else {
+// safetyHP = safetyHP - 5;
+// }
+
+//Calculate what boon or bane (if any) is granted to the player based on commute
+
+// if (commute >= 7) {
+//  commuteHP = commuteHP + 5;
+// }else if (safety >=4) {
+// commuteHP = commuteHP;
+// }else {
+// commuteHP = commuteHP - 5;
+// }
+
+//totalHP = baseHP + cloudHP + qolHP + safetyHP + commuteHP;
+
+//return totalHP;
+// }
+
+// console.log(basehp);
+// console.log(cloudHP);
+// console.log(qolHP);
+// console.log(safetyHP);
+// console.log(commuteHP);
+// console.log(totalHP);
+
+// function gameStarted(){
+//     Player1turn=false;
+// }
+
+// gameStarted();
+
+
 //defense is determined by cloud cover, 0-no bonus, 1-3, a 5% bonus,
 //4-6, a 10% bonus, 7-10, a 15% bonus,
 
@@ -200,61 +275,102 @@ if (temp < 30) {
 
 
 
+function Player(cloudCover, atk, hp) {
+    this.cloudCover = cloudCover;
+    this.atk = atk;
+    this.hp = hp;
+    // dfs:0,
+    // if (cloudCover >= 7) {
+    //     dfs = dfs + 15;
+    // } else if (cloudCover >= 4) {
+    //     dfs = dfs + 10;
+    // } else if (cloudCover >= 1)
+    // {
+    //     dfs = dfs + 5;
+    // }
+    // if( temp < 30) {
+    //     catk=atk-5;
+    // } else if (temp > 75)
+    // hatk=atk-7.5,hp=hp-5;
 
-var Player1 = Player1
-var Player2 = Player1
-var Game = Game; {
-    Player1; {
-        var cloudCover = 8 //The cloudCover from the api
-        var atk = -10
-
-        var dfs = 0
-        if (cloudCover >= 7) {
-            dfs = dfs + 15;
-        } else if (cloudCover >= 4) {
-            dfs = dfs + 10;
-        } else if (cloudCover >= 1) {
-            dfs = dfs + 5;
-        }
-        if (temp < 30) {
-            catk = atk - 5;
-        } else if (temp > 75)
-            hatk = atk - 7.5, hp = hp - 5;
-
-        var win = (p2hp = 0)
-        var p1hp = dfs + 100
-        console.log("player1 Health", + p1hp)
-    }
-    Player2; {
-        var p2cloudCover = 4 //The cloudCover from the api
-        var atk = -10
-
-        var dfs = 0
-        if (p2cloudCover >= 7) {
-            dfs = dfs + 15;
-        } else if (p2cloudCover >= 4) {
-            dfs = dfs + 10;
-        } else if (p2cloudCover >= 1) {
-            dfs = dfs + 5;
-        }
-        if (temp < 30) {
-            catk = atk - 5;
-        } else if (temp > 75)
-            hatk = atk - 7.5, hp = hp - 5;
-        var p2hp = dfs + 100
-
-        console.log("player2 Health", + p2hp);
-
-    }
-    var Player1turn = true
-    var Player2turn = false
-    var Player1frozen = false
-    var Player2frozec = false
-    function attack() {
-        if (Player1turn = true) {
-
-        }
-
-
-    }
+    // var win=(p2hp=0)
+    // var p1hp = dfs+100
+    // console.log ("player1 Health", + p1hp)
 }
+var Game = {
+
+    Player1turn: true,
+    Player2turn: false,
+    Player1frozen: false,
+    Player2frozen: false,
+
+
+
+    Player1: new Player(8, 10, 100),
+
+    Player2: new Player(4, 10, 100),
+    attack: function () {
+        if (this.Player1turn) {
+            this.Player2.hp -= this.Player1.atk;
+            console.log("Player1's Turn");
+            console.log("player2 Health", + this.Player2.hp);
+            this.Player1turn = false;
+            this.Player2turn = true
+        } else if (this.Player2turn) {
+            this.Player1.hp -= this.Player2.atk;
+            console.log("Player2's Turn");
+            console.log("player1 Health", + this.Player1.hp);
+            this.Player2turn = false;
+            this.Player1turn = true;
+        }
+    }
+};
+
+$(document).on("click", "#button", function () {
+    Game.attack();
+})
+
+// if statements for deciding what attack to do if player is not disabled
+//!!!!!!!!!!!!!!!!!!!!!!!!!-------Need to grab stormDisabled from backend and toggle the storm attack button either on or off
+
+//Player 1
+
+//if (id === "attack") {
+//  p2.hp -= p1.atk;
+//  p1.stormDisabled = false;
+//}else if (id === "cold") {
+//  p2.hp -= (p1.atk * 1.50);
+//  p1.isDiabled = true
+//  p1.stormDisabled = false;
+//}else if (id === "hot") {
+//  p2.hp -= (p1.atk * 1.75);
+//  p1.hp = p1.hp * .75;
+//  p1.stormDisabled = false;
+//}else if (id === "storm") {
+//  p2.hp -= (p1.atk * .5);
+//  p2.isDisbaled = true;
+//  p1.stormDisabled = true;
+//}
+//player1turn = false;
+//player2turn = true;
+
+//Player 2
+
+//if (id === "attack") {
+//  p1.hp -= p2.atk;
+//  p2.stormDisabled = false;
+//}else if (id === "cold") {
+//  p1.hp -= (p2.atk * 1.50);
+//  p2.isDiabled = true;
+//  p2.stormDisabled = false;
+//}else if (id === "hot") {
+//  p1.hp -= (p1.atk * 1.75);
+//  p2.hp = p2.hp * .75;
+//  p2.stormDisabled = false;
+//}else if (id === "storm") {
+//  p1.hp -= (p2.atk * .5);
+//  p1.isDisbaled = true;
+//  p2.stormDisabled = true; 
+//}
+//player2turn = false;
+//player1turn = true;

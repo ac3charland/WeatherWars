@@ -16,57 +16,121 @@
    <!--Let browser know website is optimized for mobile-->
    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 </head>
-<body>
+
+
+<body class="card-panel #90a4ae blue-grey lighten-2">
+    <!-- Materialize -->
+    <div id="play">
+            <!-- Row 1: battling window-->
+        <div class="row" id="battleWindow" id="">battleWindow
+            <div class="col s12">
+                <div id="player1Window">player 1</div>
+                <div id="player2Window">player 2</div>
+            </div>
+        </div>
+            <!-- Row 2, 2 Columns: buttons and chatbox-->
+        <div class="row">
+                <div class="col s3" id="attackButtons">
+                        <a class="btn-floating btn-medium waves-effect waves-light red"><i class="material-icons">cloud</i></a>
+                        <a class="btn-floating btn-medium waves-effect waves-light red"><i class="material-icons">brightness_5</i></a>
+                        <a class="btn-floating btn-medium waves-effect waves-light red"><i class="material-icons">toys</i></a>
+                        <a class="btn-floating btn-medium waves-effect waves-light red"><i class="material-icons">keyboard_tab</i></a>
+                </div>
+                <div class="col s6" id="chatBox"> chatBox
+                        <form>
+                            <textarea class="scrollabletextbox" name="note">Text here</textarea>
+                        </form>
+                </div>
+        </div>
+              <!-- Row 3: log-->
+        <div class="row">
+              <div class="col s12">
+                  <div id="log">log - attack details/damages show up here</div>
+                  
+              </div>
+          </div>
+    </div>
+
 
 <div class="container center-align">
 
 <!--Intro Page-->
 <div id ="info">
-     <h3 class="shadow">Weather Wars</h3>
-   <div class="instructions">
+  <h3 class="shadow">Weather Wars</h3>
+  <div class="instructions">
 
-       <div class="instructionheader">
-            Instructions
+     <div class="instructionheader">
+          Instructions
 
-       </div>
-  <div class="paragraph">
+     </div>
+    <div class="paragraph">
 
-    as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).t is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of 
+      as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).t is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of 
 
-</div>
+    </div>
 
     <button class="waves-effect waves-light btn-large card-panel #424242 grey darken-3" id="button">Start</button>
-   </div>
+  </div>
 </div> 
 
-<!--Choose City-->
 
-<h3>Choose a City</h3>
+    <!--Choose City-->
 
- <div class="chooseCity">
- <table>
- <thead>
-    <tr>
-    <th>City 1</th>
-    <th>City 2</th>
-    <th>City 3</th>
-    </tr>
-</thead>
-    <tbody>
+    <h3>Choose a City</h3>
 
-<!--where cities will go appending <td> and <tr> from jquery-->
-    </tbody>
-</table>
-</div>
+    <div class="chooseCity">
+        <div class="row">
 
-<!--Play-->
- <!-- Materialize -->
- <div id="play">
-    <!-- Row 1: battling window-->
-<div class="row" id="battleWindow">battleWindow
-    <div class="col s12">
-        <div id="player1Window">player 1</div>
-        <div id="player2Window">player 2</div>
+        <!--where cities will go appending <td> and <tr> from jquery-->
+            <div class="col s4">
+                <div class="city">
+                    <div class="row">
+                        <h3 class="city-name">City Name</h3>
+                    </div>
+                    <div class="row">
+                        <img class="city-image" src="assets/images/bangkok.jpg">
+                    </div>
+                    <div class="row">
+                        <p class="city-stats">
+                            Test stats
+                        </p>
+                    </div>
+                    <div class="btn waves-effect">Select</div>
+                </div>
+            </div>
+            <div class="col s4">
+                <div class="city">
+                    <div class="row">
+                        <h3 class="city-name">City Name</h3>
+                    </div>
+                    <div class="row">
+                        <img class="city-image" src="assets/images/shanghai.jpg">
+                    </div>
+                    <div class="row">
+                        <p class="city-stats">
+                            Test stats
+                        </p>
+                    </div>
+                    <div class="btn waves-effect">Select</div>
+                </div>
+            </div>
+            <div class="col s4">
+                <div class="city">
+                    <div class="row">
+                        <h3 class="city-name">City Name</h3>
+                    </div>
+                    <div class="row">
+                        <img class="city-image" src="assets/images/rome.jpg">
+                    </div>
+                    <div class="row">
+                        <p class="city-stats">
+                            Test stats
+                        </p>
+                    </div>
+                    <div class="btn waves-effect">Select</div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
     <!-- Row 2, 2 Columns: buttons and chatbox-->
@@ -78,37 +142,36 @@
                       <a class="btn-floating btn-large waves-effect waves-light yellow"><i class="material-icons">flash_on</i></a>
                       <a class="btn-floating btn-large waves-effect waves-light #b71c1c red darken-4">End<i class="material-icons"></i></a>
                       <a class="btn-floating btn-large waves-effect waves-light #bdbdbd grey lighten-1">Info<i class="material-icons"></i></a>
+                </div>
+                <div class="col s6" id="chatBox"> chatBox
+                        <form>
+                            <textarea class="scrollabletextbox" name="note">Text here</textarea>
+                        </form>
+                </div>
         </div>
-        <div class="col s6" id="chatBox"> chatBox
-                <form>
-                    <textarea class="scrollabletextbox" name="note">Text here</textarea>
-                </form>
+        <!-- Row 3: log-->
+        <div class="row">
+            <div class="col s12">
+                <div id="log">log - attack details/damages show up here</div>
+                
+            </div>
         </div>
-</div>
-      <!-- Row 3: log-->
-<div class="row">
-      <div class="col s12">
-          <div id="log">log - attack details/damages show up here</div>
-          
-      </div>
-  </div>
-</div>
+    </div>
 
 
-<div class="container center-align">
+    <div class="container center-align">
 
-<!--Restart/Continue-->
-<div class="restart-continue">
-    <h2>Victory!</h2>
-    <h2>or</h2>
-    <h2>Defeat!</h2>
-</div>
-   <button class="waves-effect waves-light btn-large card-panel #ffeb3b yellow black-text text-darken-2">Continue</button>
-       <h2 class>
-       </h2>
-   <button class="waves-effect waves-light btn-large card-panel #ffeb3b yellow black-text text-darken-2">Restart</button>
-</div>
-
+        <!--Restart/Continue-->
+        <div class="restart-continue">
+            <h2>Victory!</h2>
+            <h2>or</h2>
+            <h2>Defeat!</h2>
+        </div>
+        <button class="waves-effect waves-light btn-large card-panel #ffeb3b yellow black-text text-darken-2">Continue</button>
+            <h2 class>
+            </h2>
+        <button class="waves-effect waves-light btn-large card-panel #ffeb3b yellow black-text text-darken-2">Restart</button>
+    </div>
 
 </body>
 </html>

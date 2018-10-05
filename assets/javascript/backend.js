@@ -1,4 +1,4 @@
-var urlStart = "assets/images/"
+var urlStart = "../images/"
 
 var locations = [
   {
@@ -37,11 +37,12 @@ var locations = [
       lat: '55.86515',
   },
   {
-      cityName: "Punta Cana",
-      geoid: "3494242",
+      cityName: "Dubai",
+      geoid: "292223",
       img: urlStart + "punta_cana.jpg",
-      long: '-68.40431',
-      lat: '18.58182',
+      namecode:"dubai",
+      long: '55.17128',
+      lat: '25.0657',
       
   }, 
   {
@@ -93,12 +94,12 @@ var locations = [
       lat: "13.75398",
   }, 
   {
-      cityName: "Minneapolis",
-      geoid: "5037649",
+      cityName: "Seoul",
+      geoid: "1835848",
       img: urlStart + "minneaplois.jpg",
-      namecode: "minneapolis",
-      long: "-93.26384",
-      lat: "44.97997",
+      namecode: "seoul",
+      long: "126.9784",
+      lat: "37.566",
   },
   {
       cityName: "Moscow",
@@ -133,12 +134,12 @@ var locations = [
       lat: "19.42847",
   },
   {
-      cityName: "Thebes",
-      geoid: "252910",
+      cityName: "Chicago",
+      geoid: "4887398",
       img: urlStart + "thebes.jpg",
-      namecode: "thebes",
-      long: "23.31889",
-      lat: "38.325",
+      namecode: "chicago",
+      long: "-87.65005",
+      lat: "41.85003",
   },
   {
       cityName: "Rome",
@@ -177,10 +178,13 @@ var locations = [
     for (var i = 0; i < locations.length; i++) {     
         var a = $("<button>");
         a.addClass("show");
+        a.addClass("cityButton")
+        a.addClass("btn btn-warning btn-lg btn-3d btn-round")
         a.attr("data-show", locations[i].geoid);
         a.attr("data-name", locations[i].namecode);
         a.attr("data-long", locations[i].long);
         a.attr("data-lat", locations[i].lat)
+        a.attr("data-img", locations[i].img)
         a.text(locations[i].cityName);
         $("#buttons-go-here").append(a);
     }}  
@@ -215,7 +219,8 @@ firebase.initializeApp(config);
 
 
 //THE BIG ON CLICK FUNTION. 3 AJAX CALLS. WE DOIN IT BIG---------------------------------------------------------------
-$(document).on("click", "button", function() {
+$(document).on("click", ".cityButton", function() {
+    
 
 //vars for the ajax calls go here
 var cityName =($(this).data("name"))
@@ -228,28 +233,32 @@ var lat = ($(this).data("lat"))
 
 var long = ($(this).data("long"))
 
+
+var imgId= ($(this).data("img"))
+
 var darkSkyURL = "https://api.darksky.net/forecast/" + key + "/" + lat +  "," + long
 
 var  cityInfoUrl = "https://api.teleport.org/api/cities/geonameid:" + geoId + "/"
 
-var queryURL = "https://api.teleport.org/api/urban_areas/slug:" + cityName + "/scores";
+var cityScoresURL = "https://api.teleport.org/api/urban_areas/slug:" + cityName + "/scores";
 
 //city info ajax call
 $.ajax({
     url: cityInfoUrl,
     method: "GET"
   })
-  .then(function(response2) {
-    console.log(response2);
+  .then(function(CityInfoResponse) {
+    console.log("City info API: ")
+    console.log(CityInfoResponse);
 
 
 //creating new rows for the city info
     var newRow = $("<tr>").append(
-      $("<td>").text(response2.full_name),
-      $("<td>").text(response2.population),
-      $("<td>").text(response2.location.latlon.longitude),
-      $("<td>").text(response2.location.latlon.latitude),
-      $("<td>").text(response2.geoname_id)
+      $("<td>").text(CityInfoResponse.full_name),
+      $("<td>").text(CityInfoResponse.population),
+      $("<td>").text(CityInfoResponse.location.latlon.longitude),
+      $("<td>").text(CityInfoResponse.location.latlon.latitude),
+      $("<td>").text(CityInfoResponse.geoname_id)
    
     );
 //appending new rows to table
@@ -258,24 +267,25 @@ $.ajax({
   
 //city scores api call
 $.ajax({
-  url: queryURL,
+  url: cityScoresURL,
   method: "GET"})
 
-  .then(function(response) {
-    console.log(response);
+  .then(function(cityScoresResponse) {
+    console.log("City scores API: ")
+    console.log(cityScoresResponse);
 
  
 //creating new rows for the 2nd table
     var tableTwoNewRow =$("<tr>").append(
-      $("<td>").text(response2.name),
-      $("<td>").text(Math.round(response.categories[1].score_out_of_10)),
-      $("<td>").text(Math.round(response.categories[5].score_out_of_10)),
-      $("<td>").text(Math.round(response.categories[7].score_out_of_10)),
-      $("<td>").text(Math.round(response.categories[8].score_out_of_10)),
-      $("<td>").text(Math.round(response.categories[9].score_out_of_10)),
-      $("<td>").text(Math.round(response.categories[10].score_out_of_10)),
-      $("<td>").text(Math.round(response.categories[13].score_out_of_10)),
-      $("<td>").text(Math.round(response.categories[15].score_out_of_10)) ,
+      $("<td>").text(CityInfoResponse.name),
+      $("<td>").text(Math.round(cityScoresResponse.categories[1].score_out_of_10)),
+      $("<td>").text(Math.round(cityScoresResponse.categories[5].score_out_of_10)),
+      $("<td>").text(Math.round(cityScoresResponse.categories[7].score_out_of_10)),
+      $("<td>").text(Math.round(cityScoresResponse.categories[8].score_out_of_10)),
+      $("<td>").text(Math.round(cityScoresResponse.categories[9].score_out_of_10)),
+      $("<td>").text(Math.round(cityScoresResponse.categories[10].score_out_of_10)),
+      $("<td>").text(Math.round(cityScoresResponse.categories[13].score_out_of_10)),
+      $("<td>").text(Math.round(cityScoresResponse.categories[15].score_out_of_10)) ,
     )
 //appending new rows to 2nd table
     $("#cityStatsTable > tbody").append(tableTwoNewRow);
@@ -285,20 +295,37 @@ $.ajax({
   url: darkSkyURL,
   method: "GET"})
 
-.then(function(result) {
-  console.log(result)
+.then(function(darkSkyResponse) {
+    console.log("Dark Sky Weather API: ")
+  console.log(darkSkyResponse)
 
 //appending rows to thrird table
 var tableThreeNewRow =$("<tr>").append(
-  $("<td>").text(response2.name),
-  $("<td>").text(result.currently.temperature),
-  $("<td>").text(result.currently.summary),
-  $("<td>").text(result.currently.windSpeed),
+  $("<td>").text(CityInfoResponse.name),
+  $("<td>").text(darkSkyResponse.currently.time),
+  $("<td>").text(darkSkyResponse.currently.temperature),
+  $("<td>").text(darkSkyResponse.currently.summary),
+  $("<td>").text(darkSkyResponse.currently.windSpeed),
+  $("<td>").text(Math.round(darkSkyResponse.currently.cloudCover * 10)),
+  $("<td>").text(Math.round(darkSkyResponse.currently.precipIntensity * 1000)),
+  $("<td>").text((darkSkyResponse.currently.humidity * 100) + "%"),
   
   )
 
   $("#cityWeatherTable > tbody").append(tableThreeNewRow);
 })
+
+//Adding to the img Div
+//var elem = document.getElementById("img");
+//elem.setAttribute("src", "../images/paris.jpg")
+$(".img-body").empty()
+$(".nameBox").empty()
+$(".img-body").append("<img src='" + imgId + "'     style='width: 700px'>")
+$(".nameBox").html(CityInfoResponse.name)
+
+$(".img-text").html(cityScoresResponse.summary)
+
+
 
 })
 })
@@ -306,13 +333,77 @@ var tableThreeNewRow =$("<tr>").append(
 
 
 //Reset button 
-$(document).on('click', '#resetBtn', function() {
-  $("#cityInfoTable tr").remove();
+$(document).on('click', '.resetBtn', function() {
+  $("tbody").empty ();
+  $(".img-body").empty()
+  $(".img-text").empty()
+  $(".nameBox").empty()
+  
 })
 })
 
 
+//Variables that gabbred values from the API
+//var cloudCover - grabs the data from cloud cover
+//var qol - grabs data from Environmental Quality
+//var safety - grabs data from safety
+//var commute - grabs data from commute
 
+//function calculateHP(cloudCover, qol, safety, commute) {
+//Variables for HP modifiers
+//var baseHP = 100
+//var cloudHP = 0
+//var qolHP = 0
+//var safetyHP = 0
+//var commuteHP = 0
+//var totalHP = 0
+
+//Calculate what bonus (if any) HP cloud cover will grant the player
+
+// if (cloudCover >=7) {
+//  cloudHP = cloudHP + 15;
+// }else if (cloudCover >= 4) {
+//  cloudHP = cloudHP = 10;
+// }else if (cloudCover >=1) {
+// cloudHP = cloudHP + 5;
+// }else {
+// cloudHP = cloudHP;
+// }
+
+//Calculate what boon or bane (if any) is granted to the player based on Environmental Quality
+
+// if (qol >= 7) {
+// qolHP = qolHP + 5;
+// }else if (qol >=4) {
+//  qolHP = qolHP;
+// }else {
+//  qolHP = qolHP -5;
+// }
+
+//Calculate what boon or bane (if any) is granted to the player based on safety
+
+// if (safety >= 7) {
+//  safetyHP = safetyHP + 5;
+// }else if (safety >=4) {
+// safetyHP = safetyHP;
+// }else {
+// safetyHP = safetyHP - 5;
+// }
+
+//Calculate what boon or bane (if any) is granted to the player based on commute
+
+// if (commute >= 7) {
+//  commuteHP = commuteHP + 5;
+// }else if (safety >=4) {
+// commuteHP = commuteHP;
+// }else {
+// commuteHP = commuteHP - 5;
+// }
+
+//totalHP = baseHP + cloudHP + qolHP + safetyHP + commuteHP;
+
+//return totalHP;
+// }
 
 
 

@@ -130,4 +130,14 @@ div.instructions {background-color: #728aa9fA;
     width: 80%;
     height: 100px;
     margin:auto;
- }
+
+.city {
+    background-color: rgb(255, 255, 255, 0.9);
+    border-radius: 10px;
+}
+
+.city-image {
+    max-width: 90%;
+    max-height: 150px;
+}
+
