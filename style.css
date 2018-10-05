@@ -14,24 +14,35 @@ body {
 
 
 #player1Window {
-    background-color:orange;
-    width: 80%;
-    height: 150px;
+	width: 80%;
+	height: 0;
+	border-top: 200px solid orange;
+    border-right: 900px solid transparent;
+
     margin-left: auto;
     margin-right: auto;
+
+    position: absolute;
+    top: 10px;
 }
+	
 
 #player2Window {
-    background-color:blue;
     width: 80%;
-    height: 150px;
+	height: 0;
+    border-bottom: 200px solid red;
+	border-left: 900px solid transparent;
+    
     margin-left: auto;
     margin-right: auto;
+
+    position: absolute;
+    top: 10px;
 }
 
 #attackButtons {
     background-color:red;
-    margin-left: 130px;
+    margin-left: 80px;
     height: 80px;
 }
 
@@ -42,7 +53,7 @@ body {
 
 #chatBox {
     background-color:rgb(110, 236, 105);
-    margin-left: 40px;
+    margin-left: 30px;
     height: 80px;
 }
 
