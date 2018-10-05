@@ -18,17 +18,36 @@
 <!-----Firebase link--------------------------------------------------->
     <script src="https://www.gstatic.com/firebasejs/5.5.2/firebase.js"></script>
 
+<!---CSS Link------------------------------------------------------>
+<link rel="stylesheet" type="text/css" href="backendStyle.css">
+
     
 </head>
 <body>
 
 <!----button div------------------------------------------------------->
   <div id="buttons-go-here"></div>
-  <br>
-  <br>
-  <br>
+  
+  
+  
 <!-----Reset Button----------------------------------------------------->
-<button type="button" class="btn btn-danger resetBtn">Reset</button>
+<button type="button" class="btn btn-danger resetBtn" id="reset-go-here">Reset</button>
+
+<!-------Name Box--------------------------------------------------------->
+
+<div class="nameBox"></div>
+
+<!---Img Box ---------------------------------------------------------------------------->
+
+<div class="card imgCard" style="width: 700px;" id="img-card">
+  <img class="card-img-top">
+  <div class="img-body" style="width: 700px;">
+    
+  </div>
+  <p class="img-text"></p>
+</div>
+  
+
 
  <!------cityInfo Table ------------------------------------------------>
  
@@ -110,16 +129,6 @@
 
 <br>
 <br>
-<!---Img Box ---------------------------------------------------------------------------->
-
-<div class="card" style="width: 500px;" id="img-card">
-  <img class="card-img-top">
-  <div class="img-body" style="width: 500px;">
-    
-  </div>
-  <p class="img-text"></p>
-</div>
-  
 
 
     
