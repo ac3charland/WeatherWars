@@ -6,138 +6,139 @@
     <title>WEATHER WARS</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
- <!---bootstrap link--------------------------------------------------->   
+    <!---bootstrap link--------------------------------------------------->   
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     
-<!---Jquery link------------------------------------------------------>
+    <!---Jquery link------------------------------------------------------>
     <script src="https://code.jquery.com/jquery.js"></script>
     
- <!------CorsFix link-------------------------------------------------->   
+    <!------CorsFix link-------------------------------------------------->   
     <script type="text/javascript" src="assets/javascript/CorsFix.js"></script>
 
-<!-----Firebase link--------------------------------------------------->
+    <!-----Firebase link--------------------------------------------------->
     <script src="https://www.gstatic.com/firebasejs/5.5.2/firebase.js"></script>
 
-<!---CSS Link------------------------------------------------------>
-<link rel="stylesheet" type="text/css" href="assets/style/backendStyle.css">
+    <!-- Game & Ajax script links -->
+    <script src="assets/javascript/game.js"></script>
+    <script src="assets/javascript/backend.js"></script>
 
-    
+    <!---CSS Link------------------------------------------------------>
+    <link rel="stylesheet" type="text/css" href="assets/style/backendStyle.css">
+  
 </head>
+
 <body>
 
-<!----button div------------------------------------------------------->
+  <!----button div------------------------------------------------------->
   <div id="buttons-go-here"></div>
   
   
   
-<!-----Reset Button----------------------------------------------------->
-<button type="button" class="btn btn-danger resetBtn" id="reset-go-here">Reset</button>
+  <!-----Reset Button----------------------------------------------------->
+  <button type="button" class="btn btn-danger resetBtn" id="reset-go-here">Reset</button>
 
-<!-------Name Box--------------------------------------------------------->
+  <!-------Name Box--------------------------------------------------------->
+  <div class="nameBox"></div>
 
-<div class="nameBox"></div>
-
-<!---Img Box ---------------------------------------------------------------------------->
-
-<div class="card imgCard" style="width: 700px;" id="img-card">
-  <img class="card-img-top">
-  <div class="img-body" style="width: 700px;">
-    
+  <!---Img Box ---------------------------------------------------------------------------->
+  <div class="card imgCard" style="width: 700px;" id="img-card">
+    <img class="card-img-top">
+    <div class="img-body" style="width: 700px;">
+      
+    </div>
+    <p class="img-text"></p>
   </div>
-  <p class="img-text"></p>
-</div>
   
 
 
- <!------cityInfo Table ------------------------------------------------>
- 
- 
-<div class="card mb-4">
-    <div class="card-header">City Info</div>
-    <div class="card-body">
- <table class="table table-bordered" id="cityInfoTable">
-        <thead>
-          <tr>
-            <th scope="col">Full City Name</th>
-            <th scope="col">Population</th>
-            <th scope="col">Longitude</th>
-            <th scope="col">Latitude</th>
-            <th scope="col">GeoId</th>
-          </tr>
-        </thead>
-        <tbody>
-        </tbody>
-      </table>
-</div>
-</div>
-<br>
-<br>
+  <!------cityInfo Table ------------------------------------------------>
+  
+  
+  <div class="card mb-4">
+      <div class="card-header">City Info</div>
+      <div class="card-body">
+        <table class="table table-bordered" id="cityInfoTable">
+          <thead>
+            <tr>
+              <th scope="col">Full City Name</th>
+              <th scope="col">Population</th>
+              <th scope="col">Longitude</th>
+              <th scope="col">Latitude</th>
+              <th scope="col">GeoId</th>
+            </tr>
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
+      </div>
+  </div>
+  <br>
+  <br>
 
-<!---City Stats Table----------------------------------------------------------->
+  <!---City Stats Table----------------------------------------------------------->
 
-<div class="card mb-4">
-    <div class="card-header">Quality of Life Ratings (on a scale of 1-10)</div>
-    <div class="card-body">
- <table class="table table-bordered" id="cityStatsTable">
-        <thead>
-          <tr>
-            <th scope="col">Full City Name</th>
-            <th scope="col">Cost of Living</th>
-            <th scope="col">Commute</th>
-            <th scope="col">Safety</th>
-            <th scope="col">Healthcare</th>
-            <th scope="col">Education</th>
-            <th scope="col">Environmental Quality</th>
-            <th scope="col">Internet Acsess</th>
-            <th scope="col">Tolerance</th>
+  <div class="card mb-4">
+      <div class="card-header">Quality of Life Ratings (on a scale of 1-10)</div>
+      <div class="card-body">
+        <table class="table table-bordered" id="cityStatsTable">
+          <thead>
+            <tr>
+              <th scope="col">Full City Name</th>
+              <th scope="col">Cost of Living</th>
+              <th scope="col">Commute</th>
+              <th scope="col">Safety</th>
+              <th scope="col">Healthcare</th>
+              <th scope="col">Education</th>
+              <th scope="col">Environmental Quality</th>
+              <th scope="col">Internet Acsess</th>
+              <th scope="col">Tolerance</th>
 
-          </tr>
-        </thead>
-        <tbody>
-        </tbody>
-      </table>
-</div>
-</div>
+            </tr>
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
+      </div>
+  </div>
 
-<br>
-<br>
+  <br>
+  <br>
 
-<!---------Weather Stats Table------------------------------------------------->
+  <!---------Weather Stats Table------------------------------------------------->
 
-<div class="card mb-4">
-    <div class="card-header">City Weather Table (all units in imperial)</div>
-    <div class="card-body">
- <table class="table table-bordered" id="cityWeatherTable">
-        <thead>
-          <tr>
-            <th scope="col">Full City Name</th>
-            <th scope='col'>Local Time</th>
-            <th scope="col">Current Temp</th>
-            <th scope='col'>Summary</th>
-            <th scope='col'>Wind Speed</th>
-            <th scope='col'>Could Cover (1-10)</th>
-            <th scope='col'>Precip Intensity (1-10)</th>
-            <th scope='col'>Humidity %</th>
+  <div class="card mb-4">
+      <div class="card-header">City Weather Table (all units in imperial)</div>
+      <div class="card-body">
+        <table class="table table-bordered" id="cityWeatherTable">
+          <thead>
+            <tr>
+              <th scope="col">Full City Name</th>
+              <th scope='col'>Local Time</th>
+              <th scope="col">Current Temp</th>
+              <th scope='col'>Summary</th>
+              <th scope='col'>Wind Speed</th>
+              <th scope='col'>Could Cover (1-10)</th>
+              <th scope='col'>Precip Intensity (1-10)</th>
+              <th scope='col'>Humidity %</th>
 
-          </tr>
-        </thead>
-        <tbody>
-        </tbody>
-      </table>
-</div>
-</div>
+            </tr>
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
+      </div>
+  </div>
 
-<br>
-<br>
+  <br>
+  <br>
 
 
     
-    <script type="text/javascript" src="assets/javascript/backend.js"></script>
+  <script type="text/javascript" src="assets/javascript/cityInfo.js"></script>
 
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
-        
-
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+      
 </body>
 </html>
