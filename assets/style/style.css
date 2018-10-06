@@ -1,15 +1,4 @@
-#button{
-    width: 300px;
-    font-size: 50px;
-}
-
-
-
-
-
-
-
-body {background-image: url("My Post (1).jpg");
+body {background-image: url("../images/My Post (1).jpg");
     background-repeat: repeat;
     background-size: 150px 400px;
 }
@@ -20,17 +9,29 @@ h3 {
     font-family: 'Source Code Pro', monospace;
    
 }
+
 h3.shadow {  text-shadow: 1.3px 1.3px 1.3px  white, 4px 4px 6px #666363; }
 
-.paragraph{
-font-size: 10px;
-margin-top: 5px;
-width: 80%;
-margin-left: 90px;
-background-color: #728aa9fA;
-
-
+div #info {
+    
+    box-shadow: inset 5px 3px 5px 3px #2d2c2c, inset 0px 0px 2px 20px black;
 }
+
+div .instructions {background-color: #728aa9fA;
+    height: 150px;
+    width: 900px;
+   
+    font-size: 15px;
+    box-shadow: inset 5px 3px 5px 3px #2d2c2c, inset 0px 0px 2px 15px black; 
+   
+}
+
+#button{
+    width: 300px;
+    font-size: 50px;
+}
+
+
 
 div.instructionheader{
     font-size: 30px;
@@ -38,29 +39,12 @@ div.instructionheader{
 }
 
 
-
-div#info {
-    
-    box-shadow: inset 5px 3px 5px 3px #2d2c2c, inset 0px 0px 2px 20px black;
-}
 #info {background-color: #e0e0e0;
 height: 500px;
 width: 900px;
 border-radius: 25px;
+}
 
-}
-div.instructions {background-color: #728aa9fA;
-    height: 150px;
-    width: 900px;
-   
-    font-size: 15px;
-    box-shadow: inset 5px 3px 5px 3px #2d2c2c, inset 0px 0px 2px 15px black;
-    
-  
-	
-  
-   
-}
 
 #play {
     color: white;
@@ -70,16 +54,16 @@ div.instructions {background-color: #728aa9fA;
     margin-top: 30px;
     margin-left: auto;
     margin-right: auto;
- }
+}
 
 #battleWindow {
     position: relative;
- }
+}
  
- #player1Window {
-     width: 80%;
-     height: 0;
-     border-top: 250px solid orange;
+#player1Window {
+    width: 80%;
+    height: 0;
+    border-top: 250px solid orange;
     border-right: 750px solid transparent;
  
     margin-left: auto;
@@ -88,14 +72,14 @@ div.instructions {background-color: #728aa9fA;
     position: absolute;
     top: 40px;
     left: 20;
- }
+}
      
  
- #player2Window {
+#player2Window {
     width: 80%;
-     height: 0;
+    height: 0;
     border-bottom: 250px solid red;
-     border-left: 750px solid transparent;
+    border-left: 750px solid transparent;
  
     margin-left: auto;
     margin-right: auto;
@@ -103,7 +87,7 @@ div.instructions {background-color: #728aa9fA;
     position: absolute;
     top: 40px;
     right: 20;
- }
+}
  
  #attackButtons{
  
@@ -112,24 +96,25 @@ div.instructions {background-color: #728aa9fA;
     margin-top: 280px;
     height: 80px;
  }
- 
- .btn {
-    margin-top: 20px;
- 
- }
- 
- #chatBox {
+
+#chatBox {
     background-color:rgb(110, 236, 105);
     margin-top: 280px;
     margin-left: 30px;
     height: 80px;
- }
+}
  
  #log {
     background-color: rgb(255, 83, 141);
     width: 80%;
     height: 100px;
     margin:auto;
+}
+ 
+ .btn {
+    margin-top: 20px;
+ 
+ }
 
 .city {
     background-color: rgb(255, 255, 255, 0.9);
@@ -141,3 +126,10 @@ div.instructions {background-color: #728aa9fA;
     max-height: 150px;
 }
 
+.paragraph{
+    font-size: 10px;
+    margin-top: 5px;
+    width: 80%;
+    margin-left: 90px;
+    background-color: #728aa9fA;
+}

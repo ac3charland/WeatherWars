@@ -1,4 +1,4 @@
-var urlStart = "../images/"
+var urlStart = "assets/images/"
 
 var locations = [
   {
@@ -173,7 +173,7 @@ var locations = [
 
 
 //Adding test buttons
-  function renderButtons() {
+function renderButtons() {
     $("#buttons-go-here").empty()
     for (var i = 0; i < locations.length; i++) {     
         var a = $("<button>");
@@ -187,16 +187,11 @@ var locations = [
         a.attr("data-img", locations[i].img)
         a.text(locations[i].cityName);
         $("#buttons-go-here").append(a);
-    }}  
+    }
+}  
 
-  //calling test buttons 
-
-  renderButtons()
-
-
-
-
-
+//calling test buttons 
+renderButtons()
 
 
 
@@ -212,134 +207,115 @@ var config = {
 firebase.initializeApp(config);
 
 
-
-// Make AJAX Request for Dark Sky API.
-
-
-
+//Reset button 
+$(document).on('click', '.resetBtn', function () {
+    $("tbody").empty();
+    $(".img-body").empty()
+    $(".img-text").empty()
+    $(".nameBox").empty()
+})
 
 //THE BIG ON CLICK FUNTION. 3 AJAX CALLS. WE DOIN IT BIG---------------------------------------------------------------
 $(document).on("click", ".cityButton", function() {
     
 
-//vars for the ajax calls go here
-var cityName =($(this).data("name"))
+    //vars for the ajax calls go here
+    var cityName =($(this).data("name"))
+    var geoId = ($(this).data("show"))
+    var key = "73a039df0c6981cf0c61cdaa5b5cc704"
+    var lat = ($(this).data("lat"))
+    var long = ($(this).data("long"))
+    var imgId= ($(this).data("img"))
 
-var geoId = ($(this).data("show"))
+    var darkSkyURL = "https://api.darksky.net/forecast/" + key + "/" + lat +  "," + long
 
-var key = "73a039df0c6981cf0c61cdaa5b5cc704"
+    var  cityInfoUrl = "https://api.teleport.org/api/cities/geonameid:" + geoId + "/"
 
-var lat = ($(this).data("lat"))
+    var cityScoresURL = "https://api.teleport.org/api/urban_areas/slug:" + cityName + "/scores";
 
-var long = ($(this).data("long"))
-
-
-var imgId= ($(this).data("img"))
-
-var darkSkyURL = "https://api.darksky.net/forecast/" + key + "/" + lat +  "," + long
-
-var  cityInfoUrl = "https://api.teleport.org/api/cities/geonameid:" + geoId + "/"
-
-var cityScoresURL = "https://api.teleport.org/api/urban_areas/slug:" + cityName + "/scores";
-
-//city info ajax call
-$.ajax({
-    url: cityInfoUrl,
-    method: "GET"
-  })
-  .then(function(CityInfoResponse) {
-    console.log("City info API: ")
-    console.log(CityInfoResponse);
+    //city info ajax call
+    $.ajax({
+        url: cityInfoUrl,
+        method: "GET"
+    })
+    .then(function(CityInfoResponse) {
+        console.log("City info API: ")
+        console.log(CityInfoResponse);
 
 
-//creating new rows for the city info
-    var newRow = $("<tr>").append(
-      $("<td>").text(CityInfoResponse.full_name),
-      $("<td>").text(CityInfoResponse.population),
-      $("<td>").text(CityInfoResponse.location.latlon.longitude),
-      $("<td>").text(CityInfoResponse.location.latlon.latitude),
-      $("<td>").text(CityInfoResponse.geoname_id)
-   
-    );
-//appending new rows to table
-    $("#cityInfoTable > tbody").append(newRow);
+        //creating new rows for the city info
+        var newRow = $("<tr>").append(
+        $("<td>").text(CityInfoResponse.full_name),
+        $("<td>").text(CityInfoResponse.population),
+        $("<td>").text(CityInfoResponse.location.latlon.longitude),
+        $("<td>").text(CityInfoResponse.location.latlon.latitude),
+        $("<td>").text(CityInfoResponse.geoname_id)
+    
+        );
+        //appending new rows to table
+        $("#cityInfoTable > tbody").append(newRow);
 
-  
-//city scores api call
-$.ajax({
-  url: cityScoresURL,
-  method: "GET"})
+    
+        //city scores api call
+        $.ajax({
+        url: cityScoresURL,
+        method: "GET"})
 
-  .then(function(cityScoresResponse) {
-    console.log("City scores API: ")
-    console.log(cityScoresResponse);
+        .then(function(cityScoresResponse) {
+            console.log("City scores API: ")
+            console.log(cityScoresResponse);
 
- 
-//creating new rows for the 2nd table
-    var tableTwoNewRow =$("<tr>").append(
-      $("<td>").text(CityInfoResponse.name),
-      $("<td>").text(Math.round(cityScoresResponse.categories[1].score_out_of_10)),
-      $("<td>").text(Math.round(cityScoresResponse.categories[5].score_out_of_10)),
-      $("<td>").text(Math.round(cityScoresResponse.categories[7].score_out_of_10)),
-      $("<td>").text(Math.round(cityScoresResponse.categories[8].score_out_of_10)),
-      $("<td>").text(Math.round(cityScoresResponse.categories[9].score_out_of_10)),
-      $("<td>").text(Math.round(cityScoresResponse.categories[10].score_out_of_10)),
-      $("<td>").text(Math.round(cityScoresResponse.categories[13].score_out_of_10)),
-      $("<td>").text(Math.round(cityScoresResponse.categories[15].score_out_of_10)) ,
-    )
-//appending new rows to 2nd table
-    $("#cityStatsTable > tbody").append(tableTwoNewRow);
+    
+            //creating new rows for the 2nd table
+            var tableTwoNewRow =$("<tr>").append(
+                $("<td>").text(CityInfoResponse.name),
+                $("<td>").text(Math.round(cityScoresResponse.categories[1].score_out_of_10)),
+                $("<td>").text(Math.round(cityScoresResponse.categories[5].score_out_of_10)),
+                $("<td>").text(Math.round(cityScoresResponse.categories[7].score_out_of_10)),
+                $("<td>").text(Math.round(cityScoresResponse.categories[8].score_out_of_10)),
+                $("<td>").text(Math.round(cityScoresResponse.categories[9].score_out_of_10)),
+                $("<td>").text(Math.round(cityScoresResponse.categories[10].score_out_of_10)),
+                $("<td>").text(Math.round(cityScoresResponse.categories[13].score_out_of_10)),
+                $("<td>").text(Math.round(cityScoresResponse.categories[15].score_out_of_10)) ,
+            )
+            //appending new rows to 2nd table
+            $("#cityStatsTable > tbody").append(tableTwoNewRow);
 
-//dark ski ajax call
-$.ajax({
-  url: darkSkyURL,
-  method: "GET"})
+            //dark sky ajax call
+            $.ajax({
+                url: darkSkyURL,
+                method: "GET"
+            })
+            .then(function(darkSkyResponse) {
+                console.log("Dark Sky Weather API: ")
+                console.log(darkSkyResponse)
 
-.then(function(darkSkyResponse) {
-    console.log("Dark Sky Weather API: ")
-  console.log(darkSkyResponse)
+                //appending rows to thrird table
+                var tableThreeNewRow =$("<tr>").append(
+                    $("<td>").text(CityInfoResponse.name),
+                    $("<td>").text(darkSkyResponse.currently.time),
+                    $("<td>").text(darkSkyResponse.currently.temperature),
+                    $("<td>").text(darkSkyResponse.currently.summary),
+                    $("<td>").text(darkSkyResponse.currently.windSpeed),
+                    $("<td>").text(Math.round(darkSkyResponse.currently.cloudCover * 10)),
+                    $("<td>").text(Math.round(darkSkyResponse.currently.precipIntensity * 1000)),
+                    $("<td>").text((darkSkyResponse.currently.humidity * 100) + "%")
+                )
 
-//appending rows to thrird table
-var tableThreeNewRow =$("<tr>").append(
-  $("<td>").text(CityInfoResponse.name),
-  $("<td>").text(darkSkyResponse.currently.time),
-  $("<td>").text(darkSkyResponse.currently.temperature),
-  $("<td>").text(darkSkyResponse.currently.summary),
-  $("<td>").text(darkSkyResponse.currently.windSpeed),
-  $("<td>").text(Math.round(darkSkyResponse.currently.cloudCover * 10)),
-  $("<td>").text(Math.round(darkSkyResponse.currently.precipIntensity * 1000)),
-  $("<td>").text((darkSkyResponse.currently.humidity * 100) + "%"),
-  
-  )
+                $("#cityWeatherTable > tbody").append(tableThreeNewRow);
+            })
 
-  $("#cityWeatherTable > tbody").append(tableThreeNewRow);
-})
+            //Adding to the img Div
+            //var elem = document.getElementById("img");
+            //elem.setAttribute("src", "../images/paris.jpg")
+            $(".img-body").empty()
+            $(".nameBox").empty()
+            $(".img-body").append("<img src='" + imgId + "'     style='width: 700px'>")
+            $(".nameBox").html(CityInfoResponse.name)
 
-//Adding to the img Div
-//var elem = document.getElementById("img");
-//elem.setAttribute("src", "../images/paris.jpg")
-$(".img-body").empty()
-$(".nameBox").empty()
-$(".img-body").append("<img src='" + imgId + "'     style='width: 700px'>")
-$(".nameBox").html(CityInfoResponse.name)
-
-$(".img-text").html(cityScoresResponse.summary)
-
-
-
-})
-})
-
-
-
-//Reset button 
-$(document).on('click', '.resetBtn', function() {
-  $("tbody").empty ();
-  $(".img-body").empty()
-  $(".img-text").empty()
-  $(".nameBox").empty()
-  
-})
+            $(".img-text").html(cityScoresResponse.summary)
+        })
+    })
 })
 
 

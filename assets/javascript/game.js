@@ -1,14 +1,14 @@
 //variables and array for player 1
-var p1Loc1;
-var p1Loc2;
-var p1Loc3;
-var player1Loc = [p1Loc1, p1Loc2, p1Loc3];
+var player1Loc1;
+var player1Loc2;
+var player1Loc3;
+var player1Loc = [player1Loc1, player1Loc2, player1Loc3];
 
 //variables and aray for player 2
-var p2Loc1;
-var p2Loc2;
-var p2Loc3;
-var player2Loc = [p2Loc1, p2Loc2, p2Loc3];
+var player2Loc1;
+var player2Loc2;
+var player2Loc3;
+var player2Loc = [player2Loc1, player2Loc2, player2Loc3];
 
 var urlStart = "assets/images/"
 
@@ -267,40 +267,6 @@ var hatk = 0
 //this is where temperature defines what kind of attacks ara available
 //this is to determine if it will be a cold attack
 
-// this is the decide turn function --------------------
-
-
-// function decideTurn (){
-//     if (Player1.hp<=0){
-//     GameOver=true;
-//     winner="Player 2"
-//     }
-//     if (Player2.hp<=0){
-//     GameOver=true;
-//     winner="Player 2"
-//     }
-//     if (GameOver=false){
-//     if (Player1turn=true){
-//         if (Player.isFrozen=false){
-//             attack();
-//         } else if (Player.isFrozen){
-//             Player1turn=false;
-//             Player2turn=true;;
-//             Player.isFrozen=false;
-//     if (Player2turn=true){
-//         if (Player.isFrozen=false){
-//             attack();
-//         } else if (Player.isFrozen){
-//             Player2turn=false;
-//             Player1turn=true;
-//             Player.isFrozen=false;
-//                     }
-//                 }
-//             } 
-//         }
-//     }
-// }
-
 
 // if (temp < 30) {
 //     catk =;
@@ -329,117 +295,95 @@ function Player(cloudCover, atk, hp) {
     // } else if (temp > 75)
     // hatk=atk-7.5,hp=hp-5;
 
-    // var win=(p2hp=0)
-    // var p1hp = dfs+100
-    // console.log ("player1 Health", + p1hp)
+    // var win=(this.Player2hp=0)
+    // var this.Player1hp = dfs+100
+    // console.log ("player1 Health", + this.Player1hp)
 }
 var Game = {
+    // Create objects for each player
+    Player1: new Player(8, 10, 100),
+    Player2: new Player(4, 10, 100), 
 
+    // Variables to store the current game state
     Player1turn: true,
     Player2turn: false,
-    isFrozen: false,
     GameOver=false,
     Winner='',
    
-    decideTurn:function(){
-    if (Player1.hp<=0){
-    GameOver=true;
-    winner="Player 2"
-    }
-    if (Player2.hp<=0){
-    GameOver=true;
-    winner="Player 2"
-    }
-    if (GameOver=false){
-    if (Player1turn=true){
-        if (Player.isFrozen=false){
-            attack();
-        } else if (Player.isFrozen){
-            Player1turn=false;
-            Player2turn=true;;
-            Player.isFrozen=false;
-    if (Player2turn=true){
-        if (Player.isFrozen=false){
-            attack();
-        } else if (Player.isFrozen){
-            Player2turn=false;
-            Player1turn=true;
-            Player.isFrozen=false;
+    // Function to decide whose turn it is and how to perform their chosen attack
+    decideTurn: function(id) {
+        
+        // First, check and see if either player has been defeated.
+        if (Player1.hp<=0) {
+            GameOver=true;
+            winner="Player 2";
+        }
+        else if (Player2.hp<=0) {
+            GameOver=true;
+            winner="Player 2";
+        }
+
+        // Then, if both players are still alive, check to see whose turn it is.
+        if (this.GameOver=false) {
+            if (this.Player1turn=true) { 
+                if (this.Player1.isFrozen=false) {
+                    // Run chosen attack function by player 1
+                    if (id === "attack") {
+                        this.Player2.hp -= this.Player1.atk;
+                        this.Player1.stormDisabled = false;
+                    } else if (id === "cold") {
+                        this.Player2.hp -= (this.Player1.atk * 1.50);
+                        this.Player1.isDiabled = true
+                        this.Player1.stormDisabled = false;
+                    } else if (id === "hot") {
+                        this.Player2.hp -= (this.Player1.atk * 1.75);
+                        this.Player1.hp = this.Player1.hp * .75;
+                        this.Player1.stormDisabled = false;
+                    } else if (id === "storm") {
+                        this.Player2.hp -= (this.Player1.atk * .5);
+                        this.Player2.isDisbaled = true;
+                        this.Player1.stormDisabled = true;
                     }
+                    this.Player1turn = false;
+                    this.Player2turn = true;
+                } 
+                else if (this.Player1.isFrozen) {
+                    this.Player1turn=false;
+                    this.Player2turn=true;
+                    this.Player.isFrozen=false;
                 }
-            } 
-        }
-    }
-},
-
-
-
-    Player1: new Player(8, 10, 100),
-
-    Player2: new Player(4, 10, 100),
-    attack: function () {
-        if (this.Player1turn) {
-            
-            this.Player2.hp -= this.Player1.atk;
-            console.log("Player1's Turn");
-            console.log("player2 Health", + this.Player2.hp);
-            this.Player1turn = false;
-            this.Player2turn = true;
-        } else if (this.Player2turn) {
-            this.Player1.hp -= this.Player2.atk;
-            console.log("Player2's Turn");
-            console.log("player1 Health", + this.Player1.hp);
-            this.Player2turn = false;
-            this.Player1turn = true;
-        }
+            }
+            else if (this.Player2turn=true) {
+                if (this.Player2.isFrozen=false) {
+                    // Run chosen attack function by player 2
+                    if (id === "attack") {
+                        this.Player1.hp -= this.Player2.atk;
+                        this.Player2.stormDisabled = false;
+                    } else if (id === "cold") {
+                        this.Player1.hp -= (this.Player2.atk * 1.50);
+                        this.Player2.isDiabled = true;
+                        this.Player2.stormDisabled = false;
+                    } else if (id === "hot") {
+                        this.Player1.hp -= (this.Player1.atk * 1.75);
+                        this.Player2.hp = this.Player2.hp * .75;
+                        this.Player2.stormDisabled = false;
+                    } else if (id === "storm") {
+                        this.Player1.hp -= (this.Player2.atk * .5);
+                        this.Player1.isDisbaled = true;
+                        this.Player2.stormDisabled = true;
+                    }
+                    this.Player2turn = false;
+                    this.Player1turn = true;
+                } 
+                else if (this.Player2.isFrozen) {
+                    this.Player2turn=false;
+                    this.Player1turn=true;
+                    this.Player.isFrozen=false;
+                }
+            }
+        } 
     }
 };
 
-$(document).on("click", "#button", function () {
-    Game.attack()
-})
 
-// if statements for deciding what attack to do if player is not disabled
 //!!!!!!!!!!!!!!!!!!!!!!!!!-------Need to grab stormDisabled from backend and toggle the storm attack button either on or off
-
-//Player 1
-
-//if (id === "attack") {
-//  p2.hp -= p1.atk;
-//  p1.stormDisabled = false;
-//}else if (id === "cold") {
-//  p2.hp -= (p1.atk * 1.50);
-//  p1.isDiabled = true
-//  p1.stormDisabled = false;
-//}else if (id === "hot") {
-//  p2.hp -= (p1.atk * 1.75);
-//  p1.hp = p1.hp * .75;
-//  p1.stormDisabled = false;
-//}else if (id === "storm") {
-//  p2.hp -= (p1.atk * .5);
-//  p2.isDisbaled = true;
-//  p1.stormDisabled = true;
-//}
-//player1turn = false;
-//player2turn = true;
-
-//Player 2
-
-//if (id === "attack") {
-//  p1.hp -= p2.atk;
-//  p2.stormDisabled = false;
-//}else if (id === "cold") {
-//  p1.hp -= (p2.atk * 1.50);
-//  p2.isDiabled = true;
-//  p2.stormDisabled = false;
-//}else if (id === "hot") {
-//  p1.hp -= (p1.atk * 1.75);
-//  p2.hp = p2.hp * .75;
-//  p2.stormDisabled = false;
-//}else if (id === "storm") {
-//  p1.hp -= (p2.atk * .5);
-//  p1.isDisbaled = true;
-//  p2.stormDisabled = true; 
-//}
-//player2turn = false;
-//player1turn = true;
