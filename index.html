@@ -68,49 +68,82 @@
                 <div class="col s4">
                     <div class="city">
                         <div class="row">
-                            <h3 class="city-name">City Name</h3>
+                            <h3 class="city-name">Moscow</h3>
                         </div>
                         <div class="row">
-                            <img class="city-image" src="assets/images/bangkok.jpg">
+                            <img class="city-image" src="assets/images/moscow.jpg">
                         </div>
-                        <div class="row">
-                            <p class="city-stats">
-                                Test stats
+                        <div class="row city-stats">
+                            <p>
+                                <span class="weather-summary">Snowing</span>
+                            </p>
+                            <p>
+                                <span class="weather-temp">42</span>º F
+                            </p>
+                            <p>
+                                HP: <span class="selection-hp">120</span>
+                            </p>
+                            <p>
+                                Attack: <span class="selection-atk">10</span>
+                            </p>
+                            <p>
+                                Special attacks: <span class="selection-special">Cold, Storm</span>
                             </p>
                         </div>
-                        <div class="btn waves-effect">Select</div>
                     </div>
                 </div>
                 <div class="col s4">
                     <div class="city">
                         <div class="row">
-                            <h3 class="city-name">City Name</h3>
+                            <h3 class="city-name">Shanghai</h3>
                         </div>
                         <div class="row">
                             <img class="city-image" src="assets/images/shanghai.jpg">
                         </div>
                         <div class="row">
-                            <p class="city-stats">
-                                Test stats
+                            <p>
+                                <span class="weather-summary">Rainy</span>
+                            </p>
+                            <p>
+                                <span class="weather-temp">52</span>º F
+                            </p>
+                            <p>
+                                HP: <span class="selection-hp">150</span>
+                            </p>
+                            <p>
+                                Attack: <span class="selection-atk">15</span>
+                            </p>
+                            <p>
+                                Special Attacks: <span class="selection-special">Storm</span>
                             </p>
                         </div>
-                        <div class="btn waves-effect">Select</div>
                     </div>
                 </div>
                 <div class="col s4">
                     <div class="city">
                         <div class="row">
-                            <h3 class="city-name">City Name</h3>
+                            <h3 class="city-name">Rome</h3>
                         </div>
                         <div class="row">
                             <img class="city-image" src="assets/images/rome.jpg">
                         </div>
                         <div class="row">
-                            <p class="city-stats">
-                                Test stats
+                            <p>
+                                <span class="weather-summary">Clear</span>
+                            </p>
+                            <p>
+                                <span class="weather-temp">76</span>º F
+                            </p>
+                            <p>
+                                HP: <span class="selection-hp">105</span>
+                            </p>
+                            <p>
+                                Attack: <span class="selection-atk">20</span>
+                            </p>
+                            <p>
+                                Special attacks: <span class="selection-special">Hot</span>
                             </p>
                         </div>
-                        <div class="btn waves-effect">Select</div>
                     </div>
                 </div>
             </div>
@@ -125,14 +158,12 @@
                 <div id="player1Window"></div>
                 <div id="player2Window"></div>
             </div> -->
-            <div id="player1" class="col s5 player-tile">
-                <h6>Player 1</h6>
-                <p>HP: <span id="p1hp">60</span></p>
+            <div id="player1" class="col s5 player-tile center-align">
+                <h6 id="p1name">Player 1</h6>
             </div>
             <div class="col s2"></div>
-            <div id="player2" class="col s5 player-tile">
-                <h6>Player 2</h6>
-                <p>HP: <span id="p2hp">60</span></p>
+            <div id="player2" class="col s5 player-tile center-align">
+                <h6 id="p2name">Player 2</h6>
             </div>
         </div>
         <!-- Row 2, 2 Columns: buttons and chatbox-->
