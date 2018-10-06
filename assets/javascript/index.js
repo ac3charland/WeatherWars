@@ -1,3 +1,24 @@
+var player1Selected = false;
+var player2Selected = false;
+
+function createPlayer(player, hp, atk, special) {
+    player.hp = parseInt(hp);
+    player.atk = parseInt(atk);
+
+    if (special.includes("Hot")) {
+        player.hotDisabled = false;
+    }
+
+    if (special.includes("Cold")) {
+        player.coldDisabled = false;
+    }
+
+    if (special.includes("Storm")) {
+        player.stormIncapable = false;
+        player.stormDisabled = false;
+    }
+}
+
 function updateDOMhp() {
     $("#p1hp").text(Game.Player1.hp);
     $("#p2hp").text(Game.Player2.hp);
@@ -5,26 +26,37 @@ function updateDOMhp() {
 
 function disableButtons() {
     var player1 = Game.Player1;
-    var player2 = Game. Player2;
+    var player2 = Game.Player2;
+    if (!player1Selected || !player2Selected) {
+        $("#attack, #cold, #hot, #storm, #end").attr("disabled", true);
+        return;
+    } else {
+        $("#end").attr("disabled", false);
+    }
 
     if (Game.Player1turn) {
-        if (player1.isFrozen) {
-            $("#attack, #cold, #hot, #storm").attr("disabled", true);
-        } else if (player1.stormDisabled) {
+        $("#attack, #cold, #hot, #storm").attr("disabled", false);
+
+        if (player1.hotDisabled)
+            $("#hot").attr("disabled", true);
+        if (player1.coldDisabled)
+            $("#cold").attr("disabled", true);
+        if (player1.stormDisabled)
             $("#storm").attr("disabled", true);
-            $("#attack, #cold, #hot").attr("disabled", false);
-        } else {
-            $("#attack, #cold, #hot, #storm").attr("disabled", false);
-        }
+        if (player1.isFrozen)
+            $("#attack, #cold, #hot, #storm").attr("disabled", true);
+
     } else if (Game.Player2turn) {
-        if (player2.isFrozen) {
-            $("#attack, #cold, #hot, #storm").attr("disabled", true);
-        } else if (player2.stormDisabled) {
+        $("#attack, #cold, #hot, #storm").attr("disabled", false);
+
+        if(player2.hotDisabled) 
+            $("#hot").attr("disabled", true);
+        if(player2.coldDisabled)
+            $("#cold").attr("disabled", true);
+        if (player2.stormDisabled) 
             $("#storm").attr("disabled", true);
-            $("#attack, #cold, #hot").attr("disabled", false);
-        } else {
-            $("#attack, #cold, #hot, #storm").attr("disabled", false);
-        }
+        if (player2.isFrozen)
+            $("#attack, #cold, #hot, #storm").attr("disabled", true);
     }
 }
 
@@ -40,9 +72,7 @@ function highlightCurrentPlayer() {
 
 
 $(document).ready(function() {
-    updateDOMhp();
-    highlightCurrentPlayer();
-
+    disableButtons();
     
 
     $(document).on("click", "#attack", function() {
@@ -97,7 +127,7 @@ $(document).ready(function() {
         Game.decideTurn("storm");
         updateDOMhp();
     })
-    
+
     $(document).on("click", "#end", function () {
         Game.decideTurn("");
         updateDOMhp();
@@ -106,5 +136,51 @@ $(document).ready(function() {
     $(document).on("click", ".action", function () {
         disableButtons();
         highlightCurrentPlayer();
+    })
+
+    $(document).on("click", ".city", function() {
+        var name = $(this).find(".city-name").text();
+        var hp = $(this).find(".selection-hp").text();
+        var atk = $(this).find(".selection-atk").text();
+        var special = $(this).find(".selection-special").text();
+        var src = $(this).find(".city-image").attr("src");
+
+        if (!player1Selected) {
+            createPlayer(Game.Player1, hp, atk, special);
+            $("#p1name").text("Player 1: " + name);
+            
+            var img = $("<img>");
+            img.attr("src", src);
+            img.addClass("city-image");
+            $("#player1").append(img);
+
+            var hpTag = $("<p>");
+            hpTag.text("HP: ");
+            var hpSpan = $("<span id='p1hp'>");
+            hpSpan.text(Game.Player1.hp);
+            hpTag.append(hpSpan);
+            $("#player1").append(hpTag);
+
+            player1Selected = true;
+        } else if (!player2Selected) {
+            createPlayer(Game.Player2, hp, atk, special);
+            $("#p2name").text("Player 2: " + name);
+            
+            var img = $("<img>");
+            img.attr("src", src);
+            img.addClass("city-image");
+            $("#player2").append(img);
+
+            var hpTag = $("<p>");
+            hpTag.text("HP: ");
+            var hpSpan = $("<span id='p2hp'>");
+            hpSpan.text(Game.Player2.hp);
+            hpTag.append(hpSpan);
+            $("#player2").append(hpTag);
+        
+            player2Selected = true;
+            highlightCurrentPlayer();
+        }
+        disableButtons();
     })
 })

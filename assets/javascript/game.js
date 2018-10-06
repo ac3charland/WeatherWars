@@ -47,59 +47,59 @@ var urlStart = "assets/images/"
 //var commute - grabs data from commute
 
 //function calculateHP(cloudCover, qol, safety, commute) {
-//Variables for HP modifiers
-//var baseHP = 100
-//var cloudHP = 0
-//var qolHP = 0
-//var safetyHP = 0
-//var commuteHP = 0
-//var totalHP = 0
+    //Variables for HP modifiers
+    //var baseHP = 100
+    //var cloudHP = 0
+    //var qolHP = 0
+    //var safetyHP = 0
+    //var commuteHP = 0
+    //var totalHP = 0
 
-//Calculate what bonus (if any) HP cloud cover will grant the player
+    //Calculate what bonus (if any) HP cloud cover will grant the player
 
-// if (cloudCover >=7) {
-//  cloudHP = cloudHP + 15;
-// }else if (cloudCover >= 4) {
-//  cloudHP = cloudHP = 10;
-// }else if (cloudCover >=1) {
-// cloudHP = cloudHP = 5;
-// }else {
-// cloudHP = cloudHP;
-// }
+    // if (cloudCover >=7) {
+    //  cloudHP = cloudHP + 15;
+    // }else if (cloudCover >= 4) {
+    //  cloudHP = cloudHP = 10;
+    // }else if (cloudCover >=1) {
+    // cloudHP = cloudHP = 5;
+    // }else {
+    // cloudHP = cloudHP;
+    // }
 
-//Calculate what boon or bane (if any) is granted to the player based on Environmental Quality
+    //Calculate what boon or bane (if any) is granted to the player based on Environmental Quality
 
-// if (qol >= 7) {
-// qolHP = qolHP + 5;
-// }else if (qol >=4) {
-//  qolHP = qolHP;
-// }else {
-//  qolHP = qolHP -5;
-// }
+    // if (qol >= 7) {
+    // qolHP = qolHP + 5;
+    // }else if (qol >=4) {
+    //  qolHP = qolHP;
+    // }else {
+    //  qolHP = qolHP -5;
+    // }
 
-//Calculate what boon or bane (if any) is granted to the player based on safety
+    //Calculate what boon or bane (if any) is granted to the player based on safety
 
-// if (safety >= 7) {
-//  safetyHP = safetyHP + 5;
-// }else if (safety >=4) {
-// safetyHP = safetyHP;
-// }else {
-// safetyHP = safetyHP - 5;
-// }
+    // if (safety >= 7) {
+    //  safetyHP = safetyHP + 5;
+    // }else if (safety >=4) {
+    // safetyHP = safetyHP;
+    // }else {
+    // safetyHP = safetyHP - 5;
+    // }
 
-//Calculate what boon or bane (if any) is granted to the player based on commute
+    //Calculate what boon or bane (if any) is granted to the player based on commute
 
-// if (commute >= 7) {
-//  commuteHP = commuteHP + 5;
-// }else if (safety >=4) {
-// commuteHP = commuteHP;
-// }else {
-// commuteHP = commuteHP - 5;
-// }
+    // if (commute >= 7) {
+    //  commuteHP = commuteHP + 5;
+    // }else if (safety >=4) {
+    // commuteHP = commuteHP;
+    // }else {
+    // commuteHP = commuteHP - 5;
+    // }
 
-//totalHP = baseHP + cloudHP + qolHP + safetyHP + commuteHP;
+    //totalHP = baseHP + cloudHP + qolHP + safetyHP + commuteHP;
 
-//return totalHP;
+    //return totalHP;
 // }
 
 // console.log(basehp);
@@ -157,7 +157,10 @@ function Player(cloudCover, atk, hp) {
     this.atk = atk;
     this.hp = hp;
     this.isFrozen = false;
-    this.stormDisabled=false;
+    this.stormDisabled=true;
+    this.stormIncapable=true;
+    this.hotDisabled=true;
+    this.coldDisabled=true;
     // dfs:0,
     // if (cloudCover >= 7) {
     //     dfs = dfs + 15;
@@ -374,7 +377,9 @@ var Game = {
         // Then, if both players are still alive, check to see whose turn it is.
         if (!this.GameOver) {
             if (this.Player1turn) {
-                console.log("Player 1's turn. StormDisabled status: " + this.Player1.stormDisabled);
+                if(this.Player1.stormIncapable) {
+                    this.Player1.stormDisabled = true;
+                }
                 if (!this.Player1.isFrozen) {
                     // Run chosen attack function by player 1
                     if (id === "attack") {
@@ -408,7 +413,9 @@ var Game = {
                 }
             }
             else if (this.Player2turn) {
-                console.log("Player 2's turn. StormDisabled status: " + this.Player2.stormDisabled);
+                if (this.Player2.stormIncapable) {
+                    this.Player2.stormDisabled = true;
+                }
                 if (!this.Player2.isFrozen) {
                     // Run chosen attack function by player 2
                     if (id === "attack") {
