@@ -358,7 +358,7 @@ var Game = {
    
     // Function to decide whose turn it is and how to perform their chosen attack
     decideTurn: function(id) {
-
+        console.log("Calling decideTurn(" + id + ");")
         // First, check and see if either player has been defeated.
         if (this.Player1.hp <= 0) {
             GameOver=true;
@@ -370,10 +370,11 @@ var Game = {
             winner="Player 2";
             return;
         }
-        
+
         // Then, if both players are still alive, check to see whose turn it is.
         if (!this.GameOver) {
             if (this.Player1turn) {
+                console.log("Player 1's turn. StormDisabled status: " + this.Player1.stormDisabled);
                 if (!this.Player1.isFrozen) {
                     // Run chosen attack function by player 1
                     if (id === "attack") {
@@ -381,27 +382,33 @@ var Game = {
                         this.Player1.stormDisabled = false;
                     } else if (id === "cold") {
                         this.Player2.hp -= (this.Player1.atk * 1.50);
-                        this.Player1.isDiabled = true
+                        this.Player1.isFrozen = true
                         this.Player1.stormDisabled = false;
                     } else if (id === "hot") {
                         this.Player2.hp -= (this.Player1.atk * 1.75);
                         this.Player1.hp = this.Player1.hp * .75;
                         this.Player1.stormDisabled = false;
                     } else if (id === "storm") {
-                        this.Player2.hp -= (this.Player1.atk * .5);
-                        this.Player2.isDisbaled = true;
-                        this.Player1.stormDisabled = true;
+                        if (!this.Player1.stormDisabled) {
+                            this.Player2.hp -= (this.Player1.atk * .5);
+                            this.Player2.isFrozen = true;
+                            this.Player1.stormDisabled = true;
+                        } else {
+                            return;
+                        }
                     }
                     this.Player1turn = false;
                     this.Player2turn = true;
                 } 
                 else if (this.Player1.isFrozen) {
+                    console.log("Player 1 is frozen. Ending turn...")
                     this.Player1turn=false;
                     this.Player2turn=true;
-                    this.Player.isFrozen=false;
+                    this.Player1.isFrozen=false;
                 }
             }
             else if (this.Player2turn) {
+                console.log("Player 2's turn. StormDisabled status: " + this.Player2.stormDisabled);
                 if (!this.Player2.isFrozen) {
                     // Run chosen attack function by player 2
                     if (id === "attack") {
@@ -409,27 +416,33 @@ var Game = {
                         this.Player2.stormDisabled = false;
                     } else if (id === "cold") {
                         this.Player1.hp -= (this.Player2.atk * 1.50);
-                        this.Player2.isDiabled = true;
+                        this.Player2.isFrozen = true;
                         this.Player2.stormDisabled = false;
                     } else if (id === "hot") {
                         this.Player1.hp -= (this.Player1.atk * 1.75);
                         this.Player2.hp = this.Player2.hp * .75;
                         this.Player2.stormDisabled = false;
                     } else if (id === "storm") {
-                        this.Player1.hp -= (this.Player2.atk * .5);
-                        this.Player1.isDisbaled = true;
-                        this.Player2.stormDisabled = true;
+                        if (!this.Player2.stormDisabled) {
+                            this.Player1.hp -= (this.Player2.atk * .5);
+                            this.Player1.isFrozen = true;
+                            this.Player2.stormDisabled = true;
+                        } else {
+                            return;
+                        }
                     }
                     this.Player2turn = false;
                     this.Player1turn = true;
                 } 
                 else if (this.Player2.isFrozen) {
+                    console.log("Player 2 is frozen. Ending turn...")
                     this.Player2turn=false;
                     this.Player1turn=true;
-                    this.Player.isFrozen=false;
+                    this.Player2.isFrozen=false;
                 }
             }
-        } 
+        }
+        console.log("---------------")
     }
 };
 
