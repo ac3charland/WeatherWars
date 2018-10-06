@@ -8,10 +8,7 @@ h1 {
 }
 
 h3 {
-    
-    
     font-family: 'Source Code Pro', monospace;
-   
 }
 
 .shadow {  text-shadow: 1.3px 1.3px 1.3px  white, 4px 4px 6px #666363; }
@@ -59,12 +56,20 @@ border-radius: 25px;
     margin-left: auto;
     margin-right: auto;
     padding: 20px;
+    background: lightgrey;
 }
 
 #battleWindow {
     position: relative;
+    overflow: hidden;
 }
- 
+
+#player1Window,
+#player2Window {
+    overflow: hidden;
+    box-shadow: 0 0 10px 0 rgba(0,0,0,0.9);
+}
+
 #player1Window {
     width: 100%;
     height: 250px;
@@ -95,24 +100,27 @@ border-radius: 25px;
 }
  
  #attackButtons{
- 
-    background-color:red;
+    background-color:#728aa9fa;
     height: 80px;
  }
 
-#chatBox {
-    background-color:rgb(110, 236, 105);
-    /* height: 80px; */
+#chatBox,
+#chatHistory {
+    background-color:rgba(0, 0, 0, 0.7);
+    color: yellow;
 }
 
-#chatHistory {
-    background-color:rgb(110, 236, 105);
+#log {
+    background-color:#728aa9fa;
+    padding: 20px;
 }
- 
- #log {
-    background-color: rgb(255, 83, 141);
-    margin:auto;
+
+#chatHistory, 
+#log {
+    height: 300px;
+    overflow: auto;
 }
+
  
  .btn {
     margin-top: 20px;
@@ -154,11 +162,13 @@ border-radius: 25px;
     -moz-transition: all 0.5s ease;
     -o-transition: all 0.5s ease;
     transition: all 0.5s ease;
-
 }
 
 .highlighted {
     border: 3px solid green;
 }
+
+
+
 
 
