@@ -358,21 +358,23 @@ var Game = {
    
     // Function to decide whose turn it is and how to perform their chosen attack
     decideTurn: function(id) {
-        
-        // First, check and see if either player has been defeated.
-        if (Player1.hp<=0) {
-            GameOver=true;
-            winner="Player 2";
-        }
-        else if (Player2.hp<=0) {
-            GameOver=true;
-            winner="Player 2";
-        }
 
+        // First, check and see if either player has been defeated.
+        if (this.Player1.hp <= 0) {
+            GameOver=true;
+            winner="Player 2";
+            return;
+        }
+        else if (this.Player2.hp <= 0) {
+            GameOver=true;
+            winner="Player 2";
+            return;
+        }
+        
         // Then, if both players are still alive, check to see whose turn it is.
-        if (this.GameOver=false) {
-            if (this.Player1turn=true) { 
-                if (this.Player1.isFrozen=false) {
+        if (!this.GameOver) {
+            if (this.Player1turn) {
+                if (!this.Player1.isFrozen) {
                     // Run chosen attack function by player 1
                     if (id === "attack") {
                         this.Player2.hp -= this.Player1.atk;
@@ -399,8 +401,8 @@ var Game = {
                     this.Player.isFrozen=false;
                 }
             }
-            else if (this.Player2turn=true) {
-                if (this.Player2.isFrozen=false) {
+            else if (this.Player2turn) {
+                if (!this.Player2.isFrozen) {
                     // Run chosen attack function by player 2
                     if (id === "attack") {
                         this.Player1.hp -= this.Player2.atk;

@@ -3,14 +3,18 @@ body {background-image: url("../images/My Post (1).jpg");
     background-size: 150px 400px;
 }
 
+h1 {
+    font-size: 160px;
+}
+
 h3 {
     
-    font-size: 160px;
+    
     font-family: 'Source Code Pro', monospace;
    
 }
 
-h3.shadow {  text-shadow: 1.3px 1.3px 1.3px  white, 4px 4px 6px #666363; }
+.shadow {  text-shadow: 1.3px 1.3px 1.3px  white, 4px 4px 6px #666363; }
 
 div #info {
     
@@ -54,6 +58,7 @@ border-radius: 25px;
     margin-top: 30px;
     margin-left: auto;
     margin-right: auto;
+    padding: 20px;
 }
 
 #battleWindow {
@@ -61,53 +66,51 @@ border-radius: 25px;
 }
  
 #player1Window {
-    width: 80%;
-    height: 0;
+    width: 100%;
+    height: 250px;
     border-top: 250px solid orange;
-    border-right: 750px solid transparent;
+    border-right: 70vw solid transparent;
  
     margin-left: auto;
     margin-right: auto;
  
     position: absolute;
     top: 40px;
-    left: 20;
+    left: 0px;
 }
      
  
 #player2Window {
-    width: 80%;
-    height: 0;
+    width: 100%;
+    height: 250px;
     border-bottom: 250px solid red;
-    border-left: 750px solid transparent;
+    border-left: 70vw solid transparent;
  
     margin-left: auto;
     margin-right: auto;
  
     position: absolute;
     top: 40px;
-    right: 20;
+    right: 0px;
 }
  
  #attackButtons{
  
     background-color:red;
-    margin-left: 80px;
-    margin-top: 280px;
     height: 80px;
  }
 
 #chatBox {
     background-color:rgb(110, 236, 105);
-    margin-top: 280px;
-    margin-left: 30px;
-    height: 80px;
+    /* height: 80px; */
+}
+
+#chatHistory {
+    background-color:rgb(110, 236, 105);
 }
  
  #log {
     background-color: rgb(255, 83, 141);
-    width: 80%;
-    height: 100px;
     margin:auto;
 }
  
@@ -133,3 +136,17 @@ border-radius: 25px;
     margin-left: 90px;
     background-color: #728aa9fA;
 }
+
+.clearfix::after {
+    content: "";
+    clear: both;
+    display: table;
+}
+
+.player-tile {
+    background-color: rgb(255, 255, 255, 0.9);
+    border-radius: 10px;
+    color: black;
+}
+
+

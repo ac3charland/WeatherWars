@@ -8,10 +8,25 @@
   
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
    <!--Import materialize.css-->
-  
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
    <link rel="stylesheet" href="assets/style/style.css">
    <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet">
+
+    <!---Jquery link------------------------------------------------------>
+    <script src="https://code.jquery.com/jquery.js"></script>
+
+    <!------CorsFix link-------------------------------------------------->
+    <script type="text/javascript" src="assets/javascript/CorsFix.js"></script>
+
+    <!-----Firebase link--------------------------------------------------->
+    <script src="https://www.gstatic.com/firebasejs/5.5.2/firebase.js"></script>
+
+    <!-- Game & Ajax script links -->
+    <script src="assets/javascript/game.js"></script>
+    <script src="assets/javascript/backend.js"></script>
+
+    <!-- Import Page Script -->
+    <script src="assets/javascript/index.js"></script>
 
    <!--Let browser know website is optimized for mobile-->
    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -24,7 +39,7 @@
 
         <!--Intro Page-->
         <div id ="info">
-            <h3 class="shadow">Weather Wars</h3>
+            <h1 class="shadow">Weather Wars</h1>
             <div class="instructions">
 
                 <div class="instructionheader">
@@ -102,38 +117,64 @@
         </div>
     </div>
 
-<div id="play">
-    <!-- Row 1: battling window-->
-    <div class="row" id="battleWindow" id="">battleWindow
-        <div class="col s12">
-            <div id="player1Window">player 1</div>
-            <div id="player2Window">player 2</div>
+    <div id="play">
+        <!-- Row 1: battling window-->
+        <div class="row" id="battleWindow">
+            <!-- Can't figure out how to display text over these divs using the current formatting.
+            <div class="col s12 clearfix">
+                <div id="player1Window"></div>
+                <div id="player2Window"></div>
+            </div> -->
+            <div class="col s5 player-tile">
+                <h6>Player 1</h6>
+                <p>HP: <span id="p1hp">60</span></p>
+            </div>
+            <div class="col s2"></div>
+            <div class="col s5 player-tile">
+                <h6>Player 2</h6>
+                <p>HP: <span id="p2hp">60</span></p>
+            </div>
         </div>
+        <!-- Row 2, 2 Columns: buttons and chatbox-->
+        <div class="row">
+            <div class="col s7">
+                <div class="row">
+                    <div id = "attackButtons" class="col s12">
+                        <a id="attack" class="btn-floating btn-large waves-effect waves-light green">Attack<i class="material-icons"></i></a>
+                        <a id="hot" class="btn-floating btn-large waves-effect waves-light red"><i class="material-icons">wb_sunny</i></a>
+                        <a id="cold" class="btn-floating btn-large waves-effect waves-light blue"><i class="material-icons">toys</i></a>
+                        <a id="storm" class="btn-floating btn-large waves-effect waves-light yellow"><i class="material-icons">flash_on</i></a>
+                        <a class="btn-floating btn-large waves-effect waves-light #b71c1c red darken-4">End<i class="material-icons"></i></a>
+                        <a class="btn-floating btn-large waves-effect waves-light #bdbdbd grey lighten-1">Info<i class="material-icons"></i></a>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col s12">
+                        <div id="log">log - attack details/damages show up here</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col s1"></div>
+            <div class="col s4" >
+                <div class="row">
+                    <div id="chatBox" class="col s12">
+                        <h6>Chat</h6>
+                        <form>
+                            <textarea class="scrollabletextbox" name="note">Text here</textarea>
+                        </form>
+                    </div>
+                </div>
+                <div class="row">
+                    <div id="chatHistory" class="col s12">
+                        <p>Chat logs go here</p>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+        <!-- Row 3: log-->
+    
     </div>
-    <!-- Row 2, 2 Columns: buttons and chatbox-->
-    <div class="row">
-        <div class="col s3" id="attackButtons">
-            <a class="btn-floating btn-large waves-effect waves-light green">Attack<i class="material-icons"></i></a>
-            <a class="btn-floating btn-large waves-effect waves-light red"><i class="material-icons">wb_sunny</i></a>
-            <a class="btn-floating btn-large waves-effect waves-light blue"><i class="material-icons">toys</i></a>
-            <a class="btn-floating btn-large waves-effect waves-light yellow"><i class="material-icons">flash_on</i></a>
-            <a class="btn-floating btn-large waves-effect waves-light #b71c1c red darken-4">End<i class="material-icons"></i></a>
-            <a class="btn-floating btn-large waves-effect waves-light #bdbdbd grey lighten-1">Info<i class="material-icons"></i></a>
-        </div>
-        <div class="col s6" id="chatBox"> chatBox
-            <form>
-                <textarea class="scrollabletextbox" name="note">Text here</textarea>
-            </form>
-        </div>
-    </div>
-    <!-- Row 3: log-->
-    <div class="row">
-        <div class="col s12">
-            <div id="log">log - attack details/damages show up here</div>
-
-        </div>
-    </div>
-</div>
 
 
     <div class="container center-align">
