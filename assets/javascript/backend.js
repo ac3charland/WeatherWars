@@ -51,17 +51,6 @@ var Ajax = {
     }
 }
 
-// Set up Firebase
-var config = {
-    apiKey: "AIzaSyD3cZ5kQmYeDw1K85vUggD_CpANUrEyw3s",
-    authDomain: "weatherwars-278cf.firebaseapp.com",
-    databaseURL: "https://weatherwars-278cf.firebaseio.com",
-    projectId: "weatherwars-278cf",
-    storageBucket: "weatherwars-278cf.appspot.com",
-    messagingSenderId: "111530169145"
-};
-firebase.initializeApp(config);
-
 
 //Variables that gabbred values from the API
 //var cloudCover - grabs the data from cloud cover

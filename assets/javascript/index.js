@@ -1,9 +1,32 @@
+// Set up Firebase
+var config = {
+    apiKey: "AIzaSyD3cZ5kQmYeDw1K85vUggD_CpANUrEyw3s",
+    authDomain: "weatherwars-278cf.firebaseapp.com",
+    databaseURL: "https://weatherwars-278cf.firebaseio.com",
+    projectId: "weatherwars-278cf",
+    storageBucket: "weatherwars-278cf.appspot.com",
+    messagingSenderId: "111530169145"
+};
+firebase.initializeApp(config);
+
+var database = firebase.database();
+
+var player1Joined = false;
+var player2Joined = false;
+
 var player1Selected = false;
 var player2Selected = false;
 
-function createPlayer(player, hp, atk, special) {
+
+var playerNumber;
+
+// Assigns the given parameters to the player object (Game.Player1, Game.Player2) passed to the player argument of the function.
+function createPlayer(player, name, src, hp, atk, special) {
     player.hp = parseInt(hp);
     player.atk = parseInt(atk);
+    player.name = name;
+    player.src = src;
+    player.special = special;
 
     if (special.includes("Hot")) {
         player.hotDisabled = false;
@@ -19,17 +42,7 @@ function createPlayer(player, hp, atk, special) {
     }
 }
 
-function displayRandomCityInSlot(slot) {
-    var city = Game.pickRandomLocation();
-    
-    var name = city.namecode;
-    var geoid = city.geoid;
-    var lat = city.lat;
-    var long = city.long;
-
-    Ajax.sendRequest(name, geoid, lat, long, function() {cityDisplayResponse(city, slot)});
-}
-
+// Called after AJAX call for random city comes back. Writes city stats to the DOM.
 function cityDisplayResponse(city, slot) {
     var cityInfoResponse = this.cityInfoResponse;
     var cityScoresResponse = this.cityScoresResponse;
@@ -39,7 +52,7 @@ function cityDisplayResponse(city, slot) {
         console.log("Error: no AJAX response.")
         return;
     }
-    
+
     var cityDiv = $("#city" + slot);
 
     // Add title
@@ -58,7 +71,7 @@ function cityDisplayResponse(city, slot) {
 
     // Add stats
     var statsRow = $("<div class='row'>");
-    
+
     // Weather summary
     var summaryP = $("<p>");
     var summarySpan = $("<span class='weather-summary'>");
@@ -72,7 +85,7 @@ function cityDisplayResponse(city, slot) {
     var tempSpan = $("<span class='weather-temp'>");
     tempSpan.text(Math.round(darkSkyResponse.currently.temperature));
     tempP.prepend(tempSpan);
-    statsRow.append(tempP); 
+    statsRow.append(tempP);
 
     // HP
     var hpP = $("<p>");
@@ -94,7 +107,7 @@ function cityDisplayResponse(city, slot) {
     atkSpan.text("10");
     atkP.append(atkSpan);
     statsRow.append(atkP);
-    
+
     // Specials
     var specialP = $("<p>");
     specialP.text("Special Attacks: ")
@@ -127,10 +140,30 @@ function cityDisplayResponse(city, slot) {
     specialP.append(specialSpan);
     statsRow.append(specialP);
 
-    
-    cityDiv.append(statsRow); 
+
+    cityDiv.append(statsRow);
 }
 
+// Displays a random city from the Game.locations array to one of the 3 slots allocated in index.html
+function displayRandomCityInSlot(slot) {
+    var city = Game.pickRandomLocation();
+    
+    var name = city.namecode;
+    var geoid = city.geoid;
+    var lat = city.lat;
+    var long = city.long;
+
+    Ajax.sendRequest(name, geoid, lat, long, function() {cityDisplayResponse(city, slot)});
+}
+
+// Fills all three slots for city selection allocated in index.html.
+function displayCityChoices() {
+    displayRandomCityInSlot(1);
+    displayRandomCityInSlot(2);
+    displayRandomCityInSlot(3);
+}
+
+// Creates a tile for a player in the play area based on the given parameters.
 function createPlayerTile(tileTag, name, number, nameTag, hp, src) {
     $(nameTag).text("Player " + number + ": " + name);
 
@@ -147,11 +180,13 @@ function createPlayerTile(tileTag, name, number, nameTag, hp, src) {
     $(tileTag).append(hpTag);
 }
 
+// Updates the players' health on the DOM, based on the state of Game
 function updateDOMhp() {
     $("#p1hp").text(Game.Player1.hp);
     $("#p2hp").text(Game.Player2.hp);
 }
 
+// Looks at the state of the Game object and decides which buttons to enable/disable
 function disableButtons() {
     var player1 = Game.Player1;
     var player2 = Game.Player2;
@@ -189,23 +224,125 @@ function disableButtons() {
     }
 }
 
+// Looks at the state of the Game object and highlights the player whose turn it is.
 function highlightCurrentPlayer() {
     if (Game.Player1turn) {
-        $("#player1").addClass("highlighted");
-        $("#player2").removeClass("highlighted");
+        $("#player").addClass("highlighted");
+        $("#opponent").removeClass("highlighted");
     } else if (Game.Player2turn) {
-        $("#player2").addClass("highlighted");
-        $("#player1").removeClass("highlighted");
+        $("#opponent").addClass("highlighted");
+        $("#player").removeClass("highlighted");
     }
 }
 
-
+// Click handler and Firebase watching functions go here
 $(document).ready(function() {
-    disableButtons();
-    displayRandomCityInSlot(1);
-    displayRandomCityInSlot(2);
-    displayRandomCityInSlot(3);
+    
+    // Checks Firebase whenever players have joined
+    database.ref("/playersJoined").on("value", function (snapshot) {
+        player1Joined = snapshot.val().p1joined;
+        player2Joined = snapshot.val().p2joined;
 
+        if (playerNumber === 1) {
+            if (!player2Joined) {
+                $("#opponent-name").text("Waiting for Player 2 to join.")
+            } else {
+                $("#opponent-name").text("Player 2 choosing city.")
+            }
+        } else if (playerNumber === 2) {
+            $("#opponent-name").text("Player 1 choosing city.")
+        }
+    });
+
+    // Get rid of these p1 and p2 watchers. Replace with a single game object that gets pushed up to Firebase every turn and re-downloads whenever it's updated. 
+    database.ref("/p1").on("value", function (snapshot) {
+        var player1 = JSON.parse(snapshot.val().object)
+        if (snapshot.val().object !== "") {
+            createPlayer(Game.Player1, player1.name, player1.src, player1.hp, player1.atk, player1.special);
+            if (playerNumber === 1) {
+                createPlayerTile("#player", Game.Player1.name, 1, "#player-name", Game.Player1.hp, Game.Player1.src);
+            } else if (playerNumber === 2) {
+                createPlayerTile("#opponent", Game.Player1.name, 1, "#opponent-name", Game.Player1.hp, Game.Player1.src);
+            }
+
+            player1Selected = true;
+        }
+    })
+
+    database.ref("/p2").on("value", function (snapshot) {
+        var player2 = JSON.parse(snapshot.val().object)
+        if (snapshot.val().object !== "") {
+            createPlayer(Game.Player2, player2.name, player2.src, player2.hp, player2atk, player2.special);
+
+            createPlayerTile("#player", name, 2, "#player-name", Game.Player2.hp, src);
+
+            player2Selected = true;
+        }
+    })
+    
+    // Disables all buttons on page load and begins the loading of city choices for the player.
+    disableButtons();
+    displayCityChoices();    
+
+    
+    // START BUTTON ON CLICK FUNCTION
+    $(document).on("click", "#start", function() {
+        if (player1Joined === false) {
+            player1Joined = true;
+            console.log("Player 1 joined.")
+            playerNumber = 1;
+        } else if (player2Joined === false) {
+            player2Joined = true;
+            console.log("Player 2 joined.")
+            playerNumber = 2;
+        }
+        $("#start").attr("disabled", true);
+        
+        database.ref("/playersJoined").set({
+            p1joined: player1Joined,
+            p2joined: player2Joined
+        })
+    })
+
+    // CITY SELECTION ON-CLICK FUNCTION
+    $(document).on("click", ".city", function () {
+        var name = $(this).find(".city-name").text();
+        var hp = $(this).find(".selection-hp").text();
+        var atk = $(this).find(".selection-atk").text();
+        var special = $(this).find(".selection-special").text();
+        var src = $(this).find(".city-image").attr("src");
+
+        // Charland: need to refactor to create a new player locally and then push the whole Game object up to Firebase
+        if (playerNumber === 1) {
+            // Push new Player1 object up to Firebase 
+            createPlayer(Game.Player1, name, src, hp, atk, special);
+            var stringPlayer = JSON.stringify(Game.Player1);
+        } else if (playerNumber === 2) {
+            // Push new player2 object up to Firebase
+            createPlayer(Game.Player1, name, src, hp, atk, special);
+            var stringPlayer = JSON.stringify(Game.Player1);
+        }
+        disableButtons();
+    })
+
+    // Resets things after the game is done.
+    $(document).on("click", "#restart", function() {
+        player1Joined = false;
+        player2Joined = false;
+
+        $("#start").attr("disabled", false);
+
+        database.ref("/playersJoined").set({
+            p1joined: player1Joined,
+            p2joined: player2Joined
+        })
+
+        database.ref("/previousIndices").set({
+            indices: JSON.stringify([])
+        })
+    })
+
+    // Performs the actions associated with the attack button
     $(document).on("click", "#attack", function() {
         var log = $("<p>");
         if (Game.Player1turn) {
@@ -220,6 +357,7 @@ $(document).ready(function() {
         
     })
 
+    // Performs the actions associated with the cold attack button.
     $(document).on("click", "#cold", function () {
         var log = $("<p>");
         if (Game.Player1turn) {
@@ -233,6 +371,7 @@ $(document).ready(function() {
         updateDOMhp();
     })
 
+    // Performs the actions associated with the hot attack button.
     $(document).on("click", "#hot", function () {
         var log = $("<p>");
         if (Game.Player1turn) {
@@ -246,6 +385,7 @@ $(document).ready(function() {
         updateDOMhp();
     })
 
+    // Performs the actions associated with the storm attack button.
     $(document).on("click", "#storm", function () {
         var log = $("<p>");
         if (Game.Player1turn) {
@@ -259,37 +399,17 @@ $(document).ready(function() {
         updateDOMhp();
     })
 
+    // Forfeits the player's turn.
     $(document).on("click", "#end", function () {
         Game.decideTurn("");
         updateDOMhp();
     })
 
+    // Runs every time the playe clikcs one of the available action buttons.
     $(document).on("click", ".action", function () {
         disableButtons();
         highlightCurrentPlayer();
     })
 
-    $(document).on("click", ".city", function() {
-        var name = $(this).find(".city-name").text();
-        var hp = $(this).find(".selection-hp").text();
-        var atk = $(this).find(".selection-atk").text();
-        var special = $(this).find(".selection-special").text();
-        var src = $(this).find(".city-image").attr("src");
-
-        if (!player1Selected) {
-            createPlayer(Game.Player1, hp, atk, special);
-            
-            createPlayerTile("#player1", name, 1, "#p1name", Game.Player1.hp, src);
-
-            player1Selected = true;
-        } else if (!player2Selected) {
-            createPlayer(Game.Player2, hp, atk, special);
-            
-            createPlayerTile("#player2", name, 2, "#p2name", Game.Player2.hp, src);
-        
-            player2Selected = true;
-            highlightCurrentPlayer();
-        }
-        disableButtons();
-    })
+    
 })   
