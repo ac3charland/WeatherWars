@@ -90,10 +90,13 @@ var hatk = 0
 
 // }
 
-function Player(cloudCover, atk, hp) {
+function Player(name, src, cloudCover, atk, hp) {
+    this.name = name;
+    this.src = src;
     this.cloudCover = cloudCover;
     this.atk = atk;
     this.hp = hp;
+    this.special = "";
     this.isFrozen = false;
     this.stormDisabled=true;
     this.stormIncapable=true;

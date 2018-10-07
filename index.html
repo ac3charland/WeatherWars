@@ -52,7 +52,7 @@
 
                 </div>
 
-                <button class="waves-effect waves-light btn-large card-panel #424242 grey darken-3" id="button">Start</button>
+                <button class="waves-effect waves-light btn-large card-panel #424242 grey darken-3" id="start">Start</button>
             </div>
         </div> 
 
@@ -86,15 +86,15 @@
         <div class="row" id="battleWindow">
             <!-- Can't figure out how to display text over these divs using the current formatting.
             <div class="col s12 clearfix">
-                <div id="player1Window"></div>
+                <div id="playerWindow"></div>
                 <div id="player2Window"></div>
             </div> -->
-            <div id="player1" class="col s5 player-tile center-align">
-                <h6 id="p1name">Player 1</h6>
+            <div id="player" class="col s5 player-tile center-align">
+                <h6 id="player-name">Player 1</h6>
             </div>
             <div class="col s2"></div>
-            <div id="player2" class="col s5 player-tile center-align">
-                <h6 id="p2name">Player 2</h6>
+            <div id="opponent" class="col s5 player-tile center-align">
+                <h6 id="opponent-name">Player 2</h6>
             </div>
         </div>
         <!-- Row 2, 2 Columns: buttons and chatbox-->
@@ -150,7 +150,7 @@
         <button class="waves-effect waves-light btn-large card-panel #ffeb3b yellow black-text text-darken-2">Continue</button>
             <h2 class>
             </h2>
-        <button class="waves-effect waves-light btn-large card-panel #ffeb3b yellow black-text text-darken-2">Restart</button>
+        <button id="restart" class="waves-effect waves-light btn-large card-panel #ffeb3b yellow black-text text-darken-2">Restart</button>
     </div>
 
 </body>
