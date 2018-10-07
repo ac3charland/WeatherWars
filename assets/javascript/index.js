@@ -95,7 +95,7 @@ function cityDisplayResponse(city, slot) {
     var qol = cityScoresResponse.categories[10].score_out_of_10;
     var safety = cityScoresResponse.categories[7].score_out_of_10;
     var commute = cityScoresResponse.categories[5].score_out_of_10;
-    var hp = Game.calculateHP(cloudCover, qol, safety, commute);
+    var hp = GameMethods.calculateHP(cloudCover, qol, safety, commute);
     hpSpan.text(hp);
     hpP.append(hpSpan);
     statsRow.append(hpP);
@@ -146,7 +146,7 @@ function cityDisplayResponse(city, slot) {
 
 // Displays a random city from the Game.locations array to one of the 3 slots allocated in index.html
 function displayRandomCityInSlot(slot) {
-    var city = Game.pickRandomLocation();
+    var city = GameMethods.pickRandomLocation();
     
     var name = city.namecode;
     var geoid = city.geoid;
@@ -180,6 +180,7 @@ function createPlayerTile(tileTag, name, number, nameTag, hp, src) {
     $(tileTag).append(hpTag);
 }
 
+
 // Updates the players' health on the DOM, based on the state of Game
 function updateDOMhp() {
     $("#p1hp").text(Game.Player1.hp);
@@ -190,6 +191,8 @@ function updateDOMhp() {
 function disableButtons() {
     var player1 = Game.Player1;
     var player2 = Game.Player2;
+
+    // If either of the players hasn't yet selected a city, or the game is over, disable all the buttons.
     if (!player1Selected || !player2Selected || Game.GameOver) {
         $("#attack, #cold, #hot, #storm, #end").attr("disabled", true);
         return;
@@ -198,40 +201,68 @@ function disableButtons() {
         $("#end").attr("disabled", false);
     }
 
+    //Otherwise check to see if it's player 1's turn.
     if (Game.Player1turn) {
-        $("#attack, #cold, #hot, #storm").attr("disabled", false);
+        // Is the user player 1? Then they can go.
+        if (playerNumber === 1) {
+            $("#attack, #cold, #hot, #storm").attr("disabled", false);
 
-        if (player1.hotDisabled)
-            $("#hot").attr("disabled", true);
-        if (player1.coldDisabled)
-            $("#cold").attr("disabled", true);
-        if (player1.stormDisabled)
-            $("#storm").attr("disabled", true);
-        if (player1.isFrozen)
-            $("#attack, #cold, #hot, #storm").attr("disabled", true);
+            if (player1.hotDisabled)
+                $("#hot").attr("disabled", true);
+            if (player1.coldDisabled)
+                $("#cold").attr("disabled", true);
+            if (player1.stormDisabled)
+                $("#storm").attr("disabled", true);
+            if (player1.isFrozen)
+                $("#attack, #cold, #hot, #storm").attr("disabled", true);
+        } 
+        // Otherwise, their buttons are disabled
+        else if (playerNumber === 2) {
+            $("#attack, #cold, #hot, #storm, #end").attr("disabled", true);
+        }
+    } 
+    // If it wasn't player 1's turn, see if it's player 2's turn.
+    else if (Game.Player2turn) {
+        // Is the user player 2? Then they can go.
+        if (playerNumber === 2) {
+            $("#attack, #cold, #hot, #storm").attr("disabled", false);
 
-    } else if (Game.Player2turn) {
-        $("#attack, #cold, #hot, #storm").attr("disabled", false);
-
-        if(player2.hotDisabled) 
-            $("#hot").attr("disabled", true);
-        if(player2.coldDisabled)
-            $("#cold").attr("disabled", true);
-        if (player2.stormDisabled) 
-            $("#storm").attr("disabled", true);
-        if (player2.isFrozen)
-            $("#attack, #cold, #hot, #storm").attr("disabled", true);
+            if (player2.hotDisabled)
+                $("#hot").attr("disabled", true);
+            if (player2.coldDisabled)
+                $("#cold").attr("disabled", true);
+            if (player2.stormDisabled)
+                $("#storm").attr("disabled", true);
+            if (player2.isFrozen)
+                $("#attack, #cold, #hot, #storm").attr("disabled", true);
+        } 
+        // Otherwise, their buttons are disabled.
+        else if (playerNumber === 1) {
+            $("#attack, #cold, #hot, #storm, #end").attr("disabled", true);
+        }
     }
 }
 
 // Looks at the state of the Game object and highlights the player whose turn it is.
 function highlightCurrentPlayer() {
-    if (Game.Player1turn) {
-        $("#player").addClass("highlighted");
-        $("#opponent").removeClass("highlighted");
-    } else if (Game.Player2turn) {
-        $("#opponent").addClass("highlighted");
-        $("#player").removeClass("highlighted");
+    if (player1Selected && player2Selected) {
+        if (Game.Player1turn) {
+            if (playerNumber === 1) {
+                $("#player").addClass("highlighted");
+                $("#opponent").removeClass("highlighted");
+            } else if (playerNumber === 2) {
+                $("#opponent").addClass("highlighted");
+                $("#player").removeClass("highlighted");
+            }
+        } else if (Game.Player2turn) {
+            if (playerNumber === 2) {
+                $("#player").addClass("highlighted");
+                $("#opponent").removeClass("highlighted");
+            } else if (playerNumber === 1) {
+                $("#opponent").addClass("highlighted");
+                $("#player").removeClass("highlighted");
+            }
+        }
     }
 }
 
@@ -250,34 +281,34 @@ $(document).ready(function() {
                 $("#opponent-name").text("Player 2 choosing city.")
             }
         } else if (playerNumber === 2) {
-            $("#opponent-name").text("Player 1 choosing city.")
+            if (!player1Selected) {
+                $("#opponent-name").text("Player 1 choosing city.")
+            }
         }
     });
 
     // Get rid of these p1 and p2 watchers. Replace with a single game object that gets pushed up to Firebase every turn and re-downloads whenever it's updated. 
-    database.ref("/p1").on("value", function (snapshot) {
-        var player1 = JSON.parse(snapshot.val().object)
+    database.ref("/game").on("value", function(snapshot) {
         if (snapshot.val().object !== "") {
-            createPlayer(Game.Player1, player1.name, player1.src, player1.hp, player1.atk, player1.special);
-            if (playerNumber === 1) {
-                createPlayerTile("#player", Game.Player1.name, 1, "#player-name", Game.Player1.hp, Game.Player1.src);
-            } else if (playerNumber === 2) {
+            Game = JSON.parse(snapshot.val().object);
+            console.log(Game);
+
+            if (Game.Player1.name != "" && !player1Selected) {
                 createPlayerTile("#opponent", Game.Player1.name, 1, "#opponent-name", Game.Player1.hp, Game.Player1.src);
+                player1Selected = true;
+            }
+            else if (Game.Player2.name != "" && !player2Selected) {
+                createPlayerTile("#opponent", Game.Player2.name, 2, "#opponent-name", Game.Player2.hp, Game.Player2.src);
+                player2Selected = true;
             }
 
-            player1Selected = true;
-        }
-    })
-
-    database.ref("/p2").on("value", function (snapshot) {
-        var player2 = JSON.parse(snapshot.val().object)
-        if (snapshot.val().object !== "") {
-            createPlayer(Game.Player2, player2.name, player2.src, player2.hp, player2atk, player2.special);
-
-            createPlayerTile("#player", name, 2, "#player-name", Game.Player2.hp, src);
-
-            player2Selected = true;
-        }
+            highlightCurrentPlayer();
+            updateDOMhp();
+            console.log("Player1Turn: " + Game.Player1turn);
+            console.log("Player2turn: " + Game.Player2turn);
+            disableButtons();
+        } 
+        
     })
     
     // Disables all buttons on page load and begins the loading of city choices for the player.
@@ -311,16 +342,26 @@ $(document).ready(function() {
         var atk = $(this).find(".selection-atk").text();
         var special = $(this).find(".selection-special").text();
         var src = $(this).find(".city-image").attr("src");
-
-        // Charland: need to refactor to create a new player locally and then push the whole Game object up to Firebase
+        console.log("city onclick triggered")
+        console.log("playerNumber: " + playerNumber)
         if (playerNumber === 1) {
             // Push new Player1 object up to Firebase 
-            createPlayer(Game.Player1, name, src, hp, atk, special);
-            var stringPlayer = JSON.stringify(Game.Player1);
+            createPlayer(Game.Player1, name, src, hp, atk, special)
+            createPlayerTile("#player", name, 1, "#player-name", hp, src)
+            player1Selected = true;
+            var stringGame = JSON.stringify(Game);
+            database.ref("/game").set({
+                object: stringGame
+            });
         } else if (playerNumber === 2) {
             // Push new player2 object up to Firebase
-            createPlayer(Game.Player1, name, src, hp, atk, special);
-            var stringPlayer = JSON.stringify(Game.Player1);
+            createPlayer(Game.Player2, name, src, hp, atk, special);
+            createPlayerTile("#player", name, 2, "#player-name", hp, src)
+            player2Selected = true;
+            var stringGame = JSON.stringify(Game);
+            database.ref("/game").set({
+                object: stringGame
+            })
         }
         disableButtons();
     })
@@ -337,9 +378,10 @@ $(document).ready(function() {
             p2joined: player2Joined
         })
 
-        database.ref("/previousIndices").set({
-            indices: JSON.stringify([])
+        database.ref("/game").set({
+            object: ""
         })
+
     })
 
     // Performs the actions associated with the attack button
@@ -352,7 +394,7 @@ $(document).ready(function() {
         }
         $("#log").append(log)
         
-        Game.decideTurn("attack");
+        GameMethods.decideTurn("attack");
         updateDOMhp();
         
     })
@@ -367,7 +409,7 @@ $(document).ready(function() {
         }
         $("#log").append(log)
 
-        Game.decideTurn("cold");
+        GameMethods.decideTurn("cold");
         updateDOMhp();
     })
 
@@ -381,7 +423,7 @@ $(document).ready(function() {
         }
         $("#log").append(log)
 
-        Game.decideTurn("hot");
+        GameMethods.decideTurn("hot");
         updateDOMhp();
     })
 
@@ -395,20 +437,22 @@ $(document).ready(function() {
         }
         $("#log").append(log)
 
-        Game.decideTurn("storm");
+        GameMethods.decideTurn("storm");
         updateDOMhp();
     })
 
     // Forfeits the player's turn.
     $(document).on("click", "#end", function () {
-        Game.decideTurn("");
+        GameMethods.decideTurn("");
         updateDOMhp();
     })
 
     // Runs every time the playe clikcs one of the available action buttons.
     $(document).on("click", ".action", function () {
-        disableButtons();
-        highlightCurrentPlayer();
+        var stringGame = JSON.stringify(Game);
+        database.ref("/game").set({
+            object: stringGame
+        })
     })
 
     

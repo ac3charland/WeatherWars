@@ -79,8 +79,8 @@ var atk = 10
 var catk = 0
 var hatk = 0
 
-//this is where temperature defines what kind of attacks ara available
-//this is to determine if it will be a cold attack
+//Game is where temperature defines what kind of attacks ara available
+//Game is to determine if it will be a cold attack
 
 
 // if (temp < 30) {
@@ -116,10 +116,180 @@ function Player(name, src, cloudCover, atk, hp) {
     // } else if (temp > 75)
     // hatk=atk-7.5,hp=hp-5;
 
-    // var win=(this.Player2hp=0)
-    // var this.Player1hp = dfs+100
-    // console.log ("player1 Health", + this.Player1hp)
+    // var win=(Game.Player2hp=0)
+    // var Game.Player1hp = dfs+100
+    // console.log ("player1 Health", + Game.Player1hp)
 }
+
+var GameMethods = {
+    pickRandomLocation: function () {
+        var cityIndex = Math.floor(Math.random() * (Game.locations.length));
+
+        for (; Game.previousIndices.indexOf(cityIndex) != -1;) {
+            cityIndex = Math.floor(Math.random() * (Game.locations.length));
+        }
+        Game.previousIndices.push(cityIndex);
+        var city = Game.locations[cityIndex];
+        return city;
+    },
+
+    calculateHP: function (cloudCover, qol, safety, commute) {
+        // Variables for HP modifiers
+        var baseHP = 100
+        var cloudHP = 0
+        var qolHP = 0
+        var safetyHP = 0
+        var commuteHP = 0
+        var totalHP = 0
+
+        // console.log("Scores: ", cloudCover, qol, safety, commute);
+
+        // Calculate what bonus (if any) HP cloud cover will grant the player
+
+        if (cloudCover >= 7) {
+            cloudHP += 15;
+        } else if (cloudCover >= 4) {
+            cloudHP += 10;
+        } else if (cloudCover >= 1) {
+            cloudHP += 5;
+        }
+
+        // Calculate what boon or bane (if any) is granted to the player based on Environmental Quality
+
+        if (qol >= 7) {
+            qolHP += 5;
+        } else if (qol >= 4) {
+            qolHP = qolHP;
+        } else {
+            qolHP -= 5;
+        }
+
+        // Calculate what boon or bane (if any) is granted to the player based on safety
+
+        if (safety >= 7) {
+            safetyHP += 5;
+        } else if (safety >= 4) {
+            safetyHP = safetyHP;
+        } else {
+            safetyHP -= 5;
+        }
+
+        // Calculate what boon or bane (if any) is granted to the player based on commute
+
+        if (commute >= 7) {
+            commuteHP += 5;
+        } else if (safety >= 4) {
+            commuteHP = commuteHP;
+        } else {
+            commuteHP -= 5;
+        }
+        totalHP = baseHP + cloudHP + qolHP + safetyHP + commuteHP;
+        // console.log("Calculating total hp: baseHP(" + baseHP + ") + cloudHP(" + cloudHP + ") + qolHP(" + qolHP + ") + safetyHP(" + safetyHP + ") + commuteHP(" + commuteHP + ") = totalHP(" + totalHP + ")");
+
+        return totalHP;
+    },
+    // Function to decide whose turn it is and how to perform their chosen attack
+    decideTurn: function (id) {
+        console.log("Calling decideTurn(" + id + ");")
+        // First, check and see if either player has been defeated.
+        if (Game.Player1.hp <= 0) {
+            GameOver = true;
+            winner = "Player 2";
+            return;
+        }
+        else if (Game.Player2.hp <= 0) {
+            GameOver = true;
+            winner = "Player 2";
+            return;
+        }
+
+        // Then, if both players are still alive, check to see whose turn it is.
+        if (!Game.GameOver) {
+            if (Game.Player1turn) {
+
+                if (!Game.Player1.isFrozen) {
+                    // Run chosen attack function by player 1
+                    if (id === "attack") {
+                        Game.Player2.hp -= Game.Player1.atk;
+                        if (!Game.Player1.stormIncapable) {
+                            Game.Player1.stormDisabled = false;
+                        }
+                    } else if (id === "cold") {
+                        Game.Player2.hp -= (Game.Player1.atk * 1.50);
+                        Game.Player1.isFrozen = true
+                        if (!Game.Player1.stormIncapable) {
+                            Game.Player1.stormDisabled = false;
+                        }
+                    } else if (id === "hot") {
+                        Game.Player2.hp -= (Game.Player1.atk * 1.75);
+                        Game.Player1.hp = Game.Player1.hp * .75;
+                        if (!Game.Player1.stormIncapable) {
+                            Game.Player1.stormDisabled = false;
+                        }
+                    } else if (id === "storm") {
+                        if (!Game.Player1.stormDisabled) {
+                            Game.Player2.hp -= (Game.Player1.atk * .5);
+                            Game.Player2.isFrozen = true;
+                            Game.Player1.stormDisabled = true;
+                        } else {
+                            return;
+                        }
+                    }
+                    Game.Player1turn = false;
+                    Game.Player2turn = true;
+                }
+                else if (Game.Player1.isFrozen) {
+                    console.log("Player 1 is frozen. Ending turn...")
+                    Game.Player1turn = false;
+                    Game.Player2turn = true;
+                    Game.Player1.isFrozen = false;
+                }
+            }
+            else if (Game.Player2turn) {
+
+                if (!Game.Player2.isFrozen) {
+                    // Run chosen attack function by player 2
+                    if (id === "attack") {
+                        Game.Player1.hp -= Game.Player2.atk;
+                        if (!Game.Player2.stormIncapable) {
+                            Game.Player2.stormDisabled = false;
+                        }
+                    } else if (id === "cold") {
+                        Game.Player1.hp -= (Game.Player2.atk * 1.50);
+                        Game.Player2.isFrozen = true;
+                        if (!Game.Player2.stormIncapable) {
+                            Game.Player2.stormDisabled = false;
+                        }
+                    } else if (id === "hot") {
+                        Game.Player1.hp -= (Game.Player1.atk * 1.75);
+                        Game.Player2.hp = Game.Player2.hp * .75;
+                        if (!Game.Player2.stormIncapable) {
+                            Game.Player2.stormDisabled = false;
+                        }
+                    } else if (id === "storm") {
+                        if (!Game.Player2.stormDisabled) {
+                            Game.Player1.hp -= (Game.Player2.atk * .5);
+                            Game.Player1.isFrozen = true;
+                            Game.Player2.stormDisabled = true;
+                        } else {
+                            return;
+                        }
+                    }
+                    Game.Player2turn = false;
+                    Game.Player1turn = true;
+                }
+                else if (Game.Player2.isFrozen) {
+                    console.log("Player 2 is frozen. Ending turn...")
+                    Game.Player2turn = false;
+                    Game.Player1turn = true;
+                    Game.Player2.isFrozen = false;
+                }
+            }
+        }
+        console.log("---------------")
+    }
+}
+
 var Game = {
     
     //array of locations to choose from
@@ -282,186 +452,17 @@ var Game = {
         }
     ],
 
-    // We'll remove locations from this array as they're chosen, and reset it to equal locations[] when the game resets
     previousIndices: [],
 
-    pickRandomLocation: function() {
-        var cityIndex = Math.floor(Math.random() * (this.locations.length));
-
-        for (; this.previousIndices.indexOf(cityIndex) != -1;) {
-            cityIndex = Math.floor(Math.random() * (this.locations.length));
-        }
-        this.previousIndices.push(cityIndex);
-        var city = this.locations[cityIndex];
-        return city;
-    },
-
-    calculateHP: function (cloudCover, qol, safety, commute) {
-        // Variables for HP modifiers
-        var baseHP = 100
-        var cloudHP = 0
-        var qolHP = 0
-        var safetyHP = 0
-        var commuteHP = 0
-        var totalHP = 0
-
-        // console.log("Scores: ", cloudCover, qol, safety, commute);
-        
-        // Calculate what bonus (if any) HP cloud cover will grant the player
-
-        if (cloudCover >=7) {
-            cloudHP += 15;
-        } else if (cloudCover >= 4) {
-            cloudHP += 10;
-        } else if (cloudCover >= 1) {
-            cloudHP += 5;
-        } 
-
-        // Calculate what boon or bane (if any) is granted to the player based on Environmental Quality
-
-        if (qol >= 7) {
-            qolHP += 5;
-        } else if (qol >= 4) {
-            qolHP = qolHP;
-        } else {
-            qolHP -= 5;
-        }
-
-        // Calculate what boon or bane (if any) is granted to the player based on safety
-
-        if (safety >= 7) {
-            safetyHP += 5;
-        } else if (safety >= 4) {
-            safetyHP = safetyHP;
-        } else {
-            safetyHP -= 5;
-        }
-
-        // Calculate what boon or bane (if any) is granted to the player based on commute
-
-        if (commute >= 7) {
-            commuteHP += 5;
-        } else if (safety >= 4) {
-            commuteHP = commuteHP;
-        } else {
-            commuteHP -= 5;
-        }
-        totalHP = baseHP + cloudHP + qolHP + safetyHP + commuteHP; 
-        // console.log("Calculating total hp: baseHP(" + baseHP + ") + cloudHP(" + cloudHP + ") + qolHP(" + qolHP + ") + safetyHP(" + safetyHP + ") + commuteHP(" + commuteHP + ") = totalHP(" + totalHP + ")");
-
-        return totalHP;
-    },
-
     // Create objects for each player
-    Player1: new Player(8, 10, 100),
-    Player2: new Player(4, 10, 100), 
+    Player1: new Player("", "", 0, 0, 100),
+    Player2: new Player("", "", 0, 0, 100), 
 
     // Variables to store the current game state
     Player1turn: true,
     Player2turn: false,
     GameOver: false,
-    Winner: '',
-   
-    // Function to decide whose turn it is and how to perform their chosen attack
-    decideTurn: function(id) {
-        console.log("Calling decideTurn(" + id + ");")
-        // First, check and see if either player has been defeated.
-        if (this.Player1.hp <= 0) {
-            GameOver=true;
-            winner="Player 2";
-            return;
-        }
-        else if (this.Player2.hp <= 0) {
-            GameOver=true;
-            winner="Player 2";
-            return;
-        }
-
-        // Then, if both players are still alive, check to see whose turn it is.
-        if (!this.GameOver) {
-            if (this.Player1turn) {
-                
-                if (!this.Player1.isFrozen) {
-                    // Run chosen attack function by player 1
-                    if (id === "attack") {
-                        this.Player2.hp -= this.Player1.atk;
-                        if (!this.Player1.stormIncapable) {
-                            this.Player1.stormDisabled = false;
-                        }
-                    } else if (id === "cold") {
-                        this.Player2.hp -= (this.Player1.atk * 1.50);
-                        this.Player1.isFrozen = true
-                        if (!this.Player1.stormIncapable) {
-                            this.Player1.stormDisabled = false;
-                        }
-                    } else if (id === "hot") {
-                        this.Player2.hp -= (this.Player1.atk * 1.75);
-                        this.Player1.hp = this.Player1.hp * .75;
-                        if (!this.Player1.stormIncapable) {
-                            this.Player1.stormDisabled = false;
-                        }
-                    } else if (id === "storm") {
-                        if (!this.Player1.stormDisabled) {
-                            this.Player2.hp -= (this.Player1.atk * .5);
-                            this.Player2.isFrozen = true;
-                            this.Player1.stormDisabled = true;
-                        } else {
-                            return;
-                        }
-                    }
-                    this.Player1turn = false;
-                    this.Player2turn = true;
-                } 
-                else if (this.Player1.isFrozen) {
-                    console.log("Player 1 is frozen. Ending turn...")
-                    this.Player1turn=false;
-                    this.Player2turn=true;
-                    this.Player1.isFrozen=false;
-                }
-            }
-            else if (this.Player2turn) {
-                
-                if (!this.Player2.isFrozen) {
-                    // Run chosen attack function by player 2
-                    if (id === "attack") {
-                        this.Player1.hp -= this.Player2.atk;
-                        if (!this.Player2.stormIncapable) {
-                            this.Player2.stormDisabled = false;
-                        }
-                    } else if (id === "cold") {
-                        this.Player1.hp -= (this.Player2.atk * 1.50);
-                        this.Player2.isFrozen = true;
-                        if (!this.Player2.stormIncapable) {
-                            this.Player2.stormDisabled = false;
-                        }
-                    } else if (id === "hot") {
-                        this.Player1.hp -= (this.Player1.atk * 1.75);
-                        this.Player2.hp = this.Player2.hp * .75;
-                        if (!this.Player2.stormIncapable) {
-                            this.Player2.stormDisabled = false;
-                        }
-                    } else if (id === "storm") {
-                        if (!this.Player2.stormDisabled) {
-                            this.Player1.hp -= (this.Player2.atk * .5);
-                            this.Player1.isFrozen = true;
-                            this.Player2.stormDisabled = true;
-                        } else {
-                            return;
-                        }
-                    }
-                    this.Player2turn = false;
-                    this.Player1turn = true;
-                } 
-                else if (this.Player2.isFrozen) {
-                    console.log("Player 2 is frozen. Ending turn...")
-                    this.Player2turn=false;
-                    this.Player1turn=true;
-                    this.Player2.isFrozen=false;
-                }
-            }
-        }
-        console.log("---------------")
-    }
+    Winner: ''
 };
 
 
