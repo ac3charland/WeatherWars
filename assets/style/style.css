@@ -56,6 +56,7 @@ border-radius: 25px;
     margin-right: auto;
     padding: 20px;
     background: lightgrey;
+    display: none;
 }
 
 #battleWindow {
@@ -120,6 +121,13 @@ border-radius: 25px;
     overflow: auto;
 }
 
+#city-picker {
+    display: none;
+}
+
+#restart-continue {
+    display: none;
+}
  
  .btn {
     margin-top: 20px;
@@ -151,12 +159,6 @@ border-radius: 25px;
     width: 80%;
     margin-left: 90px;
     background-color: #728aa9fA;
-}
-
-.clearfix::after {
-    content: "";
-    clear: both;
-    display: table;
 }
 
 .player-tile {

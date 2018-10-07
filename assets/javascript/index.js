@@ -328,6 +328,8 @@ $(document).ready(function() {
             playerNumber = 2;
         }
         $("#start").attr("disabled", true);
+        $("#info").css("display", "none");
+        $("#city-picker").css("display", "block");
         
         database.ref("/playersJoined").set({
             p1joined: player1Joined,
@@ -342,8 +344,7 @@ $(document).ready(function() {
         var atk = $(this).find(".selection-atk").text();
         var special = $(this).find(".selection-special").text();
         var src = $(this).find(".city-image").attr("src");
-        console.log("city onclick triggered")
-        console.log("playerNumber: " + playerNumber)
+        
         if (playerNumber === 1) {
             // Push new Player1 object up to Firebase 
             createPlayer(Game.Player1, name, src, hp, atk, special)
@@ -363,6 +364,9 @@ $(document).ready(function() {
                 object: stringGame
             })
         }
+
+        $("#city-picker").css("display", "none");
+        $("#play").css("display", "block");
         disableButtons();
     })
 
