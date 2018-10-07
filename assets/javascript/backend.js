@@ -18,8 +18,8 @@ var Ajax = {
             method: "GET"
         })
         .then(function (CIResponse) {
-            console.log("City info API: ")
-            console.log(CIResponse);
+            // console.log("City info API: ")
+            // console.log(CIResponse);
 
             self.cityInfoResponse = CIResponse;
 
@@ -29,8 +29,8 @@ var Ajax = {
                 method: "GET"
             })
             .then(function (CSResponse) {
-                console.log("City scores API: ")
-                console.log(CSResponse);
+                // console.log("City scores API: ")
+                // console.log(CSResponse);
 
                 self.cityScoresResponse = CSResponse;
 
@@ -40,8 +40,8 @@ var Ajax = {
                     method: "GET"
                 })
                 .then(function (DSResponse) {
-                    console.log("Dark Sky Weather API: ")
-                    console.log(DSResponse)
+                    // console.log("Dark Sky Weather API: ")
+                    // console.log(DSResponse)
 
                     self.darkSkyResponse = DSResponse;
                     thenFunction();
