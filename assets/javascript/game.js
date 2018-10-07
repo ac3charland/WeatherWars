@@ -13,15 +13,7 @@ var player2Loc = [player2Loc1, player2Loc2, player2Loc3];
 var urlStart = "assets/images/"
 
 
-//function to grab a city from the locations array and assign it to a variable in the players locations array then
-//remove it from the locations array
-// function cityGenerator1() {
-//     for (i = 0; i < 3; i++) {
-//         var city = Math.floor(Math.random()*(locations.length));
-//         player1Loc[i] = locations[city];
-//         Game.locations.splice(city, 1);
-//     }
-// }
+
 
 // //The same function but for player 2
 // function cityGenerator2() {
@@ -46,61 +38,7 @@ var urlStart = "assets/images/"
 //var safety - grabs data from safety
 //var commute - grabs data from commute
 
-//function calculateHP(cloudCover, qol, safety, commute) {
-    //Variables for HP modifiers
-    //var baseHP = 100
-    //var cloudHP = 0
-    //var qolHP = 0
-    //var safetyHP = 0
-    //var commuteHP = 0
-    //var totalHP = 0
 
-    //Calculate what bonus (if any) HP cloud cover will grant the player
-
-    // if (cloudCover >=7) {
-    //  cloudHP = cloudHP + 15;
-    // }else if (cloudCover >= 4) {
-    //  cloudHP = cloudHP = 10;
-    // }else if (cloudCover >=1) {
-    // cloudHP = cloudHP = 5;
-    // }else {
-    // cloudHP = cloudHP;
-    // }
-
-    //Calculate what boon or bane (if any) is granted to the player based on Environmental Quality
-
-    // if (qol >= 7) {
-    // qolHP = qolHP + 5;
-    // }else if (qol >=4) {
-    //  qolHP = qolHP;
-    // }else {
-    //  qolHP = qolHP -5;
-    // }
-
-    //Calculate what boon or bane (if any) is granted to the player based on safety
-
-    // if (safety >= 7) {
-    //  safetyHP = safetyHP + 5;
-    // }else if (safety >=4) {
-    // safetyHP = safetyHP;
-    // }else {
-    // safetyHP = safetyHP - 5;
-    // }
-
-    //Calculate what boon or bane (if any) is granted to the player based on commute
-
-    // if (commute >= 7) {
-    //  commuteHP = commuteHP + 5;
-    // }else if (safety >=4) {
-    // commuteHP = commuteHP;
-    // }else {
-    // commuteHP = commuteHP - 5;
-    // }
-
-    //totalHP = baseHP + cloudHP + qolHP + safetyHP + commuteHP;
-
-    //return totalHP;
-// }
 
 // console.log(basehp);
 // console.log(cloudHP);
@@ -221,7 +159,7 @@ var Game = {
         {
             cityName: "Dubai",
             geoid: "292223",
-            img: urlStart + "punta_cana.jpg",
+            img: urlStart + "dubai.jpg",
             namecode: "dubai",
             long: '55.17128',
             lat: '25.0657',
@@ -260,14 +198,6 @@ var Game = {
             lat: "22.27832",
         },
         {
-            cityName: "Phuket",
-            geoid: "1151254",
-            img: urlStart + "phuket.jpg",
-            namecode: "phuket",
-            long: "98.3981",
-            lat: "7.89059",
-        },
-        {
             cityName: "Bangkok",
             geoid: "1609350",
             img: urlStart + "bangkok.jpg",
@@ -278,7 +208,7 @@ var Game = {
         {
             cityName: "Seoul",
             geoid: "1835848",
-            img: urlStart + "minneaplois.jpg",
+            img: urlStart + "seoul.jpg",
             namecode: "seoul",
             long: "126.9784",
             lat: "37.566",
@@ -286,7 +216,7 @@ var Game = {
         {
             cityName: "Moscow",
             geoid: "524901",
-            img: urlStart + "mowcow.jpg",
+            img: urlStart + "moscow.jpg",
             namecode: "moscow",
             long: "37.61556",
             lat: "55.75222",
@@ -318,7 +248,7 @@ var Game = {
         {
             cityName: "Chicago",
             geoid: "4887398",
-            img: urlStart + "thebes.jpg",
+            img: urlStart + "chicago.jpg",
             namecode: "chicago",
             long: "-87.65005",
             lat: "41.85003",
@@ -349,6 +279,76 @@ var Game = {
         }
     ],
 
+    // We'll remove locations from this array as they're chosen, and reset it to equal locations[] when the game resets
+    previousIndices: [],
+
+    pickRandomLocation: function() {
+        var cityIndex = Math.floor(Math.random() * (this.locations.length));
+
+        for (; this.previousIndices.indexOf(cityIndex) != -1;) {
+            cityIndex = Math.floor(Math.random() * (this.locations.length));
+        }
+        this.previousIndices.push(cityIndex);
+        var city = this.locations[cityIndex];
+        return city;
+    },
+
+    calculateHP: function (cloudCover, qol, safety, commute) {
+        // Variables for HP modifiers
+        var baseHP = 100
+        var cloudHP = 0
+        var qolHP = 0
+        var safetyHP = 0
+        var commuteHP = 0
+        var totalHP = 0
+
+        // console.log("Scores: ", cloudCover, qol, safety, commute);
+        
+        // Calculate what bonus (if any) HP cloud cover will grant the player
+
+        if (cloudCover >=7) {
+            cloudHP += 15;
+        } else if (cloudCover >= 4) {
+            cloudHP += 10;
+        } else if (cloudCover >= 1) {
+            cloudHP += 5;
+        } 
+
+        // Calculate what boon or bane (if any) is granted to the player based on Environmental Quality
+
+        if (qol >= 7) {
+            qolHP += 5;
+        } else if (qol >= 4) {
+            qolHP = qolHP;
+        } else {
+            qolHP -= 5;
+        }
+
+        // Calculate what boon or bane (if any) is granted to the player based on safety
+
+        if (safety >= 7) {
+            safetyHP += 5;
+        } else if (safety >= 4) {
+            safetyHP = safetyHP;
+        } else {
+            safetyHP -= 5;
+        }
+
+        // Calculate what boon or bane (if any) is granted to the player based on commute
+
+        if (commute >= 7) {
+            commuteHP += 5;
+        } else if (safety >= 4) {
+            commuteHP = commuteHP;
+        } else {
+            commuteHP -= 5;
+        }
+        totalHP = baseHP + cloudHP + qolHP + safetyHP + commuteHP; 
+        // console.log("Calculating total hp: baseHP(" + baseHP + ") + cloudHP(" + cloudHP + ") + qolHP(" + qolHP + ") + safetyHP(" + safetyHP + ") + commuteHP(" + commuteHP + ") = totalHP(" + totalHP + ")");
+
+        return totalHP;
+    },
+
     // Create objects for each player
     Player1: new Player(8, 10, 100),
     Player2: new Player(4, 10, 100), 
@@ -377,22 +377,26 @@ var Game = {
         // Then, if both players are still alive, check to see whose turn it is.
         if (!this.GameOver) {
             if (this.Player1turn) {
-                if(this.Player1.stormIncapable) {
-                    this.Player1.stormDisabled = true;
-                }
+                
                 if (!this.Player1.isFrozen) {
                     // Run chosen attack function by player 1
                     if (id === "attack") {
                         this.Player2.hp -= this.Player1.atk;
-                        this.Player1.stormDisabled = false;
+                        if (!this.Player1.stormIncapable) {
+                            this.Player1.stormDisabled = false;
+                        }
                     } else if (id === "cold") {
                         this.Player2.hp -= (this.Player1.atk * 1.50);
                         this.Player1.isFrozen = true
-                        this.Player1.stormDisabled = false;
+                        if (!this.Player1.stormIncapable) {
+                            this.Player1.stormDisabled = false;
+                        }
                     } else if (id === "hot") {
                         this.Player2.hp -= (this.Player1.atk * 1.75);
                         this.Player1.hp = this.Player1.hp * .75;
-                        this.Player1.stormDisabled = false;
+                        if (!this.Player1.stormIncapable) {
+                            this.Player1.stormDisabled = false;
+                        }
                     } else if (id === "storm") {
                         if (!this.Player1.stormDisabled) {
                             this.Player2.hp -= (this.Player1.atk * .5);
@@ -413,22 +417,26 @@ var Game = {
                 }
             }
             else if (this.Player2turn) {
-                if (this.Player2.stormIncapable) {
-                    this.Player2.stormDisabled = true;
-                }
+                
                 if (!this.Player2.isFrozen) {
                     // Run chosen attack function by player 2
                     if (id === "attack") {
                         this.Player1.hp -= this.Player2.atk;
-                        this.Player2.stormDisabled = false;
+                        if (!this.Player2.stormIncapable) {
+                            this.Player2.stormDisabled = false;
+                        }
                     } else if (id === "cold") {
                         this.Player1.hp -= (this.Player2.atk * 1.50);
                         this.Player2.isFrozen = true;
-                        this.Player2.stormDisabled = false;
+                        if (!this.Player2.stormIncapable) {
+                            this.Player2.stormDisabled = false;
+                        }
                     } else if (id === "hot") {
                         this.Player1.hp -= (this.Player1.atk * 1.75);
                         this.Player2.hp = this.Player2.hp * .75;
-                        this.Player2.stormDisabled = false;
+                        if (!this.Player2.stormIncapable) {
+                            this.Player2.stormDisabled = false;
+                        }
                     } else if (id === "storm") {
                         if (!this.Player2.stormDisabled) {
                             this.Player1.hp -= (this.Player2.atk * .5);

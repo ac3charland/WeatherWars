@@ -19,6 +19,134 @@ function createPlayer(player, hp, atk, special) {
     }
 }
 
+function displayRandomCityInSlot(slot) {
+    var city = Game.pickRandomLocation();
+    
+    var name = city.namecode;
+    var geoid = city.geoid;
+    var lat = city.lat;
+    var long = city.long;
+
+    Ajax.sendRequest(name, geoid, lat, long, function() {cityDisplayResponse(city, slot)});
+}
+
+function cityDisplayResponse(city, slot) {
+    var cityInfoResponse = this.cityInfoResponse;
+    var cityScoresResponse = this.cityScoresResponse;
+    var darkSkyResponse = this.darkSkyResponse;
+
+    if (darkSkyResponse === "" || cityScoresResponse === "" === cityInfoResponse === "") {
+        console.log("Error: no AJAX response.")
+        return;
+    }
+    
+    var cityDiv = $("#city" + slot);
+
+    // Add title
+    var titleRow = $("<div class='row'>");
+    var titleHeading = $("<h3 class='city-name'>");
+    titleHeading.text(city.cityName);
+    titleRow.append(titleHeading);
+    cityDiv.append(titleRow);
+
+    // Add img
+    var imgRow = $("<div class='row'>");
+    var img = $("<img class='city-image'>");
+    img.attr("src", city.img);
+    imgRow.append(img);
+    cityDiv.append(imgRow);
+
+    // Add stats
+    var statsRow = $("<div class='row'>");
+    
+    // Weather summary
+    var summaryP = $("<p>");
+    var summarySpan = $("<span class='weather-summary'>");
+    summarySpan.text(darkSkyResponse.currently.summary);
+    summaryP.append(summarySpan);
+    statsRow.append(summaryP);
+
+    // Temperature
+    var tempP = $("<p>");
+    tempP.text("º F");
+    var tempSpan = $("<span class='weather-temp'>");
+    tempSpan.text(Math.round(darkSkyResponse.currently.temperature));
+    tempP.prepend(tempSpan);
+    statsRow.append(tempP); 
+
+    // HP
+    var hpP = $("<p>");
+    hpP.text("HP: ");
+    var hpSpan = $("<span class='selection-hp'>");
+    var cloudCover = darkSkyResponse.currently.cloudCover * 10;
+    var qol = cityScoresResponse.categories[10].score_out_of_10;
+    var safety = cityScoresResponse.categories[7].score_out_of_10;
+    var commute = cityScoresResponse.categories[5].score_out_of_10;
+    var hp = Game.calculateHP(cloudCover, qol, safety, commute);
+    hpSpan.text(hp);
+    hpP.append(hpSpan);
+    statsRow.append(hpP);
+
+    // Atk
+    var atkP = $("<p>");
+    atkP.text("Attack: ")
+    var atkSpan = $("<span class='selection-atk'>");
+    atkSpan.text("10");
+    atkP.append(atkSpan);
+    statsRow.append(atkP);
+    
+    // Specials
+    var specialP = $("<p>");
+    specialP.text("Special Attacks: ")
+    var specialSpan = $("<span class='selection-special'>");
+    var tempText = "";
+    var stormText = "";
+    var specialText = "None"
+    var temp = darkSkyResponse.currently.temperature;
+    var precip = darkSkyResponse.currently.precipIntensity * 100;
+
+    if (temp < 40) {
+        tempText = "Cold";
+    } else if (temp > 75) {
+        tempText = "Hot";
+    }
+
+    if (precip > 0) {
+        stormText = "Storm"
+    }
+
+    if (tempText != "" && stormText != "") {
+        specialText = tempText + ", " + stormText;
+    } else if (tempText != "") {
+        specialText = tempText;
+    } else if (stormText != "") {
+        specialText = stormText;
+    }
+
+    specialSpan.text(specialText);
+    specialP.append(specialSpan);
+    statsRow.append(specialP);
+
+    
+    cityDiv.append(statsRow); 
+}
+
+function createPlayerTile(tileTag, name, number, nameTag, hp, src) {
+    $(nameTag).text("Player " + number + ": " + name);
+
+    var img = $("<img>");
+    img.attr("src", src);
+    img.addClass("city-image");
+    $(tileTag).append(img);
+
+    var hpTag = $("<p>");
+    hpTag.text("HP: ");
+    var hpSpan = $("<span id='p" + number + "hp'>");
+    hpSpan.text(hp);
+    hpTag.append(hpSpan);
+    $(tileTag).append(hpTag);
+}
+
 function updateDOMhp() {
     $("#p1hp").text(Game.Player1.hp);
     $("#p2hp").text(Game.Player2.hp);
@@ -27,10 +155,11 @@ function updateDOMhp() {
 function disableButtons() {
     var player1 = Game.Player1;
     var player2 = Game.Player2;
-    if (!player1Selected || !player2Selected) {
+    if (!player1Selected || !player2Selected || Game.GameOver) {
         $("#attack, #cold, #hot, #storm, #end").attr("disabled", true);
         return;
-    } else {
+    }
+    else {
         $("#end").attr("disabled", false);
     }
 
@@ -73,7 +202,9 @@ function highlightCurrentPlayer() {
 
 $(document).ready(function() {
     disableButtons();
-    
+    displayRandomCityInSlot(1);
+    displayRandomCityInSlot(2);
+    displayRandomCityInSlot(3);
 
     $(document).on("click", "#attack", function() {
         var log = $("<p>");
@@ -147,40 +278,18 @@ $(document).ready(function() {
 
         if (!player1Selected) {
             createPlayer(Game.Player1, hp, atk, special);
-            $("#p1name").text("Player 1: " + name);
             
-            var img = $("<img>");
-            img.attr("src", src);
-            img.addClass("city-image");
-            $("#player1").append(img);
-
-            var hpTag = $("<p>");
-            hpTag.text("HP: ");
-            var hpSpan = $("<span id='p1hp'>");
-            hpSpan.text(Game.Player1.hp);
-            hpTag.append(hpSpan);
-            $("#player1").append(hpTag);
+            createPlayerTile("#player1", name, 1, "#p1name", Game.Player1.hp, src);
 
             player1Selected = true;
         } else if (!player2Selected) {
             createPlayer(Game.Player2, hp, atk, special);
-            $("#p2name").text("Player 2: " + name);
             
-            var img = $("<img>");
-            img.attr("src", src);
-            img.addClass("city-image");
-            $("#player2").append(img);
-
-            var hpTag = $("<p>");
-            hpTag.text("HP: ");
-            var hpSpan = $("<span id='p2hp'>");
-            hpSpan.text(Game.Player2.hp);
-            hpTag.append(hpSpan);
-            $("#player2").append(hpTag);
+            createPlayerTile("#player2", name, 2, "#p2name", Game.Player2.hp, src);
         
             player2Selected = true;
             highlightCurrentPlayer();
         }
         disableButtons();
     })
-})
+})   

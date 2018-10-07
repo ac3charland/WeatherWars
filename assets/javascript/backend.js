@@ -2,7 +2,10 @@ var Ajax = {
     darkSkyResponse: "",
     cityInfoResponse: "",
     cityScoresResponse: "",
-    sendRequest: function(cityName, geoId, key, lat, long, thenFunction) {
+    sendRequest: function(cityName, geoId, lat, long, thenFunction) {
+
+        var key = "73a039df0c6981cf0c61cdaa5b5cc704"
+
         var darkSkyURL = "https://api.darksky.net/forecast/" + key + "/" + lat + "," + long
 
         var cityInfoUrl = "https://api.teleport.org/api/cities/geonameid:" + geoId + "/"

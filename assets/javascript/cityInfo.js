@@ -70,7 +70,7 @@ function cityInfoSetup(imgId) {
         $("<td>").text(darkSkyResponse.currently.summary),
         $("<td>").text(darkSkyResponse.currently.windSpeed),
         $("<td>").text(Math.round(darkSkyResponse.currently.cloudCover * 10)),
-        $("<td>").text(Math.round(darkSkyResponse.currently.precipIntensity * 1000)),
+        $("<td>").text(Math.round(darkSkyResponse.currently.precipIntensity * 100)),
         $("<td>").text((darkSkyResponse.currently.humidity * 100) + "%")
     )
 
@@ -95,12 +95,11 @@ $(document).on("click", ".cityButton", function () {
     //vars for the ajax calls go here
     var cityName = ($(this).data("name"))
     var geoId = ($(this).data("show"))
-    var key = "73a039df0c6981cf0c61cdaa5b5cc704"
     var lat = ($(this).data("lat"))
     var long = ($(this).data("long"))
     var imgId = ($(this).data("img"))
 
-    Ajax.sendRequest(cityName, geoId, key, lat, long, function() {cityInfoSetup(imgId)});
+    Ajax.sendRequest(cityName, geoId, lat, long, function() {cityInfoSetup(imgId)});
 });
 
 //Reset button 
