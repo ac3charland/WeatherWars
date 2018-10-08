@@ -152,6 +152,11 @@ border-radius: 25px;
     margin-top: 20px;
  
  }
+ 
+ a{
+   margin-top: 10px;
+   cursor: pointer;
+}
 
 .city {
     background-color: rgb(255, 255, 255, 0.9);
