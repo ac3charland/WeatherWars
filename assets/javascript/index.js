@@ -187,6 +187,12 @@ function updateDOMhp() {
     $("#p2hp").text(Game.Player2.hp);
 }
 
+function pushLogMessageToFireBase(message) {
+    database.ref("/log").push({
+        message: message
+    })
+}
+
 // Looks at the state of the Game object and decides which buttons to enable/disable
 function disableButtons() {
     var player1 = Game.Player1;
@@ -274,6 +280,14 @@ $(document).ready(function() {
         player1Joined = snapshot.val().p1joined;
         player2Joined = snapshot.val().p2joined;
 
+        if (player1Joined && player2Joined) {
+            $("#start").attr("disabled", true);
+            $("#instruction-head").text("Game is full, please wait.")
+        } else {
+            $("#start").attr("disabled", false);
+            $("#instruction-head").text("Instructions")
+        }
+
         if (playerNumber === 1) {
             if (!player2Joined) {
                 $("#opponent-name").text("Waiting for Player 2 to join.")
@@ -310,6 +324,20 @@ $(document).ready(function() {
         } 
         
     })
+
+    database.ref("/log").on("child_added", function(childSnapshot) {
+        var message = childSnapshot.val().message;
+        var pTag = $("<p>");
+        pTag.text(message);
+        $("#log").prepend(pTag);
+    });
+
+    database.ref("/chat").on("child_added", function(childSnapshot) {
+        var message = childSnapshot.val().message;
+        var pTag = $("<p>");
+        pTag.text(message);
+        $("#chatHistory").prepend(pTag);
+    });
     
     // Disables all buttons on page load and begins the loading of city choices for the player.
     disableButtons();
@@ -334,6 +362,16 @@ $(document).ready(function() {
         database.ref("/playersJoined").set({
             p1joined: player1Joined,
             p2joined: player2Joined
+        })
+    })
+
+    $(document).on("click", "#submit", function(event) {
+        event.preventDefault();
+
+        var message = $("#message").val().trim();
+
+        database.ref("/chat").push({
+            message: message
         })
     })
 
@@ -380,23 +418,31 @@ $(document).ready(function() {
         database.ref("/playersJoined").set({
             p1joined: player1Joined,
             p2joined: player2Joined
-        })
+        });
 
         database.ref("/game").set({
             object: ""
-        })
+        });
+
+        database.ref("/log").set({
+            placeholder: ""
+        });
+
+        database.ref("/chat").set({
+            placeholder: ""
+        });
 
     })
 
     // Performs the actions associated with the attack button
     $(document).on("click", "#attack", function() {
-        var log = $("<p>");
+        var logText = "";
         if (Game.Player1turn) {
-            log.text("Player 1 attacked Player 2 for " + Game.Player1.atk + " damage.");
+            logText = "Player 1 attacked Player 2 for " + Game.Player1.atk + " damage.";
         } else if (Game.Player2turn) {
-            log.text("Player 2 attacked Player 1 for " + Game.Player2.atk + " damage.");
+            logText = "Player 2 attacked Player 1 for " + Game.Player2.atk + " damage.";
         }
-        $("#log").append(log)
+        pushLogMessageToFireBase(logText)
         
         GameMethods.decideTurn("attack");
         updateDOMhp();
@@ -405,13 +451,13 @@ $(document).ready(function() {
 
     // Performs the actions associated with the cold attack button.
     $(document).on("click", "#cold", function () {
-        var log = $("<p>");
+        var logText = "";
         if (Game.Player1turn) {
-            log.text("Player 1 cold-attacked Player 2 for " + Game.Player1.atk * 1.5 + " damage. Player 1 loses a turn.");
+            logText = "Player 1 cold-attacked Player 2 for " + Game.Player1.atk * 1.5 + " damage. Player 1 loses a turn.";
         } else if (Game.Player2turn) {
-            log.text("Player 2 cold-attacked Player 1 for " + Game.Player2.atk * 1.5 + " damage. Player 2 loses a turn.");
+            logText = "Player 2 cold-attacked Player 1 for " + Game.Player2.atk * 1.5 + " damage. Player 2 loses a turn.";
         }
-        $("#log").append(log)
+        pushLogMessageToFireBase(logText);
 
         GameMethods.decideTurn("cold");
         updateDOMhp();
@@ -419,13 +465,13 @@ $(document).ready(function() {
 
     // Performs the actions associated with the hot attack button.
     $(document).on("click", "#hot", function () {
-        var log = $("<p>");
+        var logText = "";
         if (Game.Player1turn) {
-            log.text("Player 1 hot-attacked Player 2 for " + Game.Player1.atk * 1.75 + " damage. Player 1 lost " + Game.Player1.hp * 0.25 + " health.");
+            logText = "Player 1 hot-attacked Player 2 for " + Game.Player1.atk * 1.75 + " damage. Player 1 lost " + Game.Player1.hp - 5 + " health.";
         } else if (Game.Player2turn) {
-            log.text("Player 2 hot-attacked Player 1 for " + Game.Player2.atk * 1.75 + " damage. Player 2 lost " + Game.Player2.hp * 0.25 + " health.")
+            logText = "Player 2 hot-attacked Player 1 for " + Game.Player2.atk * 1.75 + " damage. Player 2 lost " + Game.Player2.hp - 5 + " health.";
         }
-        $("#log").append(log)
+        pushLogMessageToFireBase(logText);
 
         GameMethods.decideTurn("hot");
         updateDOMhp();
@@ -433,31 +479,31 @@ $(document).ready(function() {
 
     // Performs the actions associated with the storm attack button.
     $(document).on("click", "#storm", function () {
-        var log = $("<p>");
+        var logText = "";
         if (Game.Player1turn) {
-            log.text("Player 1 storm-attacked Player 2 for " + Game.Player1.atk * 0.5 + " damage. Player 2 loses a turn.");
+            logText = "Player 1 storm-attacked Player 2 for " + Game.Player1.atk * 0.5 + " damage. Player 2 loses a turn.";
         } else if (Game.Player2turn) {
-            log.text("Player 2 storm-attacked Player 1 for " + Game.Player2.atk * 0.5 + " damage. Player 1 loses a turn.")
+            logText = "Player 2 storm-attacked Player 1 for " + Game.Player2.atk * 0.5 + " damage. Player 1 loses a turn.";
         }
-        $("#log").append(log)
+        pushLogMessageToFireBase(logText);
 
         GameMethods.decideTurn("storm");
         updateDOMhp();
-    })
+    });
 
     // Forfeits the player's turn.
     $(document).on("click", "#end", function () {
         GameMethods.decideTurn("");
         updateDOMhp();
-    })
+    });
 
     // Runs every time the playe clikcs one of the available action buttons.
     $(document).on("click", ".action", function () {
         var stringGame = JSON.stringify(Game);
         database.ref("/game").set({
             object: stringGame
-        })
-    })
+        });
+    });
 
     
 })   

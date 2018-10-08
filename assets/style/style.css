@@ -1,10 +1,25 @@
-body {background-image: url("../images/My Post (1).jpg");
-    background-repeat: repeat;
-    background-size: 150px 400px;
+body {background-image: url("../images/blue-background.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    font-family: body;
 }
 h1 {
     font-size: 160px;
+    font-family: title;
+    padding: 10px;
+
 }
+
+h2 {
+padding: 15px;
+font-size: 100px;
+width: 80%;
+text-shadow: 1.3px 1.3px 1.3px  white, 4px 4px 6px #666363;
+margin-left: auto;
+margin-right: auto;
+
+}
+<<<<<<< HEAD
 h2 {
 padding-top: 30px;
 padding-left: 120px;
@@ -21,17 +36,25 @@ h2.Victory {
 h2.Defeat {
 margin-top:-30px;
 }
+=======
+
+
+
+
+
+>>>>>>> 247474097712a90a81daf32da2f5e88d115b86c4
 h3 {
-    font-family: 'Source Code Pro', monospace;
+    font-family: body;
 }
 .shadow {  text-shadow: 1.3px 1.3px 1.3px  white, 4px 4px 6px #666363; }
 div #info {
     
     box-shadow: inset 5px 3px 5px 3px #2d2c2c, inset 0px 0px 2px 20px black;
+    margin-left: auto;
+    margin-right: auto;
 }
 div .instructions {background-color: #728aa9fA;
-    height: 150px;
-    width: 900px;
+
    
     font-size: 15px;
     box-shadow: inset 5px 3px 5px 3px #2d2c2c, inset 0px 0px 2px 15px black; 
@@ -47,10 +70,13 @@ a{
 }
 div.instructionheader{
     font-size: 30px;
+<<<<<<< HEAD
+=======
+    padding: 10px;
+>>>>>>> 247474097712a90a81daf32da2f5e88d115b86c4
 }
 #info {background-color: #e0e0e0;
-height: 500px;
-width: 900px;
+
 border-radius: 25px;
 }
 #play {
@@ -68,6 +94,10 @@ border-radius: 25px;
     position: relative;
     overflow: hidden;
 }
+<<<<<<< HEAD
+=======
+
+>>>>>>> 247474097712a90a81daf32da2f5e88d115b86c4
 #player1Window,
 #player2Window {
     overflow: hidden;
@@ -106,25 +136,47 @@ border-radius: 25px;
     background-color:#728aa9fa;
     height: 80px;
  }
+<<<<<<< HEAD
+=======
+
+>>>>>>> 247474097712a90a81daf32da2f5e88d115b86c4
 #chatBox,
 #chatHistory {
     background-color:rgba(0, 0, 0, 0.7);
     color: yellow;
 }
+<<<<<<< HEAD
+=======
+
+>>>>>>> 247474097712a90a81daf32da2f5e88d115b86c4
 #log {
     background-color:#728aa9fa;
     padding: 20px;
 }
+<<<<<<< HEAD
+=======
+
+>>>>>>> 247474097712a90a81daf32da2f5e88d115b86c4
 #chatHistory, 
 #log {
     height: 300px;
     overflow: auto;
 }
+<<<<<<< HEAD
 #city-picker {
     display: none;
+=======
+
+#city-picker {
+    display: none;
+    font-family: body;
+
+>>>>>>> 247474097712a90a81daf32da2f5e88d115b86c4
 }
 #restart-continue {
     display: none;
+    margin-left: auto;
+    margin-right:auto;
 }
  
  .btn {
@@ -135,14 +187,23 @@ border-radius: 25px;
     background-color: rgb(255, 255, 255, 0.9);
     border-radius: 10px;
 }
+<<<<<<< HEAD
 .city:hover {
     opacity: 0.9;
 }
+=======
+
+.city:hover {
+    opacity: 0.9;
+}
+
+>>>>>>> 247474097712a90a81daf32da2f5e88d115b86c4
 .city-image {
     max-width: 90%;
     height: 150px;
     /* object-fit: cover; */
 }
+<<<<<<< HEAD
 div.restart-continue {
 box-shadow: inset 5px 3px 5px 3px #2d2c2c, inset 0px 0px 2px 20px black;
 background-color: #e0e0e0;
@@ -157,17 +218,64 @@ background-color: #e0e0e0;
     margin-left: 90px;
     background-color: #728aa9fA;
 }
+=======
+
+div.restart-continue {
+box-shadow: inset 5px 3px 5px 3px #2d2c2c, inset 0px 0px 2px 20px black;
+
+background-color: #e0e0e0;
+}
+
+.player-image {
+    height: 100px;
+}
+
+.paragraph{
+    font-size: 12px;
+    margin-left: auto;
+    margin-right: auto;
+  
+    width: 80%;
+
+    background-color: #728aa9fA;
+}
+
+>>>>>>> 247474097712a90a81daf32da2f5e88d115b86c4
 .player-tile {
     background-color: rgb(255, 255, 255, 0.9);
     border-radius: 10px;
     color: black;
     border: 3px solid transparent;
+<<<<<<< HEAD
+=======
+
+>>>>>>> 247474097712a90a81daf32da2f5e88d115b86c4
     
     -webkit-transition: all 0.5s ease;
     -moz-transition: all 0.5s ease;
     -o-transition: all 0.5s ease;
     transition: all 0.5s ease;
 }
+<<<<<<< HEAD
 .highlighted {
     border: 3px solid green;
 }
+=======
+
+.highlighted {
+    border: 3px solid green;
+}
+
+@font-face{
+    font-family: title;
+    src: url(../fonts/Love\ Nature.otf)
+}
+
+@font-face{
+    font-family: body;
+    src: url(../fonts/Vegur-Regular.otf)
+}
+
+
+
+>>>>>>> 247474097712a90a81daf32da2f5e88d115b86c4
