@@ -442,9 +442,9 @@ $(document).ready(function() {
     $(document).on("click", "#hot", function () {
         var logText = "";
         if (Game.Player1turn) {
-            logText = "Player 1 hot-attacked Player 2 for " + Game.Player1.atk * 1.75 + " damage. Player 1 lost " + Game.Player1.hp * 0.25 + " health.";
+            logText = "Player 1 hot-attacked Player 2 for " + Game.Player1.atk * 1.75 + " damage. Player 1 lost " + Game.Player1.hp - 5 + " health.";
         } else if (Game.Player2turn) {
-            logText = "Player 2 hot-attacked Player 1 for " + Game.Player2.atk * 1.75 + " damage. Player 2 lost " + Game.Player2.hp * 0.25 + " health.";
+            logText = "Player 2 hot-attacked Player 1 for " + Game.Player2.atk * 1.75 + " damage. Player 2 lost " + Game.Player2.hp - 5 + " health.";
         }
         pushLogMessageToFireBase(logText);
 
