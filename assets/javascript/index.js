@@ -306,7 +306,11 @@ $(document).ready(function() {
         if (snapshot.val().object !== "") {
             Game = JSON.parse(snapshot.val().object);
             console.log(Game);
-
+            
+            if (Game.GameOver=true) {
+                $("#end-screen").show();
+                $("#play").hide();
+            }
             if (Game.Player1.name != "" && !player1Selected) {
                 createPlayerTile("#opponent", Game.Player1.name, 1, "#opponent-name", Game.Player1.hp, Game.Player1.src);
                 player1Selected = true;
