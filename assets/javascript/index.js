@@ -407,6 +407,10 @@ $(document).ready(function() {
             object: ""
         })
 
+        database.ref("/log").set({
+            placeholder: ""
+        })
+
     })
 
     // Performs the actions associated with the attack button
