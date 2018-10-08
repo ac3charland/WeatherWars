@@ -274,17 +274,6 @@ $(document).ready(function() {
         player1Joined = snapshot.val().p1joined;
         player2Joined = snapshot.val().p2joined;
 
-        if (player1Joined && player2Joined) {
-            $("#start").attr("disabled", true);
-            var lobbyFull = $("h4");
-            lobbyFull.attr("id", "lobby-full");
-            lobbyFull.text("Both spots are full. Please wait.")
-            $(".instructions").append(lobbyFull);
-        } else {
-            $("#lobby-full").remove();
-            $("#start").attr("disabled", false);
-        }
-
         if (playerNumber === 1) {
             if (!player2Joined) {
                 $("#opponent-name").text("Waiting for Player 2 to join.")
