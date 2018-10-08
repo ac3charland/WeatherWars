@@ -262,7 +262,7 @@ var GameMethods = {
                         }
                     } else if (id === "hot") {
                         Game.Player1.hp -= (Game.Player1.atk * 1.75);
-                        Game.Player2.hp = Game.Player2.hp * .75;
+                        Game.Player2.hp = Game.Player2.hp - 5;
                         if (!Game.Player2.stormIncapable) {
                             Game.Player2.stormDisabled = false;
                         }
