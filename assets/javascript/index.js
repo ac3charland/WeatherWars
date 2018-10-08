@@ -331,6 +331,13 @@ $(document).ready(function() {
         pTag.text(message);
         $("#log").prepend(pTag);
     });
+
+    database.ref("/chat").on("child_added", function(childSnapshot) {
+        var message = childSnapshot.val().message;
+        var pTag = $("<p>");
+        pTag.text(message);
+        $("#chatHistory").prepend(pTag);
+    });
     
     // Disables all buttons on page load and begins the loading of city choices for the player.
     disableButtons();
@@ -355,6 +362,16 @@ $(document).ready(function() {
         database.ref("/playersJoined").set({
             p1joined: player1Joined,
             p2joined: player2Joined
+        })
+    })
+
+    $(document).on("click", "#submit", function(event) {
+        event.preventDefault();
+
+        var message = $("#message").val().trim();
+
+        database.ref("/chat").push({
+            message: message
         })
     })
 
@@ -401,15 +418,19 @@ $(document).ready(function() {
         database.ref("/playersJoined").set({
             p1joined: player1Joined,
             p2joined: player2Joined
-        })
+        });
 
         database.ref("/game").set({
             object: ""
-        })
+        });
 
         database.ref("/log").set({
             placeholder: ""
-        })
+        });
+
+        database.ref("/chat").set({
+            placeholder: ""
+        });
 
     })
 
@@ -468,21 +489,21 @@ $(document).ready(function() {
 
         GameMethods.decideTurn("storm");
         updateDOMhp();
-    })
+    });
 
     // Forfeits the player's turn.
     $(document).on("click", "#end", function () {
         GameMethods.decideTurn("");
         updateDOMhp();
-    })
+    });
 
     // Runs every time the playe clikcs one of the available action buttons.
     $(document).on("click", ".action", function () {
         var stringGame = JSON.stringify(Game);
         database.ref("/game").set({
             object: stringGame
-        })
-    })
+        });
+    });
 
     
 })   
