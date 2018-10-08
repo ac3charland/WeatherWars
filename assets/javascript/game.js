@@ -12,7 +12,7 @@ var player2Loc = [player2Loc1, player2Loc2, player2Loc3];
 
 var urlStart = "assets/images/"
 
-
+var hpPercent;
 
 
 // //The same function but for player 2
@@ -102,6 +102,7 @@ function Player(name, src, cloudCover, atk, hp) {
     this.stormIncapable=true;
     this.hotDisabled=true;
     this.coldDisabled=true;
+    this.originalHP=hp;
     // dfs:0,
     // if (cloudCover >= 7) {
     //     dfs = dfs + 15;
@@ -141,7 +142,7 @@ var GameMethods = {
         var safetyHP = 0
         var commuteHP = 0
         var totalHP = 0
-
+        
         // console.log("Scores: ", cloudCover, qol, safety, commute);
 
         // Calculate what bonus (if any) HP cloud cover will grant the player
@@ -188,6 +189,11 @@ var GameMethods = {
 
         return totalHP;
     },
+        percentHP: function (Player){
+            var percentHP = (Player.hp/Player.originalHP) * 100;  
+            return percentHP;
+                   
+    },   
     // Function to decide whose turn it is and how to perform their chosen attack
     decideTurn: function (id) {
         console.log("Calling decideTurn(" + id + ");")
@@ -465,5 +471,5 @@ var Game = {
     Winner: ''
 };
 
-
+console.log(hpPercent);
 //!!!!!!!!!!!!!!!!!!!!!!!!!-------Need to grab stormDisabled from backend and toggle the storm attack button either on or off
