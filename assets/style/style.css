@@ -7,6 +7,29 @@ h1 {
     font-size: 160px;
 }
 
+h2 {
+padding-top: 30px;
+padding-left: 120px;
+font-size: 100px;
+width: 80%;
+text-shadow: 1.3px 1.3px 1.3px  white, 4px 4px 6px #666363;
+
+
+}
+
+h2.or {font-size: 50px;
+
+    padding-bottom:-40px;
+}
+
+h2.Victory {
+    margin-bottom:-50px;
+}
+
+h2.Defeat {
+margin-top:-30px;
+}
+
 h3 {
     font-family: 'Source Code Pro', monospace;
 }
@@ -131,6 +154,16 @@ input, select, textarea{
 
 p {
     color: white;
+
+div.restart-continue {
+box-shadow: inset 5px 3px 5px 3px #2d2c2c, inset 0px 0px 2px 20px black;
+
+background-color: #e0e0e0;
+}
+
+.player-image {
+    height: 100px;
+
 }
 
 #log {
