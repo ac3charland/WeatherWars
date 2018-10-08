@@ -1,10 +1,13 @@
-body {background-image: url("../images/My Post (1).jpg");
-    background-repeat: repeat;
-    background-size: 150px 400px;
+body {background-image: url("../images/blue-background.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    font-family: body;
 }
 
 h1 {
     font-size: 160px;
+    font-family: title;
+
 }
 
 h2 {
@@ -31,7 +34,7 @@ margin-top:-30px;
 }
 
 h3 {
-    font-family: 'Source Code Pro', monospace;
+    font-family: body;
 }
 
 .shadow {  text-shadow: 1.3px 1.3px 1.3px  white, 4px 4px 6px #666363; }
@@ -39,6 +42,8 @@ h3 {
 div #info {
     
     box-shadow: inset 5px 3px 5px 3px #2d2c2c, inset 0px 0px 2px 20px black;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 div .instructions {background-color: #728aa9fA;
@@ -146,6 +151,8 @@ border-radius: 25px;
 
 #city-picker {
     display: none;
+    font-family: body;
+
 }
 
 #restart-continue {
@@ -207,7 +214,15 @@ background-color: #e0e0e0;
     border: 3px solid green;
 }
 
+@font-face{
+    font-family: title;
+    src: url(../fonts/Love\ Nature.otf)
+}
 
+@font-face{
+    font-family: body;
+    src: url(../fonts/Vegur-Regular.otf)
+}
 
 
 
