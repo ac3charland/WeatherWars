@@ -2,22 +2,33 @@ body {background-image: url("../images/My Post (1).jpg");
     background-repeat: repeat;
     background-size: 150px 400px;
 }
-
 h1 {
     font-size: 160px;
 }
-
+h2 {
+padding-top: 30px;
+padding-left: 120px;
+font-size: 100px;
+width: 80%;
+text-shadow: 1.3px 1.3px 1.3px  white, 4px 4px 6px #666363;
+}
+h2.or {font-size: 50px;
+    padding-bottom:-40px;
+}
+h2.Victory {
+    margin-bottom:-50px;
+}
+h2.Defeat {
+margin-top:-30px;
+}
 h3 {
     font-family: 'Source Code Pro', monospace;
 }
-
 .shadow {  text-shadow: 1.3px 1.3px 1.3px  white, 4px 4px 6px #666363; }
-
 div #info {
     
     box-shadow: inset 5px 3px 5px 3px #2d2c2c, inset 0px 0px 2px 20px black;
 }
-
 div .instructions {background-color: #728aa9fA;
     height: 150px;
     width: 900px;
@@ -26,30 +37,25 @@ div .instructions {background-color: #728aa9fA;
     box-shadow: inset 5px 3px 5px 3px #2d2c2c, inset 0px 0px 2px 15px black; 
    
 }
-
 #button{
     width: 300px;
     font-size: 50px;
 }
-
-
-
+a{
+    margin-top: 10px;
+    cursor: pointer;
+}
 div.instructionheader{
     font-size: 30px;
-
 }
-
-
 #info {background-color: #e0e0e0;
 height: 500px;
 width: 900px;
 border-radius: 25px;
 }
-
-
 #play {
     color: white;
-    background-color:rgba(0,0,0,0.12);
+    background-color:rgb(92, 0, 128);
     width: 90%;
     margin-top: 30px;
     margin-left: auto;
@@ -58,51 +64,65 @@ border-radius: 25px;
     background: lightgrey;
     display: none;
 }
-
 #battleWindow {
     position: relative;
+    overflow: hidden;
 }
-
-#player1Window {
-	width: 80%;
-	height: 0;
-	border-top: 250px url(/assets/images/barcelona.jpg);
-    border-right: 750px;
-    
-    margin-left: auto;
-    margin-right: auto;
- 
-    position: absolute;
-    top: 40px;
-    left: 20;  
-}
-
+#player1Window,
 #player2Window {
-    width: 80%;
-	height: 0;
-    border-bottom: 250px;
-	border-left: 750px;
-    
+    overflow: hidden;
+    box-shadow: 0 0 10px 0 rgba(0,0,0,0.9);
+}
+#player1Window {
+    width: 100%;
+    height: 250px;
+    border-top: 250px solid orange;
+    border-right: 70vw solid transparent;
+ 
     margin-left: auto;
     margin-right: auto;
  
     position: absolute;
     top: 40px;
-    right: 20;  
+    left: 0px;
 }
-
-img {
-    width: 750px;
+     
+ 
+#player2Window {
+    width: 100%;
     height: 250px;
+    border-bottom: 250px solid red;
+    border-left: 70vw solid transparent;
+ 
+    margin-left: auto;
+    margin-right: auto;
+ 
+    position: absolute;
+    top: 40px;
+    right: 0px;
 }
-
-#attackButtons{
+ 
+ #attackButtons{
     background-color:#728aa9fa;
-    margin-left: 80px;
-    margin-top: 280px;
-    
+    height: 80px;
+ }
+#chatBox,
+#chatHistory {
+    background-color:rgba(0, 0, 0, 0.7);
+    color: yellow;
 }
-
+#log {
+    background-color:#728aa9fa;
+    padding: 20px;
+}
+#chatHistory, 
+#log {
+    height: 300px;
+    overflow: auto;
+}
+#city-picker {
+    display: none;
+}
 #restart-continue {
     display: none;
 }
@@ -111,93 +131,43 @@ img {
     margin-top: 20px;
  
  }
-
 .city {
     background-color: rgb(255, 255, 255, 0.9);
     border-radius: 10px;
 }
-
-#chatBox {
-    background-color:rgba(0, 0, 0, 0.7);
-    margin-top: 280px;
-    margin-left: 30px;
+.city:hover {
+    opacity: 0.9;
+}
+.city-image {
+    max-width: 90%;
+    height: 150px;
+    /* object-fit: cover; */
+}
+div.restart-continue {
+box-shadow: inset 5px 3px 5px 3px #2d2c2c, inset 0px 0px 2px 20px black;
+background-color: #e0e0e0;
+}
+.player-image {
     height: 100px;
-    color: yellow;
 }
-
-input, select, textarea{
-    color: #207a1c;
-}
-
-p {
-    color: white;
-}
-
-#log {
-    background-color: rgb(145, 148, 106);
+.paragraph{
+    font-size: 10px;
+    margin-top: 5px;
     width: 80%;
-    height: 90px;
-    margin:auto;
+    margin-left: 90px;
+    background-color: #728aa9fA;
 }
-
-/* NEW ATTEMP TO SPLIT SCREEN HERE ================================= */
-
-.battleWindow {
-    width: 80%;
-    height: 400px;
+.player-tile {
+    background-color: rgb(255, 255, 255, 0.9);
+    border-radius: 10px;
+    color: black;
+    border: 3px solid transparent;
     
-    position: relative;
-    top: 40px;
-    left: 20;
-
-    background: lightgrey;
-    overflow: hidden;
-  }
-  
-  .player1Window,
-  .player2Window {
-    position: absolute;
-    height: 100%;
-    width: 60%;
-    min-width: 500px;
-    -ms-transform: skewX(-25deg);
-    -webkit-transform: skewX(-25deg);
-    transform: skewX(-25deg);
-    background: white;
-    overflow: hidden;
-    top:0;
-    margin-right: 50px;
-    border: 5px solid white;
-    border-top: 0;
-    border-bottom: 0;
-    box-shadow: 0 0 10px 0 rgba(0,0,0,0.9);
-  }
-  
-  .player1Window {
-    right: 48%;
-    position: absolute;
-    top: 400px;
-    height: 250px;
-    width: 10%;
-  }
-  
-  .player2Window {
-    left: 50%; 
-    position: absolute;
-    top: 400px;
-    height: 250px;
-    width: 10%;
-  }
-  
-  .player1Window:after{
-    right: -93px;
-    background: url("assets/images/bangkok.jpg") no-repeat center center;
-    background-size: cover;
-  }
-
-  .player2Windowt:after{
-    right: -93px;
-    background: url("assets/images/mexico_city.jpg") no-repeat center center;
-    background-size: cover;
-  }
- 
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+}
+.highlighted {
+    border: 3px solid green;
+}
