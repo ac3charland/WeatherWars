@@ -1,15 +1,62 @@
-body {
-    background-color: gray;
+body {background-image: url("../images/My Post (1).jpg");
+    background-repeat: repeat;
+    background-size: 150px 400px;
 }
+
+h1 {
+    font-size: 160px;
+}
+
+h3 {
+    font-family: 'Source Code Pro', monospace;
+}
+
+.shadow {  text-shadow: 1.3px 1.3px 1.3px  white, 4px 4px 6px #666363; }
+
+div #info {
+    
+    box-shadow: inset 5px 3px 5px 3px #2d2c2c, inset 0px 0px 2px 20px black;
+}
+
+div .instructions {background-color: #728aa9fA;
+    height: 150px;
+    width: 900px;
+   
+    font-size: 15px;
+    box-shadow: inset 5px 3px 5px 3px #2d2c2c, inset 0px 0px 2px 15px black; 
+   
+}
+
+#button{
+    width: 300px;
+    font-size: 50px;
+}
+
+
+
+div.instructionheader{
+    font-size: 30px;
+
+}
+
+
+#info {background-color: #e0e0e0;
+height: 500px;
+width: 900px;
+border-radius: 25px;
+}
+
 
 #play {
     color: white;
     background-color:rgba(0,0,0,0.12);
     width: 90%;
-    height: 550px;
     margin-top: 30px;
     margin-left: auto;
     margin-right: auto;
+    padding: 20px;
+    background: lightgrey;
+    display: none;
 }
 
 #battleWindow {
@@ -24,7 +71,7 @@ body {
     
     margin-left: auto;
     margin-right: auto;
-
+ 
     position: absolute;
     top: 40px;
     left: 20;  
@@ -38,7 +85,7 @@ body {
     
     margin-left: auto;
     margin-right: auto;
-
+ 
     position: absolute;
     top: 40px;
     right: 20;  
@@ -56,9 +103,18 @@ img {
     
 }
 
-.btn {
+#restart-continue {
+    display: none;
+}
+ 
+ .btn {
     margin-top: 20px;
-    
+ 
+ }
+
+.city {
+    background-color: rgb(255, 255, 255, 0.9);
+    border-radius: 10px;
 }
 
 #chatBox {

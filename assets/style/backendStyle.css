@@ -1,0 +1,50 @@
+body {
+    background-image: url("../images/black-background.png");
+    justify-content: center;
+    text-align: center;
+}
+
+.cityButton{
+    margin: 8px;
+    align-self: center;
+}
+
+#buttons-go-here{
+    padding: 20px;
+    text-align: center;
+}
+
+#reset-go-here{
+    text-align: center;
+    align-self: center;
+    justify-content: center;
+}
+
+.resetBtn{
+    margin: 15px;
+    align-self: center;
+  text-align: center;
+    justify-content: center;
+}
+
+.card-body{
+    background-image: url("../images/white-background.png")
+}
+
+.imgCard{
+    text-align: center;
+}
+
+#img-card{
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 30px;
+}
+
+.nameBox{
+    color: goldenrod;
+    font-size: 45px;
+}
+
+ 

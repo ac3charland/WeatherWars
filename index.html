@@ -4,16 +4,35 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Weather War</title>
+    <title>Weather Wars</title>
   
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
    <!--Import materialize.css-->
-  
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
    <link rel="stylesheet" href="assets/style/style.css">
+   <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet">
+
+    <!---Jquery link------------------------------------------------------>
+    <script src="https://code.jquery.com/jquery.js"></script>
+
+    <!------CorsFix link-------------------------------------------------->
+    <script type="text/javascript" src="assets/javascript/CorsFix.js"></script>
+
+    <!-----Firebase link--------------------------------------------------->
+    <script src="https://www.gstatic.com/firebasejs/5.5.2/firebase.js"></script>
+
+    <!-- Game & Ajax script links -->
+    <script src="assets/javascript/game.js"></script>
+    <script src="assets/javascript/backend.js"></script>
+
+    <!-- Import Page Script -->
+    <script src="assets/javascript/index.js"></script>
+
    <!--Let browser know website is optimized for mobile-->
    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 </head>
+
+
 <body class="card-panel #90a4ae blue-grey lighten-2">
    
 <div class="container center-align">
@@ -45,63 +64,59 @@
 </table>
 </div>
 
-<!-- Div 3 Play-->
- <!-- Materialize -->
+<!-- Play -->
+ 
 <div id="play">
-    <!-- Row 1: battling window-->
-    <div class="row" class="battleWindow">battleWindow
-        <div class="col s12">
-            <div class="player1Window">
-                <img src="assets/images/berlin.jpg" class="cityImage">
-                <p>Player 1</p>
+        <!-- Row 1: battling window-->
+        <div class="row" class="battleWindow">battleWindow
+            <div class="col s12">
+                <div class="player1Window">
+                    <img src="assets/images/berlin.jpg" class="cityImage">
+                    <p>Player 1</p>
+                </div>
+                <div class="player2Window">
+                    <img src="assets/images/london.jpg" class="cityImage">
+                    <p>player 2</p>
+                </div>
+    
             </div>
-            <div class="player2Window">
-                <img src="assets/images/london.jpg" class="cityImage">
-                <p>player 2</p>
-            </div>
-
         </div>
-    </div>
-    <!-- Row 2, 2 Columns: buttons and chatbox-->
-<div class="row">
-        <div class="col s3" id="attackButtons">
-            <a class="btn-floating btn-large waves-effect waves-light green">Attack<i class="material-icons"></i></a>
-            <a class="btn-floating btn-large waves-effect waves-light red"><i class="material-icons">wb_sunny</i></a>
-            <a class="btn-floating btn-large waves-effect waves-light blue"><i class="material-icons">toys</i></a>
-            <a class="btn-floating btn-large waves-effect waves-light yellow"><i class="material-icons">flash_on</i></a>
-            <a class="btn-floating btn-large waves-effect waves-light #b71c1c red darken-4">End<i class="material-icons"></i></a>
-            <a class="btn-floating btn-large waves-effect waves-light #bdbdbd grey lighten-1">Info<i class="material-icons"></i></a><i></a>
+        <!-- Row 2, 2 Columns: buttons and chatbox-->
+        <div class="row">
+            <div id="attackButtons" class="col s12 center-align">
+                <a id="attack" class="action btn-floating btn-large waves-effect waves-light green">Attack<i class="material-icons"></i></a>
+                <a id="hot" class="action btn-floating btn-large waves-effect waves-light red"><i class="material-icons">wb_sunny</i></a>
+                <a id="cold" class="action btn-floating btn-large waves-effect waves-light blue"><i class="material-icons">toys</i></a>
+                <a id="storm" class="action btn-floating btn-large waves-effect waves-light yellow"><i class="material-icons">flash_on</i></a>
+                <a id="end" class="action btn-floating btn-large waves-effect waves-light #b71c1c red darken-4">End<i class="material-icons"></i></a>
+                <!-- <a class="action btn-floating btn-large waves-effect waves-light #bdbdbd grey lighten-1">Info<i class="material-icons"></i></a> -->
+                </div>
+                <div class="col s6" id="chatBox"> chatBox
+                        <form>
+                            <textarea class="scrollabletextbox" name="note">Text here</textarea>
+                        </form>
+                </div>
         </div>
-        <div class="col s6" id="chatBox"> chatBox
-                <form>
-                    <textarea class="scrollabletextbox" name="note">Text here</textarea>
-                </form>
+          <!-- Row 3: log-->
+        <div class="row">
+              <div class="col s12">
+                  <div id="log">log - attack details/damages show up here</div>
+              </div>
         </div>
 </div>
-      <!-- Row 3: log-->
-<div class="row">
-      <div class="col s12">
-          <div id="log">log - attack details/damages show up here</div>
-          
-      </div>
-  </div>
-</div>
-
-
-<div class="container center-align">
 
 <!--Restart/Continue-->
-<div class="restart-continue">
-    <h2>Victory!</h2>
-    <h2>or</h2>
-    <h2>Defeat!</h2>
-</div>
-   <button class="waves-effect waves-light btn-large card-panel #ffeb3b yellow black-text text-darken-2">Continue</button>
+<div class="container center-align">
+    <div class="restart-continue">
+        <h2>Victory!</h2>
+        <h2>or</h2>
+        <h2>Defeat!</h2>
+    </div>
+       <button class="waves-effect waves-light btn-large card-panel #ffeb3b yellow black-text text-darken-2">Continue</button>
        <h2 class>
        </h2>
    <button class="waves-effect waves-light btn-large card-panel #ffeb3b yellow black-text text-darken-2">Restart</button>
 </div>
-
 
 </body>
 </html>
