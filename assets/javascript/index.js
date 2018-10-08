@@ -274,6 +274,14 @@ $(document).ready(function() {
         player1Joined = snapshot.val().p1joined;
         player2Joined = snapshot.val().p2joined;
 
+        if (player1Joined && player2Joined) {
+            $("#start").attr("disabled", true);
+            $("#instruction-head").text("Game is full, please wait.")
+        } else {
+            $("#start").attr("disabled", false);
+            $("#instruction-head").text("Instructions")
+        }
+
         if (playerNumber === 1) {
             if (!player2Joined) {
                 $("#opponent-name").text("Waiting for Player 2 to join.")
