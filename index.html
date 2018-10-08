@@ -35,84 +35,106 @@
 
 <body class="card-panel #90a4ae blue-grey lighten-2">
    
-<div class="container center-align">
+    <div class="container center-align">
 
-<!--Intro Page-->
-  <h3>Weather Wars</h3>
-   <div class="instructions">
-    instructions
-     <div class="paragraph">
+        <!--Intro Page-->
+        <div id ="info">
+            <h1 class="shadow">Weather Wars</h1>
+            <div class="instructions">
 
-                opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).t is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of 
+                <div class="instructionheader">
+                    Instructions
 
-     </div>
-    <button class="waves-effect waves-light btn-large card-panel #ffeb3b yellow black-text text-darken-2">Start</button>
-   </div>
+                </div>
+                <div class="paragraph">
 
-<!--Choose City-->
+                as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).t is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of 
 
-<h3>Choose a City</h3>
+                </div>
 
- <div class="chooseCity">
- <table>
- <thead>
-    <tr>
-    <th>City 1</th>
-    <th>City 2</th>
-    <th>City 3</th>
-    </tr>
-</thead>
-    <tbody>
+                <button class="waves-effect waves-light btn-large card-panel #424242 grey darken-3" id="start">Start</button>
+            </div>
+        </div> 
 
-<!--where cities will go appending <td> and <tr> from jquery-->
-    </tbody>
-</table>
-</div>
 
-<!-- Play -->
- 
-<div id="play">
+        <!--Choose City-->
+        <div id="city-picker">
+            <h3>Choose a City</h3>
+            
+            <div class="chooseCity">
+                <div class="row">
+            
+                    <!--where cities will go appending <td> and <tr> from jquery-->
+                    <div class="col s4">
+                        <div id="city1" class="city">
+                        </div>
+                    </div>
+                    <div class="col s4">
+                        <div id="city2" class="city">
+                        </div>
+                    </div>
+                    <div class="col s4">
+                        <div id="city3" class="city">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="play">
         <!-- Row 1: battling window-->
-        <div class="row" class="battleWindow">battleWindow
-            <div class="col s12">
-                <div class="player1Window">
-                    <img src="assets/images/berlin.jpg" class="cityImage">
-                    <p>Player 1</p>
-                </div>
-                <div class="player2Window">
-                    <img src="assets/images/london.jpg" class="cityImage">
-                    <p>player 2</p>
-
-                </div>
-    
+        <div class="row" id="battleWindow">
+            <!-- Can't figure out how to display text over these divs using the current formatting.
+            <div class="col s12 clearfix">
+                <div id="playerWindow"></div>
+                <div id="player2Window"></div>
+            </div> -->
+            <div id="player" class="col s5 player-tile center-align">
+                <h6 id="player-name">Player 1</h6>
+            </div>
+            <div class="col s2"></div>
+            <div id="opponent" class="col s5 player-tile center-align">
+                <h6 id="opponent-name">Player 2</h6>
             </div>
         </div>
         <!-- Row 2, 2 Columns: buttons and chatbox-->
         <div class="row">
-            <div id="attackButtons" class="col s12 center-align">
-                <a id="attack" class="action btn-floating btn-large waves-effect waves-light green">Attack<i class="material-icons"></i></a>
-                <a id="hot" class="action btn-floating btn-large waves-effect waves-light red"><i class="material-icons">wb_sunny</i></a>
-                <a id="cold" class="action btn-floating btn-large waves-effect waves-light blue"><i class="material-icons">toys</i></a>
-                <a id="storm" class="action btn-floating btn-large waves-effect waves-light yellow"><i class="material-icons">flash_on</i></a>
-                <a id="end" class="action btn-floating btn-large waves-effect waves-light #b71c1c red darken-4">End<i class="material-icons"></i></a>
-                <!-- <a class="action btn-floating btn-large waves-effect waves-light #bdbdbd grey lighten-1">Info<i class="material-icons"></i></a> -->
+            <div class="col s7">
+                <div class="row">
+                    <div id="attackButtons" class="col s12 center-align">
+                        <a id="attack" class="action btn-floating btn-large waves-effect waves-light green">Attack<i class="material-icons"></i></a>
+                        <a id="hot" class="action btn-floating btn-large waves-effect waves-light red"><i class="material-icons">wb_sunny</i></a>
+                        <a id="cold" class="action btn-floating btn-large waves-effect waves-light blue"><i class="material-icons">toys</i></a>
+                        <a id="storm" class="action btn-floating btn-large waves-effect waves-light yellow"><i class="material-icons">flash_on</i></a>
+                        <a id="end" class="action btn-floating btn-large waves-effect waves-light #b71c1c red darken-4">End<i class="material-icons"></i></a>
+                        <!-- <a class="action btn-floating btn-large waves-effect waves-light #bdbdbd grey lighten-1">Info<i class="material-icons"></i></a> -->
+                    </div>
                 </div>
-                <div class="col s6" id="chatBox"> chatBox
+                <div class="row">
+                    <div class="col s12 clearfix">
+                        <div id="log"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col s1"></div>
+            <div class="col s4" >
+                <div class="row">
+                    <div id="chatBox" class="col s12">
+                        <h6>Chat</h6>
                         <form>
                             <textarea class="scrollabletextbox" name="note">Text here</textarea>
                         </form>
+                    </div>
                 </div>
+                <div class="row">
+                    <div id="chatHistory" class="col s12">
+                        <p>Chat logs go here</p>
+                    </div>
+                </div>
+                
+            </div>
         </div>
-
-          <!-- Row 3: log-->
-        <div class="row">
-              <div class="col s12">
-                  <div id="log">log - attack details/damages show up here</div>
-              </div>
-        </div>
-</div>
-
-
         <!-- Row 3: log-->
     
     </div>
@@ -130,13 +152,7 @@
             </h2>
             <button id="restart" class="waves-effect waves-light btn-large card-panel #424242 grey darken-3">Restart</button>
         </div>
-
     </div>
-       <button class="waves-effect waves-light btn-large card-panel #ffeb3b yellow black-text text-darken-2">Continue</button>
-       <h2 class>
-       </h2>
-   <button class="waves-effect waves-light btn-large card-panel #ffeb3b yellow black-text text-darken-2">Restart</button>
-</div>
 
 </body>
 </html>
