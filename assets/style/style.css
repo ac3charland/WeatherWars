@@ -154,6 +154,7 @@ input, select, textarea{
 
 p {
     color: white;
+}
 
 div.restart-continue {
 box-shadow: inset 5px 3px 5px 3px #2d2c2c, inset 0px 0px 2px 20px black;
