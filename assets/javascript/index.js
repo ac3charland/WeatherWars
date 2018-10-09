@@ -463,6 +463,10 @@ $(document).ready(function() {
 
         displayCityChoices();
         disableButtons();
+
+        Game.GameOver = false;
+        Game.Player1 = new Player("", "", 0, 0, 100);
+        Game.Player2 = new Player("", "", 0, 0, 100);
     })
 
     // Performs the actions associated with the attack button
