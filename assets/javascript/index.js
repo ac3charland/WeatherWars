@@ -307,7 +307,8 @@ $(document).ready(function() {
             Game = JSON.parse(snapshot.val().object);
             console.log(Game);
             
-            if (Game.GameOver=true) {
+            if (Game.GameOver==true) {
+
                 $("#end-screen").show();
                 $("#play").hide();
             }
