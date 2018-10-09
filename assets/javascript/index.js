@@ -469,7 +469,7 @@ $(document).ready(function() {
         $("#start").attr("disabled", true);
         $("#info").css("display", "none");
         // 2Do: need to update to show lobby screen.
-        $("#city-picker").css("display", "block");
+        $("#lobby-div").css("display", "block");
         
         
     })
