@@ -471,7 +471,9 @@ $(document).ready(function() {
         player1Selected = false;
         player2Selected = false;
         playerNumber = null;
-    })
+
+        $("#log").empty();
+    });
 
     // Performs the actions associated with the attack button
     $(document).on("click", "#attack", function() {
