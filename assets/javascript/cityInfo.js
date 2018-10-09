@@ -65,7 +65,6 @@ function cityInfoSetup(imgId) {
     // Append rows to thrird table
     var tableThreeNewRow = $("<tr>").append(
         $("<td>").text(cityInfoResponse.name),
-        $("<td>").text(darkSkyResponse.currently.time),
         $("<td>").text(darkSkyResponse.currently.temperature),
         $("<td>").text(darkSkyResponse.currently.summary),
         $("<td>").text(darkSkyResponse.currently.windSpeed),
