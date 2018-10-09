@@ -467,6 +467,12 @@ $(document).ready(function() {
         Game.GameOver = false;
         Game.Player1 = new Player("", "", 0, 0, 100);
         Game.Player2 = new Player("", "", 0, 0, 100);
+
+        player1Joined = false;
+        player2Joined = false;
+        player1Selected = false;
+        player2Selected = false;
+        playerNumber = null;
     })
 
     // Performs the actions associated with the attack button
