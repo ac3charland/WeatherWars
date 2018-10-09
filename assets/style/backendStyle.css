@@ -2,6 +2,7 @@ body {
     background-image: url("../images/blue-background.jpg");
     justify-content: center;
     text-align: center;
+    font-family: body;
 }
 
 .cityButton{
@@ -45,6 +46,18 @@ body {
 .nameBox{
     color: white;
     font-size: 45px;
+    font-family: title;
 }
+
+@font-face{
+    font-family: title;
+    src: url(../fonts/Love\ Nature.otf)
+}
+
+@font-face{
+    font-family: body;
+    src: url(../fonts/Vegur-Regular.otf)
+}
+
 
  
