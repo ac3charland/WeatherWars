@@ -453,7 +453,13 @@ $(document).ready(function() {
         });
 
         $("#info").show();
+        $("#end-screen").hide();
 
+        $("#city1, #city2, #city3").empty();
+
+        $("#player, #opponent").empty();
+        $("#player").append("<h6 id='player-name'>Player</h6>")
+        $("opponent").append('<h6 id="opponent-name">Opponent</h6>')
     })
 
     // Performs the actions associated with the attack button
