@@ -20,6 +20,23 @@ var player2Selected = false;
 
 var playerNumber;
 
+function checkIfGameOver(game) {
+    var winner = "";
+    if (game.Player1.hp <= 0) {
+        game.GameOver = true;
+        winner =  "Player 2";
+    }
+    else if (game.Player2.hp <= 0) {
+        game.GameOver = true;
+        winner = "Player 1";
+    }
+    if (winner != "") {
+        $("#end-screen").show();
+        $("#play").hide();
+        $(".end-message").text(winner + " wins!")
+    }
+}
+
 // Assigns the given parameters to the player object (Game.Player1, Game.Player2) passed to the player argument of the function.
 function createPlayer(player, name, src, hp, atk, special) {
     player.hp = parseInt(hp);
@@ -307,11 +324,8 @@ $(document).ready(function() {
             Game = JSON.parse(snapshot.val().object);
             console.log(Game);
             
-            if (Game.GameOver==true) {
-
-                $("#end-screen").show();
-                $("#play").hide();
-            }
+            checkIfGameOver(Game);
+            
             if (Game.Player1.name != "" && !player1Selected) {
                 createPlayerTile("#opponent", Game.Player1.name, 1, "#opponent-name", Game.Player1.hp, Game.Player1.src);
                 player1Selected = true;
