@@ -460,6 +460,9 @@ $(document).ready(function() {
         $("#player, #opponent").empty();
         $("#player").append("<h6 id='player-name'>Player</h6>")
         $("opponent").append('<h6 id="opponent-name">Opponent</h6>')
+
+        displayCityChoices();
+        disableButtons();
     })
 
     // Performs the actions associated with the attack button
