@@ -433,6 +433,7 @@ $(document).ready(function() {
         player2Joined = false;
 
         $("#start").attr("disabled", false);
+        $(".restart-continue").show();
 
         database.ref("/playersJoined").set({
             p1joined: player1Joined,
