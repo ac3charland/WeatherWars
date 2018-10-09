@@ -459,7 +459,7 @@ $(document).ready(function() {
 
         $("#player, #opponent").empty();
         $("#player").append("<h6 id='player-name'>Player</h6>")
-        $("opponent").append('<h6 id="opponent-name">Opponent</h6>')
+        $("#opponent").append("<h6 id='opponent-name'>Opponent</h6>")
 
         displayCityChoices();
         disableButtons();
@@ -468,8 +468,6 @@ $(document).ready(function() {
         Game.Player1 = new Player("", "", 0, 0, 100);
         Game.Player2 = new Player("", "", 0, 0, 100);
 
-        player1Joined = false;
-        player2Joined = false;
         player1Selected = false;
         player2Selected = false;
         playerNumber = null;
