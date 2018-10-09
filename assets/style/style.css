@@ -1,9 +1,11 @@
+/*Background image-*/
 body {background-image: url("../images/blue-background.jpg");
     background-repeat: no-repeat;
     background-size: cover;
     font-family: body;
 }
 
+/*Font size and positioning of h1*/
 h1 {
     font-size: 160px;
     font-family: title;
@@ -11,35 +13,41 @@ h1 {
 
 }
 
-h2 {
+/*h2 {
 padding: 15px;
 font-size: 100px;
 width: 80%;
 text-shadow: 1.3px 1.3px 1.3px  white, 4px 4px 6px #666363;
 margin-left: auto;
 margin-right: auto;
+}*/
 
-}
 
+/*aligning the attack buttons*/
 a{
    margin-top: 10px;
    cursor: pointer;
 }
 
-
+/*Choosing a font for the "choose a city" div for its title*/
 h3 {
     font-family: body;
 }
 
+/*Shadow specific to the title in the first div -Weather Wars*/
 .shadow {  text-shadow: 1.3px 1.3px 1.3px  white, 4px 4px 6px #666363; }
 
+/*Div that holds the entire first div*/
 div #info {
     
     box-shadow: inset 5px 3px 5px 3px #2d2c2c, inset 0px 0px 2px 20px black;
     margin-left: auto;
     margin-right: auto;
-}
+    background-color: #e0e0e0;
 
+border-radius: 25px;
+}
+/* css for the insctructions div (containter) and lobby list- they have the same css */
 .instructions,
 #lobby-list {
     background-color: #728aa9fA;
@@ -47,25 +55,19 @@ div #info {
     box-shadow: inset 5px 3px 5px 3px #2d2c2c, inset 0px 0px 2px 15px black; 
    
 }
-
+/*
 #button{
     width: 300px;
     font-size: 50px;
 }
+*/
 
-
-
+/*positioning and font sizing of the instructions title */
 div.instructionheader{
     font-size: 30px;
     padding: 10px;
 }
-
-
-#info {background-color: #e0e0e0;
-
-border-radius: 25px;
-}
-
+/* div that acts as a container to the entire play div*/
 
 #play {
     color: white;
@@ -79,17 +81,19 @@ border-radius: 25px;
     display: none;
 }
 
+/* overlapping the #play div*/
+
 #battleWindow {
     position: relative;
     overflow: hidden;
 }
-
+/*
 #player1Window,
 #player2Window {
     overflow: hidden;
     box-shadow: 0 0 10px 0 rgba(0,0,0,0.9);
-}
-
+} */
+/*
 #player1Window {
     width: 100%;
     height: 250px;
@@ -117,100 +121,103 @@ border-radius: 25px;
     position: absolute;
     top: 40px;
     right: 0px;
-}
+} */
  
  #attackButtons{
     background-color:#728aa9fa;
     height: 80px;
  }
-
+/*Chat box is its own div where the chat is typed and then chat history has what was typed- but has the same css */
 #chatBox,
 #chatHistory {
     background-color:rgba(0, 0, 0, 0.7);
     color: yellow;
 }
 
+/*Logs the attacks */
 #log {
     background-color:#728aa9fa;
     padding: 20px;
 }
-
+/*Chat log goes into so they height of it and the height of the attack log are the same */
 #chatHistory, 
 #log {
     height: 300px;
     overflow: auto;
 }
-
+/*the entire div that you choose the city in- the font */
 #city-picker {
     display: none;
     font-family: body;
 
 }
-
+/*The entire restart-continue container and its positioning*/
 #restart-continue {
     display: none;
     margin-left: auto;
     margin-right:auto;
 }
- 
+ /*
  .btn {
     margin-top: 20px;
  
  }
+ */
  
- a{
+ /*a{
    margin-top: 10px;
    cursor: pointer;
 }
-
+*/
+/*the background color of each city chosen and the rounded edges*/
 .city {
     background-color: rgb(255, 255, 255, 0.9);
     border-radius: 10px;
 }
-
+/*changes the hovered over cities opacity*/
 .city:hover {
     opacity: 0.9;
 }
-
+/*resizing chosen image to make it fit within its div*/
 .city-image {
     max-width: 90%;
     height: 150px;
     /* object-fit: cover; */
 }
-
+/* the div where you choose a lobby (within the lobby container div) and last div restart-continue are styled with the same background color and same box shadow */
 .restart-continue,
 #lobby-picker {
     box-shadow: inset 5px 3px 5px 3px #2d2c2c, inset 0px 0px 2px 20px black;
 
     background-color: #e0e0e0;
 }
-
+/*(within the lobby container div) it is adding padding to the picker and the list */
 #lobby-picker,
 #lobby-list {
     padding: 20px;
 }
-
+/* the container that is holding all of the lobby attributes */
 #lobby-container {
     max-height: 300px;
     overflow: auto;
 }
-
+/*When you hover over a name of a lobby the opacity changes */
 .lobby:hover {
     opacity: 0.9;
 }
 
-
+/*styling the option new lobby the same as the other lobbies with bckgrnd color -border radius */
 .lobby,
 #new-lobby {
     background-color: rgb(255, 255, 255, 0.9);
     border-radius: 10px;
     cursor: pointer;
 }
-
+/*
 .player-image {
     height: 100px;
-}
-
+}*/
+/*giving the p within the instructions the positioning- background color, and font */
 .paragraph{
     font-size: 12px;
     margin-left: auto;
@@ -220,7 +227,7 @@ border-radius: 25px;
 
     background-color: #728aa9fA;
 }
-
+/* when your image gets appended to the div*/
 .player-tile {
     background-color: rgb(255, 255, 255, 0.9);
     border-radius: 10px;
@@ -233,11 +240,12 @@ border-radius: 25px;
     -o-transition: all 0.5s ease;
     transition: all 0.5s ease;
 }
-
+/*
 .highlighted {
     border: 3px solid green;
-}
+}*/
 
+/*When typing in a new lobby name it changes a color and focuses */
 .input-field input[type=text]:focus + label {
      color: #728aa9fA !important;
 }
@@ -246,7 +254,7 @@ border-radius: 25px;
      border-bottom: 1px solid #728aa9fA !important;
      box-shadow: 0 1px 0 0 #728aa9fA !important;
    }
-
+/*font style source*/
 @font-face{
     font-family: title;
     src: url(../fonts/Love\ Nature.otf)
