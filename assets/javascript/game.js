@@ -471,5 +471,4 @@ var Game = {
     Winner: ''
 };
 
-console.log(hpPercent);
 //!!!!!!!!!!!!!!!!!!!!!!!!!-------Need to grab stormDisabled from backend and toggle the storm attack button either on or off

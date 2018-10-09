@@ -24,6 +24,7 @@ var lobbyName = "";
 // Joins a given lobby based on its name.
 function joinLobby(name) {
     lobbyName = name
+    console.log("lobbyName is now " + lobbyName);
     var p1joined;
     var p2joined;
     
@@ -45,6 +46,7 @@ function joinLobby(name) {
             // console.log("Player 2 joined.")
             playerNumber = 2;
         }
+        console.log("playerNumber is now " + playerNumber)
 
 
         database.ref("/" + lobbyName + "/playersJoined").set({
@@ -56,7 +58,8 @@ function joinLobby(name) {
     database.ref("/" + lobbyName + "/game").once('value').then(function(snapshot) {
         var object = snapshot.val().object;
         if (object != "") {
-            Game = object;
+            console.log("Downloading Game from Firebase.")
+            Game = JSON.parse(object);
         }
     });
 
@@ -386,23 +389,35 @@ $(document).ready(function() {
         }
     });
 
+    // GAME UPDATE FIREBASE WATCHER
     database.ref("/" + lobbyName + "/game").on("value", function(snapshot) {
+        console.log("game watcher called. snapshot:");
+        console.log(snapshot.val());
         if (lobbyName === "") {
+            console.log("lobbyName is empty. Not updating game.")
             return;
         }
-        
+        console.log("Updating local Game object...")
         if (snapshot.val().object !== "") {
             Game = JSON.parse(snapshot.val().object);
+            console.log(snapshot.val().object);
             
+            console.log(Game.Player1.name);
+            console.log(Game.Player2.name);
             if (Game.GameOver=true) {
                 $("#end-screen").show();
                 $("#play").hide();
             }
+
+            // If Player 1 has a name but player1Selected is false,
+            // then the user must be player 2 and their opponent Player 1 must have picked a city.
             if (Game.Player1.name != "" && !player1Selected) {
+                console.log("Creating opponent tile with Player 1 info.")
                 createPlayerTile("#opponent", Game.Player1.name, 1, "#opponent-name", Game.Player1.hp, Game.Player1.src);
                 player1Selected = true;
             }
             else if (Game.Player2.name != "" && !player2Selected) {
+                console.log("Creating opponent tile with Player 2 info.")
                 createPlayerTile("#opponent", Game.Player2.name, 2, "#opponent-name", Game.Player2.hp, Game.Player2.src);
                 player2Selected = true;
             }
@@ -473,24 +488,19 @@ $(document).ready(function() {
     $(document).on("click", "#create-lobby", function(event) {
         event.preventDefault();
         var newName = $("#lobby-name-field").val().trim();
-
+        console.log("Creating lobby...")
         // Create a new directory in Firebase for the lobby.
+
         database.ref("/" + newName).set({
-            name: newName
+            name: newName,
+            playersJoined: {
+                p1joined: false,
+                p2joined: false
+            },
+            game: {
+                object: ""
+            }
         });
-        database.ref("/" + newName + "/playersJoined").set({
-            p1joined: false,
-            p2joined: false
-        })
-        database.ref("/" + newName + "/game").set({
-            object: ""
-        })
-
-        // Join the lobby
-        joinLobby(newName);
-
-        $("#lobby-div").hide();
-        $("#city-picker").show();
     });
 
 
@@ -513,13 +523,13 @@ $(document).ready(function() {
         var special = $(this).find(".selection-special").text();
         var src = $(this).find(".city-image").attr("src");
         
-        console.log("Player number: " + playerNumber);
         if (playerNumber === 1) {
             // Push new Player1 object up to Firebase 
             createPlayer(Game.Player1, name, src, hp, atk, special)
             createPlayerTile("#player", name, 1, "#player-name", hp, src)
             player1Selected = true;
             var stringGame = JSON.stringify(Game);
+            console.log("Pushing game up to Firebase...")
             database.ref("/" + lobbyName + "/game").set({
                 object: stringGame
             });
@@ -529,9 +539,10 @@ $(document).ready(function() {
             createPlayerTile("#player", name, 2, "#player-name", hp, src)
             player2Selected = true;
             var stringGame = JSON.stringify(Game);
+            console.log("Pushing game up to Firebase...")
             database.ref("/" + lobbyName + "/game").set({
                 object: stringGame
-            })
+            });
         }
 
         $("#city-picker").css("display", "none");
