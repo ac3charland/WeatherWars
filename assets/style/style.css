@@ -240,10 +240,10 @@ div.instructionheader{
     -o-transition: all 0.5s ease;
     transition: all 0.5s ease;
 }
-/*
+
 .highlighted {
     border: 3px solid green;
-}*/
+}
 
 /*When typing in a new lobby name it changes a color and focuses */
 .input-field input[type=text]:focus + label {

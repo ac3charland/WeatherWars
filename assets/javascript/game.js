@@ -196,18 +196,8 @@ var GameMethods = {
     },   
     // Function to decide whose turn it is and how to perform their chosen attack
     decideTurn: function (id) {
-        console.log("Calling decideTurn(" + id + ");")
-        // First, check and see if either player has been defeated.
-        if (Game.Player1.hp <= 0) {
-            GameOver = true;
-            winner = "Player 2";
-            return;
-        }
-        else if (Game.Player2.hp <= 0) {
-            GameOver = true;
-            winner = "Player 2";
-            return;
-        }
+        console.log("Calling decideTurn(" + id + ");");
+        
 
         // Then, if both players are still alive, check to see whose turn it is.
         if (!Game.GameOver) {
