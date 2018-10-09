@@ -154,8 +154,8 @@ div.instructionheader{
 /*The entire restart-continue container and its positioning*/
 #restart-continue {
     display: none;
-    padding-top: 10px;
-    padding-bottom: 10px;
+    padding-top: 20px;
+    padding-bottom: 20px;
     margin-left: auto;
     margin-right:auto;
 }
@@ -192,6 +192,10 @@ div.instructionheader{
     box-shadow: inset 5px 3px 5px 3px #2d2c2c, inset 0px 0px 2px 20px black;
 
     background-color: #e0e0e0;
+}
+
+.restart-continue {
+    display: none;
 }
 /*(within the lobby container div) it is adding padding to the picker and the list */
 #lobby-picker,
