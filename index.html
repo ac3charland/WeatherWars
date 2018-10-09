@@ -54,6 +54,46 @@
                 <button class="waves-effect waves-light btn-large card-panel #424242 grey darken-3" id="start">Start</button>
             </div>
         </div> 
+
+        <!-- Lobby Picker -->
+        <div id="lobby-div">
+            <div id="lobby-picker">
+                <h4>Active Lobbies:</h4>
+            </div>
+            <div id="lobby-list">
+                <div class="row">
+                    <div class="col s6">
+                        <h5>Name</h5>
+                    </div>
+                    <div class="col s6">
+                        <h5>Players:</h5>
+                    </div>
+                </div>
+                <div id="lobby-container">
+                    <!-- <div class="lobby row">
+                        <div class="col s6">
+                            <h5 class="lobby-name">Example Lobby</h5>
+                        </div>
+                        <div class="col s6">
+                            <h5>0/2</h5>
+                        </div>
+                    </div> -->
+                    <div id="new-lobby" class="row">
+                        <div class="col s3">
+                            <h5>Create a new lobby:</h5>
+                        </div>
+                        <form>
+                            <div class="input-field col s6">
+                                <input id="lobby-name-field" placeholder="Lobby Name" type="text" class="validate">
+                            </div>
+                            <div class="input-field col s3">
+                                <input id="create-lobby" class="btn waves-effect grey darken-2" type="submit" value="Create">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
         <!--Choose City-->
         <div id="city-picker">
             <h3>Choose a City</h3>
