@@ -154,8 +154,6 @@ div.instructionheader{
 /*The entire restart-continue container and its positioning*/
 #restart-continue {
     display: none;
-    padding-top: 20px;
-    padding-bottom: 20px;
     margin-left: auto;
     margin-right:auto;
 }
