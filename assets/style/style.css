@@ -194,7 +194,7 @@ div.instructionheader{
     background-color: #e0e0e0;
 }
 
-.restart-continue {
+#end-screen {
     display: none;
 }
 /*(within the lobby container div) it is adding padding to the picker and the list */
