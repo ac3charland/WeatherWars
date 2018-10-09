@@ -19,6 +19,49 @@ var player2Selected = false;
 
 
 var playerNumber;
+var lobbyName = "";
+
+// Joins a given lobby based on its name.
+function joinLobby(name) {
+    lobbyName = name
+    var p1joined;
+    var p2joined;
+    
+    database.ref("/" + lobbyName + "/playersJoined").once('value').then(function(snapshot) {
+        
+        p1joined = snapshot.val().p1joined;
+        p2joined = snapshot.val().p2joined;
+
+        player1Joined = p1joined;
+        player2Joined = p2joined;
+
+
+        if (player1Joined === false) {
+            player1Joined = true;
+            // console.log("Player 1 joined.")
+            playerNumber = 1;
+        } else if (player2Joined === false) {
+            player2Joined = true;
+            // console.log("Player 2 joined.")
+            playerNumber = 2;
+        }
+
+
+        database.ref("/" + lobbyName + "/playersJoined").set({
+            p1joined: player1Joined,
+            p2joined: player2Joined
+        });
+    });
+
+    database.ref("/" + lobbyName + "/game").once('value').then(function(snapshot) {
+        var object = snapshot.val().object;
+        if (object != "") {
+            Game = object;
+        }
+    });
+
+    
+}
 
 // Assigns the given parameters to the player object (Game.Player1, Game.Player2) passed to the player argument of the function.
 function createPlayer(player, name, src, hp, atk, special) {
@@ -163,6 +206,44 @@ function displayCityChoices() {
     displayRandomCityInSlot(3);
 }
 
+function displayLobby(lobbyName, playersJoined) {
+    var playersString = "0/2";
+
+
+    if (playersJoined.p1joined && playersJoined.p2joined) {
+        playersString = "2/2";
+    } else if (playersJoined.p1joined) {
+        playersString = "1/2";
+    }
+
+    var lobby = $("<div>");
+    lobby.addClass("row");
+    lobby.addClass("lobby");
+
+    var column1 = $("<div>");
+    column1.addClass("col");
+    column1.addClass("s6");
+
+    var name = $("<h5>");
+    name.addClass("lobby-name");
+    name.text(lobbyName);
+
+    column1.append(name);
+    lobby.append(column1);
+
+    var column2 = $("<div>");
+    column2.addClass("col");
+    column2.addClass("s6");
+
+    var players = $("<h5>");
+    players.text(playersString); 
+
+    column2.append(players);
+    lobby.append(column2);
+
+    $("#lobby-container").prepend(lobby);
+}
+
 // Creates a tile for a player in the play area based on the given parameters.
 function createPlayerTile(tileTag, name, number, nameTag, hp, src) {
     $(nameTag).text("Player " + number + ": " + name);
@@ -188,7 +269,7 @@ function updateDOMhp() {
 }
 
 function pushLogMessageToFireBase(message) {
-    database.ref("/log").push({
+    database.ref("/" + lobbyName + "/log").push({
         message: message
     })
 }
@@ -276,7 +357,11 @@ function highlightCurrentPlayer() {
 $(document).ready(function() {
     
     // Checks Firebase whenever players have joined
-    database.ref("/playersJoined").on("value", function (snapshot) {
+    database.ref("/" + lobbyName + "/playersJoined").on("value", function (snapshot) {
+        if (lobbyName === "") {
+            return;
+        }
+        
         player1Joined = snapshot.val().p1joined;
         player2Joined = snapshot.val().p2joined;
 
@@ -301,11 +386,13 @@ $(document).ready(function() {
         }
     });
 
-    // Get rid of these p1 and p2 watchers. Replace with a single game object that gets pushed up to Firebase every turn and re-downloads whenever it's updated. 
-    database.ref("/game").on("value", function(snapshot) {
+    database.ref("/" + lobbyName + "/game").on("value", function(snapshot) {
+        if (lobbyName === "") {
+            return;
+        }
+        
         if (snapshot.val().object !== "") {
             Game = JSON.parse(snapshot.val().object);
-            console.log(Game);
             
             if (Game.GameOver=true) {
                 $("#end-screen").show();
@@ -322,25 +409,37 @@ $(document).ready(function() {
 
             highlightCurrentPlayer();
             updateDOMhp();
-            console.log("Player1Turn: " + Game.Player1turn);
-            console.log("Player2turn: " + Game.Player2turn);
             disableButtons();
         } 
         
     })
 
-    database.ref("/log").on("child_added", function(childSnapshot) {
+    database.ref("/" + lobbyName + "/log").on("child_added", function(childSnapshot) {
+        if (lobbyName === "") {
+            return;
+        }
+
         var message = childSnapshot.val().message;
         var pTag = $("<p>");
         pTag.text(message);
         $("#log").prepend(pTag);
     });
 
-    database.ref("/chat").on("child_added", function(childSnapshot) {
+    database.ref("/" + lobbyName + "/chat").on("child_added", function(childSnapshot) {
+        if (lobbyName === "") {
+            return;
+        }
+        
         var message = childSnapshot.val().message;
         var pTag = $("<p>");
         pTag.text(message);
         $("#chatHistory").prepend(pTag);
+    });
+
+    database.ref().on("child_added", function(childSnapshot) {
+        var lobbyName = childSnapshot.val().name;
+        var playersJoined = childSnapshot.child("playersJoined").val();
+        displayLobby(lobbyName, playersJoined);
     });
     
     // Disables all buttons on page load and begins the loading of city choices for the player.
@@ -350,31 +449,58 @@ $(document).ready(function() {
     
     // START BUTTON ON CLICK FUNCTION
     $(document).on("click", "#start", function() {
-        if (player1Joined === false) {
-            player1Joined = true;
-            console.log("Player 1 joined.")
-            playerNumber = 1;
-        } else if (player2Joined === false) {
-            player2Joined = true;
-            console.log("Player 2 joined.")
-            playerNumber = 2;
-        }
+        
         $("#start").attr("disabled", true);
         $("#info").css("display", "none");
+        // 2Do: need to update to show lobby screen.
         $("#city-picker").css("display", "block");
         
-        database.ref("/playersJoined").set({
-            p1joined: player1Joined,
-            p2joined: player2Joined
-        })
+        
     })
 
+    // JOIN LOBBY ON-CLICK FUNCTION
+    $(document).on("click", ".lobby", function() {
+        var name = $(this).find(".lobby-name").text();
+
+        // Join that lobby.
+
+        joinLobby(name);
+
+        $("#lobby-div").hide();
+        $("#city-picker").show();
+    })
+
+    $(document).on("click", "#create-lobby", function(event) {
+        event.preventDefault();
+        var newName = $("#lobby-name-field").val().trim();
+
+        // Create a new directory in Firebase for the lobby.
+        database.ref("/" + newName).set({
+            name: newName
+        });
+        database.ref("/" + newName + "/playersJoined").set({
+            p1joined: false,
+            p2joined: false
+        })
+        database.ref("/" + newName + "/game").set({
+            object: ""
+        })
+
+        // Join the lobby
+        joinLobby(newName);
+
+        $("#lobby-div").hide();
+        $("#city-picker").show();
+    });
+
+
+    // CHAT SUBMIT ON-CLICK FUNCTION
     $(document).on("click", "#submit", function(event) {
         event.preventDefault();
 
         var message = $("#message").val().trim();
 
-        database.ref("/chat").push({
+        database.ref("/" + lobbyName + "chat").push({
             message: message
         })
     })
@@ -387,13 +513,14 @@ $(document).ready(function() {
         var special = $(this).find(".selection-special").text();
         var src = $(this).find(".city-image").attr("src");
         
+        console.log("Player number: " + playerNumber);
         if (playerNumber === 1) {
             // Push new Player1 object up to Firebase 
             createPlayer(Game.Player1, name, src, hp, atk, special)
             createPlayerTile("#player", name, 1, "#player-name", hp, src)
             player1Selected = true;
             var stringGame = JSON.stringify(Game);
-            database.ref("/game").set({
+            database.ref("/" + lobbyName + "/game").set({
                 object: stringGame
             });
         } else if (playerNumber === 2) {
@@ -402,7 +529,7 @@ $(document).ready(function() {
             createPlayerTile("#player", name, 2, "#player-name", hp, src)
             player2Selected = true;
             var stringGame = JSON.stringify(Game);
-            database.ref("/game").set({
+            database.ref("/" + lobbyName + "/game").set({
                 object: stringGame
             })
         }
@@ -419,22 +546,18 @@ $(document).ready(function() {
 
         $("#start").attr("disabled", false);
 
-        database.ref("/playersJoined").set({
+        database.ref("/" + lobbyName + "/playersJoined").set({
             p1joined: player1Joined,
             p2joined: player2Joined
         });
 
-        database.ref("/game").set({
+        database.ref("/" + lobbyName + "/game").set({
             object: ""
         });
 
-        database.ref("/log").set({
-            placeholder: ""
-        });
+        database.ref("/" + lobbyName + "/log").remove();
 
-        database.ref("/chat").set({
-            placeholder: ""
-        });
+        database.ref("/" + lobbyName + "/chat").remove();
 
     })
 
@@ -504,7 +627,7 @@ $(document).ready(function() {
     // Runs every time the playe clikcs one of the available action buttons.
     $(document).on("click", ".action", function () {
         var stringGame = JSON.stringify(Game);
-        database.ref("/game").set({
+        database.ref("/" + lobbyName + "/game").set({
             object: stringGame
         });
     });

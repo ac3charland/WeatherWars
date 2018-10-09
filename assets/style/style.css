@@ -40,9 +40,9 @@ div #info {
     margin-right: auto;
 }
 
-div .instructions {background-color: #728aa9fA;
-
-   
+.instructions,
+#lobby-list {
+    background-color: #728aa9fA;
     font-size: 15px;
     box-shadow: inset 5px 3px 5px 3px #2d2c2c, inset 0px 0px 2px 15px black; 
    
@@ -178,10 +178,33 @@ border-radius: 25px;
     /* object-fit: cover; */
 }
 
-div.restart-continue {
-box-shadow: inset 5px 3px 5px 3px #2d2c2c, inset 0px 0px 2px 20px black;
+.restart-continue,
+#lobby-picker {
+    box-shadow: inset 5px 3px 5px 3px #2d2c2c, inset 0px 0px 2px 20px black;
 
-background-color: #e0e0e0;
+    background-color: #e0e0e0;
+}
+
+#lobby-picker,
+#lobby-list {
+    padding: 20px;
+}
+
+#lobby-container {
+    max-height: 300px;
+    overflow: auto;
+}
+
+.lobby:hover {
+    opacity: 0.9;
+}
+
+
+.lobby,
+#new-lobby {
+    background-color: rgb(255, 255, 255, 0.9);
+    border-radius: 10px;
+    cursor: pointer;
 }
 
 .player-image {
@@ -214,6 +237,15 @@ background-color: #e0e0e0;
 .highlighted {
     border: 3px solid green;
 }
+
+.input-field input[type=text]:focus + label {
+     color: #728aa9fA !important;
+}
+/* label underline focus color */
+.input-field input[type=text]:focus {
+     border-bottom: 1px solid #728aa9fA !important;
+     box-shadow: 0 1px 0 0 #728aa9fA !important;
+   }
 
 @font-face{
     font-family: title;
