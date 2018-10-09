@@ -1,5 +1,5 @@
 body {
-    background-image: url("../images/black-background.png");
+    background-image: url("../images/blue-background.jpg");
     justify-content: center;
     text-align: center;
 }
@@ -43,7 +43,7 @@ body {
 }
 
 .nameBox{
-    color: goldenrod;
+    color: white;
     font-size: 45px;
 }
 

@@ -8,7 +8,7 @@ function renderButtons() {
         var a = $("<button>");
         a.addClass("show");
         a.addClass("cityButton")
-        a.addClass("btn btn-warning btn-lg btn-3d btn-round")
+        a.addClass("btn btn-light btn-lg btn-3d btn-round")
         a.attr("data-show", locations[i].geoid);
         a.attr("data-name", locations[i].namecode);
         a.attr("data-long", locations[i].long);
