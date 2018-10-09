@@ -239,6 +239,7 @@ function displayLobby(lobbyName, playersJoined) {
     column2.addClass("s6");
 
     var players = $("<h5>");
+    players.addClass("lobby-status");
     players.text(playersString); 
 
     column2.append(players);
@@ -478,11 +479,13 @@ $(document).ready(function() {
         var name = $(this).find(".lobby-name").text();
 
         // Join that lobby.
-
-        joinLobby(name);
-
-        $("#lobby-div").hide();
-        $("#city-picker").show();
+        var status = $(this).find(".lobby-status").text();
+        if (status != "2/2") {
+            joinLobby(name);
+            $("#lobby-div").hide();
+            $("#city-picker").show();
+        }
+        
     })
 
     $(document).on("click", "#create-lobby", function(event) {
