@@ -325,7 +325,7 @@ $(document).ready(function() {
             console.log(Game);
             
             checkIfGameOver(Game);
-            
+
             if (Game.Player1.name != "" && !player1Selected) {
                 createPlayerTile("#opponent", Game.Player1.name, 1, "#opponent-name", Game.Player1.hp, Game.Player1.src);
                 player1Selected = true;
@@ -450,6 +450,8 @@ $(document).ready(function() {
         database.ref("/chat").set({
             placeholder: ""
         });
+
+        $("#info").show();
 
     })
 
