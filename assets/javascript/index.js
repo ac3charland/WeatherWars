@@ -513,7 +513,7 @@ $(document).ready(function() {
 
         var message = $("#message").val().trim();
 
-        database.ref("/" + lobbyName + "chat").push({
+        database.ref("/" + lobbyName + "/chat").push({
             message: message
         })
     })
