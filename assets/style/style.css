@@ -129,7 +129,8 @@ div.instructionheader{
  }
 /*Chat box is its own div where the chat is typed and then chat history has what was typed- but has the same css */
 #chatBox,
-#chatHistory {
+#chatHistory,
+#chat-box {
     background-color:rgba(0, 0, 0, 0.7);
     color: yellow;
 }

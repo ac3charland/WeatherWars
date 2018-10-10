@@ -408,6 +408,8 @@ $(document).ready(function() {
         database.ref("/chat").push({
             message: message
         })
+
+        $("#chat-box").val("")
     })
 
     // CITY SELECTION ON-CLICK FUNCTION
@@ -474,6 +476,7 @@ $(document).ready(function() {
         playerNumber = null;
 
         $("#log").empty();
+        $("#chatHistory").empty();
     });
 
     // Performs the actions associated with the attack button
