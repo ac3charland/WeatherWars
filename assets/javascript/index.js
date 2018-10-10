@@ -34,6 +34,22 @@ function checkIfGameOver(game) {
         $("#end-screen").show();
         $("#play").hide();
         $(".end-message").text(winner + " wins!")
+        database.ref("/playersJoined").set({
+            p1joined: player1Joined,
+            p2joined: player2Joined
+        });
+
+        database.ref("/game").set({
+            object: ""
+        });
+
+        database.ref("/log").set({
+            placeholder: ""
+        });
+
+        database.ref("/chat").set({
+            placeholder: ""
+        });
     }
 }
 
@@ -387,7 +403,7 @@ $(document).ready(function() {
     $(document).on("click", "#submit", function(event) {
         event.preventDefault();
 
-        var message = $("#message").val().trim();
+        var message = $("#chat-box").val().trim();
 
         database.ref("/chat").push({
             message: message
@@ -435,22 +451,7 @@ $(document).ready(function() {
         $("#start").attr("disabled", false);
         $(".restart-continue").show();
 
-        database.ref("/playersJoined").set({
-            p1joined: player1Joined,
-            p2joined: player2Joined
-        });
-
-        database.ref("/game").set({
-            object: ""
-        });
-
-        database.ref("/log").set({
-            placeholder: ""
-        });
-
-        database.ref("/chat").set({
-            placeholder: ""
-        });
+        
 
         $("#info").show();
         $("#end-screen").hide();
