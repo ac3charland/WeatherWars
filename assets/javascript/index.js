@@ -1,3 +1,6 @@
+// LOGIC FOR INDEX.HTML
+
+
 // Set up Firebase
 var config = {
     apiKey: "AIzaSyD3cZ5kQmYeDw1K85vUggD_CpANUrEyw3s",
@@ -34,6 +37,8 @@ function checkIfGameOver(game) {
         $("#end-screen").show();
         $("#play").hide();
         $(".end-message").text(winner + " wins!")
+        player1Joined = false;
+        player2Joined = false;
         database.ref("/playersJoined").set({
             p1joined: player1Joined,
             p2joined: player2Joined
@@ -220,6 +225,7 @@ function updateDOMhp() {
     $("#p2hp").text(Game.Player2.hp);
 }
 
+// Pushes a game action to Firebase
 function pushLogMessageToFireBase(message) {
     database.ref("/log").push({
         message: message
@@ -305,7 +311,7 @@ function highlightCurrentPlayer() {
     }
 }
 
-// Click handler and Firebase watching functions go here
+// Click handler and Firebase watching functions in here
 $(document).ready(function() {
     
     // Checks Firebase whenever players have joined
@@ -315,10 +321,10 @@ $(document).ready(function() {
 
         if (player1Joined && player2Joined) {
             $("#start").attr("disabled", true);
-            $("#instruction-head").text("Game is full, please wait.")
+            $(".instructionheader").text("Game is full, please wait.")
         } else {
             $("#start").attr("disabled", false);
-            $("#instruction-head").text("Instructions")
+            $(".instructionheader").text("Instructions")
         }
 
         if (playerNumber === 1) {
@@ -334,7 +340,7 @@ $(document).ready(function() {
         }
     });
 
-    // Get rid of these p1 and p2 watchers. Replace with a single game object that gets pushed up to Firebase every turn and re-downloads whenever it's updated. 
+    // Updates the user's local Game object when Firebase's Game object is updated
     database.ref("/game").on("value", function(snapshot) {
         if (snapshot.val().object !== "") {
             Game = JSON.parse(snapshot.val().object);
@@ -342,6 +348,7 @@ $(document).ready(function() {
             
             checkIfGameOver(Game);
 
+            // Writes your opponent to the DOM when they've picked a city
             if (Game.Player1.name != "" && !player1Selected) {
                 createPlayerTile("#opponent", Game.Player1.name, 1, "#opponent-name", Game.Player1.hp, Game.Player1.src);
                 player1Selected = true;
@@ -358,8 +365,9 @@ $(document).ready(function() {
             disableButtons();
         } 
         
-    })
+    });
 
+    // Updates the game log on the DOM when the Firebase game log updates.
     database.ref("/log").on("child_added", function(childSnapshot) {
         var message = childSnapshot.val().message;
         var pTag = $("<p>");
@@ -367,6 +375,7 @@ $(document).ready(function() {
         $("#log").prepend(pTag);
     });
 
+    // Updates the chat log on the DOM when the Firebase chat log updates.
     database.ref("/chat").on("child_added", function(childSnapshot) {
         var message = childSnapshot.val().message;
         var pTag = $("<p>");
@@ -379,8 +388,9 @@ $(document).ready(function() {
     displayCityChoices();    
 
     
-    // START BUTTON ON CLICK FUNCTION
+    // GAME START BUTTON ON CLICK FUNCTION
     $(document).on("click", "#start", function() {
+        // Assign player number locally.
         if (player1Joined === false) {
             player1Joined = true;
             console.log("Player 1 joined.")
@@ -390,16 +400,20 @@ $(document).ready(function() {
             console.log("Player 2 joined.")
             playerNumber = 2;
         }
+
+        // Update the DOM.
         $("#start").attr("disabled", true);
         $("#info").css("display", "none");
         $("#city-picker").css("display", "block");
         
+        // Update the playersJoined properties in Firebase
         database.ref("/playersJoined").set({
             p1joined: player1Joined,
             p2joined: player2Joined
         })
     })
 
+    // CHAT SUBMIT ON-CLICK FUNCTION
     $(document).on("click", "#submit", function(event) {
         event.preventDefault();
 
@@ -414,12 +428,14 @@ $(document).ready(function() {
 
     // CITY SELECTION ON-CLICK FUNCTION
     $(document).on("click", ".city", function () {
+        // Get info from the city that was clicked
         var name = $(this).find(".city-name").text();
         var hp = $(this).find(".selection-hp").text();
         var atk = $(this).find(".selection-atk").text();
         var special = $(this).find(".selection-special").text();
         var src = $(this).find(".city-image").attr("src");
         
+        // Create a player in Firebase based on the selected city's info.
         if (playerNumber === 1) {
             // Push new Player1 object up to Firebase 
             createPlayer(Game.Player1, name, src, hp, atk, special)
@@ -440,6 +456,7 @@ $(document).ready(function() {
             })
         }
 
+        // Update the DOM to display the game area
         $("#city-picker").css("display", "none");
         $("#play").css("display", "block");
         disableButtons();
@@ -447,13 +464,8 @@ $(document).ready(function() {
 
     // Resets things after the game is done.
     $(document).on("click", "#restart", function() {
-        player1Joined = false;
-        player2Joined = false;
 
         $("#start").attr("disabled", false);
-        $(".restart-continue").show();
-
-        
 
         $("#info").show();
         $("#end-screen").hide();
@@ -542,7 +554,7 @@ $(document).ready(function() {
         updateDOMhp();
     });
 
-    // Runs every time the playe clikcs one of the available action buttons.
+    // Runs every time the playe clicks one of the available action buttons.
     $(document).on("click", ".action", function () {
         var stringGame = JSON.stringify(Game);
         database.ref("/game").set({
