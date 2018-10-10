@@ -1,7 +1,9 @@
+// LOGIC FOR CITYINFO.JS
+
 
 var locations = Game.locations;
-console.log(locations);
-//Adding test buttons
+
+// Creates buttons for each city.
 function renderButtons() {
     $("#buttons-go-here").empty()
     for (var i = 0; i < locations.length; i++) {
@@ -19,19 +21,20 @@ function renderButtons() {
     }
 }
 
-//calling test buttons 
+// Create buttons.
 renderButtons()
 
+// Called after AJAX calls complete. Writes the city's info to the DOM.
 function cityInfoSetup(imgId) {
     var cityInfoResponse = this.cityInfoResponse;
     var cityScoresResponse = this.cityScoresResponse;
     var darkSkyResponse = this.darkSkyResponse;
-    console.log(cityInfoResponse, cityScoresResponse, darkSkyResponse);
 
     if (darkSkyResponse === "" || cityScoresResponse === "" === cityInfoResponse === "") {
         console.log("Error: no AJAX response.")
         return;
     }
+
     //CITY INFO JQUERY: 
     // Create new rows with the city info
     var newRow = $("<tr>").append(
@@ -74,10 +77,6 @@ function cityInfoSetup(imgId) {
     )
 
     $("#cityWeatherTable > tbody").append(tableThreeNewRow);
-
-    //Adding to the img Div
-    //var elem = document.getElementById("img");
-    //elem.setAttribute("src", "../images/paris.jpg")
     $(".img-body").empty()
     $(".nameBox").empty()
     $(".img-body").append("<img src='" + imgId + "' style='width: 700px'>")
@@ -90,18 +89,18 @@ function cityInfoSetup(imgId) {
 //THE BIG ON CLICK FUNTION. 3 AJAX CALLS. WE DOIN IT BIG---------------------------------------------------------------
 $(document).on("click", ".cityButton", function () {
 
-
-    //vars for the ajax calls go here
+    // Get data from the city button that was clicked.
     var cityName = ($(this).data("name"))
     var geoId = ($(this).data("show"))
     var lat = ($(this).data("lat"))
     var long = ($(this).data("long"))
     var imgId = ($(this).data("img"))
 
+    // Send the AJAX request with the info from the button
     Ajax.sendRequest(cityName, geoId, lat, long, function() {cityInfoSetup(imgId)});
 });
 
-//Reset button 
+//Clears previously selected cities from the DOM
 $(document).on('click', '.resetBtn', function () {
     $("tbody").empty();
     $(".img-body").empty()

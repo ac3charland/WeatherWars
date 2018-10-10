@@ -1,94 +1,6 @@
-//variables and array for player 1
-var player1Loc1;
-var player1Loc2;
-var player1Loc3;
-var player1Loc = [player1Loc1, player1Loc2, player1Loc3];
-
-//variables and aray for player 2
-var player2Loc1;
-var player2Loc2;
-var player2Loc3;
-var player2Loc = [player2Loc1, player2Loc2, player2Loc3];
+// GENERAL PURPOSE GAME LOGIC. IMPORT BEFORE THE PAGE'S .JS FILE.
 
 var urlStart = "assets/images/"
-
-var hpPercent;
-
-
-// //The same function but for player 2
-// function cityGenerator2() {
-//     for (i = 0; i < 3; i++) {
-//         var city = Math.floor(Math.random()*(locations.length));
-//         player2Loc[i] = locations[city];
-//         Game.locations.splice(city, 1);
-//     }
-// }
-
-//calling the fucntions to generate the 3 choices for players 1 and 2
-// cityGenerator1();
-// cityGenerator2();
-
-// console.log(player1Loc);
-// console.log(player2Loc);
-// console.log(locations);
-
-//Variables that gabbred values from the API
-//var cloudCover - grabs the data from cloud cover
-//var qol - grabs data from Environmental Quality
-//var safety - grabs data from safety
-//var commute - grabs data from commute
-
-
-
-// console.log(basehp);
-// console.log(cloudHP);
-// console.log(qolHP);
-// console.log(safetyHP);
-// console.log(commuteHP);
-// console.log(totalHP);
-
-// function gameStarted(){
-//     Player1turn=false;
-// }
-
-// gameStarted();
-
-
-//defense is determined by cloud cover, 0-no bonus, 1-3, a 5% bonus,
-//4-6, a 10% bonus, 7-10, a 15% bonus,
-
-// var cloudCover=0 //The cloudCover from the api
-// var atk = 10
-
-// var dfs = 0
-// if (cloudCover >= 7) {
-//     dfs = dfs + 15;
-// } else if (cloudCover >= 4) {
-//     dfs = dfs + 10;
-// } else if (cloudCover >= 1)
-// {
-//     dfs = dfs + 5;
-// }
-
-// var hp = dfs+100
-// console.log(dfs)
-// console.log(hp)
-
-var temp = 50
-var atk = 10
-var catk = 0
-var hatk = 0
-
-//Game is where temperature defines what kind of attacks ara available
-//Game is to determine if it will be a cold attack
-
-
-// if (temp < 30) {
-//     catk =;
-// } else if (temp > 75) {
-//     hatk = atk - 7.5, hp = hp - 5;
-
-// }
 
 function Player(name, src, cloudCover, atk, hp) {
     this.name = name;
@@ -102,24 +14,6 @@ function Player(name, src, cloudCover, atk, hp) {
     this.stormIncapable=true;
     this.hotDisabled=true;
     this.coldDisabled=true;
-    this.originalHP=hp;
-    // dfs:0,
-    // if (cloudCover >= 7) {
-    //     dfs = dfs + 15;
-    // } else if (cloudCover >= 4) {
-    //     dfs = dfs + 10;
-    // } else if (cloudCover >= 1)
-    // {
-    //     dfs = dfs + 5;
-    // }
-    // if( temp < 30) {
-    //     catk=atk-5;
-    // } else if (temp > 75)
-    // hatk=atk-7.5,hp=hp-5;
-
-    // var win=(Game.Player2hp=0)
-    // var Game.Player1hp = dfs+100
-    // console.log ("player1 Health", + Game.Player1hp)
 }
 
 var GameMethods = {
@@ -143,7 +37,6 @@ var GameMethods = {
         var commuteHP = 0
         var totalHP = 0
         
-        // console.log("Scores: ", cloudCover, qol, safety, commute);
 
         // Calculate what bonus (if any) HP cloud cover will grant the player
 
@@ -185,24 +78,16 @@ var GameMethods = {
             commuteHP -= 5;
         }
         totalHP = baseHP + cloudHP + qolHP + safetyHP + commuteHP;
-        // console.log("Calculating total hp: baseHP(" + baseHP + ") + cloudHP(" + cloudHP + ") + qolHP(" + qolHP + ") + safetyHP(" + safetyHP + ") + commuteHP(" + commuteHP + ") = totalHP(" + totalHP + ")");
-
         return totalHP;
-    },
-        percentHP: function (Player){
-            var percentHP = (Player.hp/Player.originalHP) * 100;  
-            return percentHP;
-                   
     },   
     // Function to decide whose turn it is and how to perform their chosen attack
     decideTurn: function (id) {
-        console.log("Calling decideTurn(" + id + ");");
         
-
-        // Then, if both players are still alive, check to see whose turn it is.
+        // If both players are still alive, check to see whose turn it is.
         if (!Game.GameOver) {
+            // If it's Player 1's turn...
             if (Game.Player1turn) {
-
+                // And Player 1 isn't frozen...
                 if (!Game.Player1.isFrozen) {
                     // Run chosen attack function by player 1
                     if (id === "attack") {
@@ -234,15 +119,16 @@ var GameMethods = {
                     Game.Player1turn = false;
                     Game.Player2turn = true;
                 }
+                // If Player 1 is frozen, forfeit their turn & unfreeze them.
                 else if (Game.Player1.isFrozen) {
-                    console.log("Player 1 is frozen. Ending turn...")
                     Game.Player1turn = false;
                     Game.Player2turn = true;
                     Game.Player1.isFrozen = false;
                 }
             }
+            // If it's Player 2's turn...
             else if (Game.Player2turn) {
-
+                // And Player 2 isn't frozen...
                 if (!Game.Player2.isFrozen) {
                     // Run chosen attack function by player 2
                     if (id === "attack") {
@@ -274,21 +160,20 @@ var GameMethods = {
                     Game.Player2turn = false;
                     Game.Player1turn = true;
                 }
+                // If Player 2 is frozen, forfeit their turn & unfreeze them.
                 else if (Game.Player2.isFrozen) {
-                    console.log("Player 2 is frozen. Ending turn...")
                     Game.Player2turn = false;
                     Game.Player1turn = true;
                     Game.Player2.isFrozen = false;
                 }
             }
         }
-        console.log("---------------")
     }
 }
 
+// Stores the current state of the game. This object gets sent up to Firebase every turn.
 var Game = {
-    
-    //array of locations to choose from
+    //Array of locations to choose from
     locations: [
         {
             cityName: "Las Vegas",
@@ -448,6 +333,7 @@ var Game = {
         }
     ],
 
+    // Stores the indices previously chosen cities.
     previousIndices: [],
 
     // Create objects for each player
@@ -460,5 +346,3 @@ var Game = {
     GameOver: false,
     Winner: ''
 };
-
-//!!!!!!!!!!!!!!!!!!!!!!!!!-------Need to grab stormDisabled from backend and toggle the storm attack button either on or off

@@ -1,8 +1,12 @@
 /*Background image-*/
-body {background-image: url("../images/blue-background.jpg");
+html {background-image: url("../images/blue-background.jpg");
     background-repeat: no-repeat;
     background-size: cover;
     font-family: body;
+}
+
+body {
+    background-color: transparent;
 }
 
 /*Font size and positioning of h1*/
@@ -158,18 +162,6 @@ div.instructionheader{
     margin-left: auto;
     margin-right:auto;
 }
- /*
- .btn {
-    margin-top: 20px;
- 
- }
- */
- 
- /*a{
-   margin-top: 10px;
-   cursor: pointer;
-}
-*/
 /*the background color of each city chosen and the rounded edges*/
 .city {
     background-color: rgb(255, 255, 255, 0.9);
@@ -191,6 +183,10 @@ div.instructionheader{
     box-shadow: inset 5px 3px 5px 3px #2d2c2c, inset 0px 0px 2px 20px black;
 
     background-color: #e0e0e0;
+}
+
+.restart-continue {
+    padding: 20px;
 }
 
 #end-screen {
@@ -218,10 +214,6 @@ div.instructionheader{
     border-radius: 10px;
     cursor: pointer;
 }
-/*
-.player-image {
-    height: 100px;
-}*/
 /*giving the p within the instructions the positioning- background color, and font */
 .paragraph{
     font-size: 18px;
@@ -245,11 +237,10 @@ div.instructionheader{
     -o-transition: all 0.5s ease;
     transition: all 0.5s ease;
 }
-
+/* highlights the current player */
 .highlighted {
     border: 3px solid green;
 }
-
 /*When typing in a new lobby name it changes a color and focuses */
 .input-field input[type=text]:focus + label {
      color: #728aa9fA !important;
@@ -269,7 +260,6 @@ div.instructionheader{
     font-family: body;
     src: url(../fonts/Vegur-Regular.otf)
 }
-
 .tooltip {
     position: relative;
     display: inline-block;
@@ -277,20 +267,20 @@ div.instructionheader{
     }
  
  .tooltip .tooltiptext {
- visibility: hidden;
- width: 120px;
- background-color: #555;
- color: #fff;
- text-align: center;
- border-radius: 6px;
- padding: 5px 0;
- position: absolute;
- z-index: 1;
- bottom: 125%;
- left: 50%;
- margin-left: -60px;
- opacity: 0;
- transition: opacity 0.3s;
+    visibility: hidden;
+    width: 120px;
+    background-color: #555;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%;
+    left: 50%;
+    margin-left: -60px;
+    opacity: 0;
+    transition: opacity 0.3s;
  }
  
  .tooltip .tooltiptext::after {
