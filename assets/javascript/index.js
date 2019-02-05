@@ -22,6 +22,7 @@ var player2Selected = false;
 
 
 var playerNumber;
+var online = false;
 
 function checkIfGameOver(game) {
     var winner = "";
@@ -182,6 +183,46 @@ function cityDisplayResponse(city, slot) {
     cityDiv.append(statsRow);
 }
 
+function assignComputerPlayer(city) {
+    var cityInfoResponse = this.cityInfoResponse;
+    var cityScoresResponse = this.cityScoresResponse;
+    var darkSkyResponse = this.darkSkyResponse;
+
+    var cloudCover = darkSkyResponse.currently.cloudCover * 10;
+    var qol = cityScoresResponse.categories[10].score_out_of_10;
+    var safety = cityScoresResponse.categories[7].score_out_of_10;
+    var commute = cityScoresResponse.categories[5].score_out_of_10;
+    var hp = GameMethods.calculateHP(cloudCover, qol, safety, commute);
+
+
+    var tempText = "";
+    var stormText = "";
+    var specialText = "None"
+    var temp = darkSkyResponse.currently.temperature;
+    var precip = darkSkyResponse.currently.precipIntensity * 100;
+
+    if (temp < 40) {
+        tempText = "Cold";
+    } else if (temp > 75) {
+        tempText = "Hot";
+    }
+
+    if (precip > 0) {
+        stormText = "Storm"
+    }
+
+    if (tempText != "" && stormText != "") {
+        specialText = tempText + ", " + stormText;
+    } else if (tempText != "") {
+        specialText = tempText;
+    } else if (stormText != "") {
+        specialText = stormText;
+    }
+
+    createPlayer(Game.Player2, city.cityName, city.img, hp, 10, specialText);
+    createPlayerTile("#opponent", city.cityName, 2, "#opponent-name", hp, city.img);
+}
+
 // Displays a random city from the Game.locations array to one of the 3 slots allocated in index.html
 function displayRandomCityInSlot(slot) {
     var city = GameMethods.pickRandomLocation();
@@ -192,6 +233,17 @@ function displayRandomCityInSlot(slot) {
     var long = city.long;
 
     Ajax.sendRequest(name, geoid, lat, long, function() {cityDisplayResponse(city, slot)});
+}
+
+function pickRandomComputerPlayer() {
+    var city = GameMethods.pickRandomLocation();
+    console.log("Picking random computer player...")
+    var name = city.namecode;
+    var geoid = city.geoid;
+    var lat = city.lat;
+    var long = city.long;
+
+    Ajax.sendRequest(name, geoid, lat, long, function () { assignComputerPlayer(city) });
 }
 
 // Fills all three slots for city selection allocated in index.html.
@@ -321,7 +373,7 @@ $(document).ready(function() {
 
         if (player1Joined && player2Joined) {
             $("#start").attr("disabled", true);
-            $(".instructionheader").text("Game is full, please wait.")
+            $(".instructionheader").text("Game is full, please play offline or wait for the lobby to open.")
         } else {
             $("#start").attr("disabled", false);
             $(".instructionheader").text("Instructions")
@@ -383,13 +435,28 @@ $(document).ready(function() {
         $("#chatHistory").prepend(pTag);
     });
     
-    // Disables all buttons on page load and begins the loading of city choices for the player.
+    // Disables all play buttons on page load and begins the loading of city choices for the player.
     disableButtons();
-    displayCityChoices();    
+    displayCityChoices(); 
+    
+    // OFFLINE GAME START ON CLICK FUNCTION
+    $(document).on("click", "#start-offline", function() {
+        // Update the DOM.
+        $("#start-offline").attr("disabled", true);
+        $("#info").css("display", "none");
+        $("#city-picker").css("display", "block");
+        $("#chat").css("display", "none");
+
+        // Assign player number locally and set global var online to false.
+        playerNumber = 1;
+    })
 
     
     // GAME START BUTTON ON CLICK FUNCTION
     $(document).on("click", "#start", function() {
+
+        online = true;
+        
         // Assign player number locally.
         if (player1Joined === false) {
             player1Joined = true;
@@ -437,14 +504,23 @@ $(document).ready(function() {
         
         // Create a player in Firebase based on the selected city's info.
         if (playerNumber === 1) {
-            // Push new Player1 object up to Firebase 
+            // Set up Player1 in the Game object & display their info to the DOM
             createPlayer(Game.Player1, name, src, hp, atk, special)
             createPlayerTile("#player", name, 1, "#player-name", hp, src)
             player1Selected = true;
-            var stringGame = JSON.stringify(Game);
-            database.ref("/game").set({
-                object: stringGame
-            });
+            
+            // If playing online, push player to Firebase
+            if (online) {
+                var stringGame = JSON.stringify(Game);
+                database.ref("/game").set({
+                    object: stringGame
+                });
+            } 
+            // Otherwise, pick a second player.
+            else {
+                pickRandomComputerPlayer();
+            }
+            
         } else if (playerNumber === 2) {
             // Push new player2 object up to Firebase
             createPlayer(Game.Player2, name, src, hp, atk, special);

@@ -170,6 +170,7 @@ div.instructionheader{
 /*changes the hovered over cities opacity*/
 .city:hover {
     opacity: 0.9;
+    cursor: pointer;
 }
 /*resizing chosen image to make it fit within its div*/
 .city-image {
