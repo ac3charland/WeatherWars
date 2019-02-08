@@ -712,7 +712,5 @@ $(document).ready(function() {
             // Have the computer do an action after a brief pause.
             setTimeout(computerAction, 1000);
         }
-    });
-
-    
+    }); 
 })   
