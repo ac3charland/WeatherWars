@@ -40,22 +40,25 @@ function checkIfGameOver(game) {
         $(".end-message").text(winner + " wins!")
         player1Joined = false;
         player2Joined = false;
-        database.ref("/playersJoined").set({
-            p1joined: player1Joined,
-            p2joined: player2Joined
-        });
 
-        database.ref("/game").set({
-            object: ""
-        });
+        if (online) {
+            database.ref("/playersJoined").set({
+                p1joined: player1Joined,
+                p2joined: player2Joined
+            });
 
-        database.ref("/log").set({
-            placeholder: ""
-        });
+            database.ref("/game").set({
+                object: ""
+            });
 
-        database.ref("/chat").set({
-            placeholder: ""
-        });
+            database.ref("/log").set({
+                placeholder: ""
+            });
+
+            database.ref("/chat").set({
+                placeholder: ""
+            });
+        }
     }
 }
 
@@ -363,6 +366,32 @@ function highlightCurrentPlayer() {
     }
 }
 
+function endOfTurnCleanup() {
+    highlightCurrentPlayer();
+    updateDOMhp();
+    disableButtons();
+    console.log("Player1Turn: " + Game.Player1turn);
+    console.log("Player2turn: " + Game.Player2turn);
+}
+
+function printLogToDOM(message) {
+    var pTag = $("<p>");
+    pTag.text(message);
+    $("#log").prepend(pTag);
+}
+
+function computerAction() {
+    if (Game.Player2.isFrozen) {
+        printLogToDOM("Player 2 forfeited their turn.");
+        GameMethods.decideTurn("");
+    } else {
+        printLogToDOM("Player 2 attacked Player 1 for 10 damage.");
+        GameMethods.decideTurn("attack");
+    }
+    endOfTurnCleanup();
+    checkIfGameOver(Game);
+}
+
 // Click handler and Firebase watching functions in here
 $(document).ready(function() {
     
@@ -394,45 +423,46 @@ $(document).ready(function() {
 
     // Updates the user's local Game object when Firebase's Game object is updated
     database.ref("/game").on("value", function(snapshot) {
-        if (snapshot.val().object !== "") {
-            Game = JSON.parse(snapshot.val().object);
-            console.log(Game);
-            
-            checkIfGameOver(Game);
+        if (online) {
+            if (snapshot.val().object !== "") {
+                Game = JSON.parse(snapshot.val().object);
+                console.log(Game);
 
-            // Writes your opponent to the DOM when they've picked a city
-            if (Game.Player1.name != "" && !player1Selected) {
-                createPlayerTile("#opponent", Game.Player1.name, 1, "#opponent-name", Game.Player1.hp, Game.Player1.src);
-                player1Selected = true;
-            }
-            else if (Game.Player2.name != "" && !player2Selected) {
-                createPlayerTile("#opponent", Game.Player2.name, 2, "#opponent-name", Game.Player2.hp, Game.Player2.src);
-                player2Selected = true;
-            }
+                checkIfGameOver(Game);
 
-            highlightCurrentPlayer();
-            updateDOMhp();
-            console.log("Player1Turn: " + Game.Player1turn);
-            console.log("Player2turn: " + Game.Player2turn);
-            disableButtons();
-        } 
-        
+                // Writes your online opponent to the DOM when they've picked a city
+
+                if (Game.Player1.name != "" && !player1Selected) {
+                    createPlayerTile("#opponent", Game.Player1.name, 1, "#opponent-name", Game.Player1.hp, Game.Player1.src);
+                    player1Selected = true;
+                }
+                else if (Game.Player2.name != "" && !player2Selected) {
+                    createPlayerTile("#opponent", Game.Player2.name, 2, "#opponent-name", Game.Player2.hp, Game.Player2.src);
+                    player2Selected = true;
+                }
+
+
+                endOfTurnCleanup();
+            } 
+        }
     });
 
     // Updates the game log on the DOM when the Firebase game log updates.
     database.ref("/log").on("child_added", function(childSnapshot) {
-        var message = childSnapshot.val().message;
-        var pTag = $("<p>");
-        pTag.text(message);
-        $("#log").prepend(pTag);
+        if (online) {
+            var message = childSnapshot.val().message;
+            printLogToDOM(message);
+        }
     });
 
     // Updates the chat log on the DOM when the Firebase chat log updates.
     database.ref("/chat").on("child_added", function(childSnapshot) {
-        var message = childSnapshot.val().message;
-        var pTag = $("<p>");
-        pTag.text(message);
-        $("#chatHistory").prepend(pTag);
+        if (online) {
+            var message = childSnapshot.val().message;
+            var pTag = $("<p>");
+            pTag.text(message);
+            $("#chatHistory").prepend(pTag);
+        }
     });
     
     // Disables all play buttons on page load and begins the loading of city choices for the player.
@@ -456,7 +486,7 @@ $(document).ready(function() {
     $(document).on("click", "#start", function() {
 
         online = true;
-        
+
         // Assign player number locally.
         if (player1Joined === false) {
             player1Joined = true;
@@ -519,6 +549,8 @@ $(document).ready(function() {
             // Otherwise, pick a second player.
             else {
                 pickRandomComputerPlayer();
+                player2Selected = true;
+                endOfTurnCleanup();
             }
             
         } else if (playerNumber === 2) {
@@ -541,7 +573,7 @@ $(document).ready(function() {
     // Resets things after the game is done.
     $(document).on("click", "#restart", function() {
 
-        $("#start").attr("disabled", false);
+        $("#start-offline").attr("disabled", false);
 
         $("#info").show();
         $("#end-screen").hide();
@@ -575,11 +607,17 @@ $(document).ready(function() {
         } else if (Game.Player2turn) {
             logText = "Player 2 attacked Player 1 for " + Game.Player2.atk + " damage.";
         }
-        pushLogMessageToFireBase(logText)
-        
+
+        if (online) {
+            console.log("Writing log from Firebase:")
+            pushLogMessageToFireBase(logText)
+        } else {
+            console.log("Writing log from offline:")
+            printLogToDOM(logText)
+        }
+
         GameMethods.decideTurn("attack");
-        updateDOMhp();
-        
+        updateDOMhp();  
     })
 
     // Performs the actions associated with the cold attack button.
@@ -590,8 +628,13 @@ $(document).ready(function() {
         } else if (Game.Player2turn) {
             logText = "Player 2 cold-attacked Player 1 for " + Game.Player2.atk * 1.5 + " damage. Player 2 loses a turn.";
         }
-        pushLogMessageToFireBase(logText);
 
+        if (online) {
+            pushLogMessageToFireBase(logText);
+        } else {
+            printLogToDOM(logText);
+        }
+        
         GameMethods.decideTurn("cold");
         updateDOMhp();
     })
@@ -604,8 +647,13 @@ $(document).ready(function() {
         } else if (Game.Player2turn) {
             logText = "Player 2 hot-attacked Player 1 for " + Game.Player2.atk * 1.75 + " damage. Player 2 lost 5 health.";
         }
-        pushLogMessageToFireBase(logText);
 
+        if (online) {
+            pushLogMessageToFireBase(logText);
+        } else {
+            printLogToDOM(logText);
+        }
+        
         GameMethods.decideTurn("hot");
         updateDOMhp();
     })
@@ -618,24 +666,52 @@ $(document).ready(function() {
         } else if (Game.Player2turn) {
             logText = "Player 2 storm-attacked Player 1 for " + Game.Player2.atk * 0.5 + " damage. Player 1 loses a turn.";
         }
-        pushLogMessageToFireBase(logText);
 
+        if (online) {
+            pushLogMessageToFireBase(logText);
+        } else {
+            printLogToDOM(logText)
+        }
+        
         GameMethods.decideTurn("storm");
         updateDOMhp();
     });
 
     // Forfeits the player's turn.
     $(document).on("click", "#end", function () {
+        var logText = "";
+
+        if (Game.Player1turn) {
+            logText = "Player 1 forfeited their turn.";
+        } else if (Game.Player2turn) {
+            logText = "Player 2 forfeited their turn.";
+        }
+
+        if (online) {
+            pushLogMessageToFireBase(logText);
+        } else {
+            printLogToDOM(logText)
+        }
+
         GameMethods.decideTurn("");
         updateDOMhp();
     });
 
-    // Runs every time the playe clicks one of the available action buttons.
+    // Runs every time the player clicks one of the available action buttons.
     $(document).on("click", ".action", function () {
-        var stringGame = JSON.stringify(Game);
-        database.ref("/game").set({
-            object: stringGame
-        });
+
+        if (online) {
+            var stringGame = JSON.stringify(Game);
+            database.ref("/game").set({
+                object: stringGame
+            });
+        } else {
+            // Do the cleanup actions associated with the end of an action that is currently in the onupdate function for the game in the DB.
+            checkIfGameOver(Game);
+            endOfTurnCleanup();
+            // Have the computer do an action after a brief pause.
+            setTimeout(computerAction, 1000);
+        }
     });
 
     

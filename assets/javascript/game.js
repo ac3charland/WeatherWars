@@ -346,3 +346,7 @@ var Game = {
     GameOver: false,
     Winner: ''
 };
+
+
+console.log("Game loaded as: ")
+console.log(Game);
